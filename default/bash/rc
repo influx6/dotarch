@@ -7,4 +7,4 @@ source ~/.local/share/omarchy/default/bash/envs
 [[ $- == *i* ]] && bind -f ~/.local/share/omarchy/default/bash/inputrc
 
 # load shell
-source ~/dotarch/shell/config
+source ~/.local/share/omarchy/shell/config

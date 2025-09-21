@@ -1,9 +1,19 @@
 #!/bin/env bash
 
-source ~/dotfiles/shell/functions
+source $DOTFILES/shell/functions
 
 export RUST_BACKTRACE=full
 # export RUSTFLAGS="-Z threads=10 -Zproc-macro-backtrace"
+
+if no_command wget; then
+    if is_archlinux; then
+        if has_command yay; then
+            yay -Sy wget
+        else
+            sudo pacman -Sy --noconfirm wget
+        fi
+    fi
+fi
 
 if no_command rust-analyzer; then
     mkdir -p ~/.local/bin

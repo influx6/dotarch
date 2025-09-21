@@ -1,8 +1,1 @@
-return {
-	{
-		"LazyVim/LazyVim",
-		opts = {
-			colorscheme = "tokyonight",
-		},
-	},
-}
+/home/darkvoid/dotfiles/omarchy/current/theme/neovim.lua

@@ -1,5 +1,5 @@
 #!/bin/bash
-source ~/dotfiles/shell/functions
+source $DOTFILES/shell/functions
 
 # install earhly ci
 if no_command earthly 2>&1 >/dev/null; then

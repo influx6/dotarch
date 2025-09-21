@@ -1,7 +1,7 @@
 #!/bin/bash
 
-source ~/dotfiles/shell/functions
-source ~/dotfiles/installers/every/brew.sh
+source $DOTFILES/shell/functions
+source $DOTFILES/installers/every/brew.sh
 
 yay -S --noconfirm --needed \
   cargo clang llvm mise \

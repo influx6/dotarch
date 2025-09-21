@@ -4,7 +4,7 @@ alias gvim="/usr/bin/vim"
 alias ovim="/usr/bin/vim"
 
 if [[ ! -h "$HOME/.config/nvim" ]]; then
-  ln -s "$Dotfiles/nvim" "$HOME/.config/nvim"
+  ln -s "$Dotfiles/config/nvim" "$HOME/.config/nvim"
 fi
 
 tvim() {
