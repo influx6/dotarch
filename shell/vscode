@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if is_mac; then
+  export VSCODE_DIRECTORY="$HOME/Library/Application Support/Code/User"
+else
+  export VSCODE_DIRECTORY="$HOME/.config/Code/User"
+fi
+
+if no_symlink "$VSCODE_DIRECTORY/settings.json"; then
+  ln -s "$Dotfiles/vscode/.vscode/settings.json" "$VSCODE_DIRECTORY/settings.json"
+fi
+
+if no_symlink "$VSCODE_DIRECTORY/keybindings.json"; then
+  ln -s "$Dotfiles/vscode/.vscode/keybindings.json" "$VSCODE_DIRECTORY/keybindings.json"
+fi
+
+if no_symlink "$VSCODE_DIRECTORY/extensions.json"; then
+  ln -s "$Dotfiles/vscode/.vscode/extensions.json" "$VSCODE_DIRECTORY/extensions.json"
+fi

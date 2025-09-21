@@ -1,0 +1,74 @@
+##########################################################
+# Sample .aider.conf.yml
+# This file lists *all* the valid configuration entries.
+# Place in your home dir, or at the root of your git repo.
+##########################################################
+
+# Note: You can only put OpenAI and Anthropic API keys in the YAML
+# config file. Keys for all APIs can be stored in a .env file
+# https://aider.chat/docs/config/dotenv.html
+
+##########
+# options:
+
+## show this help message and exit
+#help: xxx
+
+#############
+# Main model:
+
+## Specify the model to use for the main chat
+model: qwen2.5-coder:3b 
+
+
+#################
+# Model settings:
+
+## Specify what edit format the LLM should use (default depends on model)
+# edit-format: whole
+
+## Use architect edit format for the main chat
+architect: true
+
+## Enable/disable automatic acceptance of architect changes (default: True)
+auto-accept-architect: true
+
+## Specify the model to use for commit messages and chat history summarization (default depends on --model)
+#weak-model: xxx
+
+## Specify the model to use for editor tasks (default depends on --model)
+#editor-model: xxx
+
+## Specify the edit format for the editor model (default: depends on editor model)
+#editor-edit-format: xxx
+
+## Only work with models that have meta-data available (default: True)
+#show-model-warnings: true
+
+## Check if model accepts settings like reasoning_effort/thinking_tokens (default: True)
+#check-model-accepts-settings: true
+
+## Soft limit on tokens for chat history, after which summarization begins. If unspecified, defaults to the model's max_chat_history_tokens.
+#max-chat-history-tokens: xxx
+
+#################
+# Cache settings:
+
+## Enable caching of prompts (default: False)
+cache-prompts: true
+
+
+
+###############
+# Git settings:
+
+## Enable/disable adding .aider* to .gitignore (default: True)
+gitignore: true
+
+## Enable/disable auto commit of LLM changes (default: True)
+auto-commits: false
+
+## Enable/disable commits when repo is found dirty (default: True)
+dirty-commits: true
+
+

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if no_command "direnv"; then
+  if has_command "direnv"; then
+    brew install direnv
+  fi
+fi
+
+if has_command "direnv"; then
+  if [[ "$SHELL" = "/bin/bash" ]]; then 
+    eval "$(direnv hook bash)"
+  fi
+  if [[ "$SHELL" = "/bin/zsh" ]]; then 
+    eval "$(direnv hook zsh)"
+  fi
+fi

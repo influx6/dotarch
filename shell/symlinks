@@ -1,0 +1,86 @@
+#!/bin/bash
+
+if [[ ! -d $HOME/.config/bacon ]]; then
+  ln -s $DOTFILES/bacon $HOME/.config/bacon
+fi
+
+if [[ ! -d $HOME/.local/share/hypr ]]; then
+  ln -s $DOTFILES/omarchy/hypr $HOME/.local/share/hypr
+fi
+
+if [[ ! -d $HOME/.config/hypr ]]; then
+  ln -s $DOTFILES/omarchy/hypr $HOME/.config/hypr
+fi
+
+if [[ ! -d $HOME/.config/systemd ]]; then
+  # ln -s $DOTFILES/systemd $HOME/.config/systemd
+  cp -r $DOTFILES/systemd/user $HOME/.config/systemd/user
+fi
+
+if [[ ! -d $HOME/.config/Typora ]]; then
+  ln -s $DOTFILES/Typora $HOME/.config/Typora
+fi
+
+if [[ ! -d $HOME/.config/waybar ]]; then
+  ln -s $DOTFILES/waybar $HOME/.config/waybar
+fi
+
+if [[ ! -d $HOME/.config/wofi ]]; then
+  ln -s $DOTFILES/wofi $HOME/.config/wofi
+fi
+
+if [[ ! -d $HOME/.config/yay ]]; then
+  ln -s $DOTFILES/yay $HOME/.config/yay
+fi
+
+if [[ ! -d $HOME/.config/nautilus ]]; then
+  ln -s $DOTFILES/nautilus $HOME/.config/nautilus
+fi
+
+if [[ ! -d $HOME/.config/kitty ]]; then
+  ln -s $DOTFILES/kitty $HOME/.config/kitty
+fi
+
+if [[ ! -d $HOME/.config/fcitx5 ]]; then
+  ln -s $DOTFILES/fcitx5 $HOME/.config/fcitx5
+fi
+
+if [[ ! -d $HOME/.config/fcitx ]]; then
+  ln -s $DOTFILES/fcitx $HOME/.config/fcitx
+fi
+
+if [[ ! -d $HOME/.config/fastfetch ]]; then
+  ln -s $DOTFILES/fastfetch $HOME/.config/fastfetch
+fi
+
+if [[ ! -d $HOME/.config/alacritty ]]; then
+  ln -s $DOTFILES/alacritty $HOME/.config/alacritty
+fi
+
+if [[ ! -d $HOME/.config/btop ]]; then
+  ln -s $DOTFILES/btop $HOME/.config/btop
+fi
+
+if [[ ! -d $HOME/.config/environment.d ]]; then
+  ln -s $DOTFILES/environment.d $HOME/.config/environment.d
+fi
+
+if [[ ! -d $HOME/.config/fontconfig ]]; then
+  ln -s $DOTFILES/fontconfig $HOME/.config/fontconfig
+fi
+
+if [[ ! -d $HOME/.config/lazydocker ]]; then
+  ln -s $DOTFILES/lazydocker $HOME/.config/lazydocker
+fi
+
+if [[ ! -d $HOME/.config/lazygit ]]; then
+  ln -s $DOTFILES/lazygit $HOME/.config/lazygit
+fi
+
+if [[ ! -d $HOME/.config/xournalpp ]]; then
+  ln -s $DOTFILES/xournalpp $HOME/.config/xournalpp
+fi
+
+if [[ ! -d $HOME/.config/wpaperd ]]; then
+  ln -s $DOTFILES/wpaperd $HOME/.config/wpaperd
+fi

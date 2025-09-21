@@ -1,0 +1,249 @@
+#!/bin/env bash
+
+nodekill() {
+  killall -9 node
+}
+
+no_symlink() {
+  if has_symlink "$1"; then
+    return 1
+  else
+    return 0
+  fi
+}
+
+has_symlink() {
+  if [ -h "$1" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+has_dir() {
+  if [ -d "$1" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+no_file() {
+  if has_file "$1"; then
+    return 1
+  else
+    return 0
+  fi
+}
+
+has_file() {
+  if [ -f "$1" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+no_dir() {
+  if [ -d "$1" ]; then
+    return 1
+  else
+    return 0
+  fi
+}
+
+is_shell() {
+  shell_name=$(echo "$SHELL")
+  shell_check=$(echo "$SHELL" | grep -i "$1")
+  if [ -n "$shell_check" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+is_bash(){
+  if is_shell "bash"; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+is_fish(){
+  if is_shell "fish"; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+is_zsh(){
+  if is_shell "zsh"; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+is_system() {
+  system_name=`uname`
+  system_name_check=$(echo $system_name | grep -i "$1")
+  if [ -n "$system_name_check" ]; then
+    return 0
+  else
+    return -1
+  fi
+}
+
+is_release() {
+    release_content=`cat /etc/*-release`
+    system_name_check=$(echo $release_content | grep -i "$1")
+    if [ -n "$system_name_check" ]; then
+        return 0
+    else
+        return -1
+    fi
+}
+
+ask_os() {
+    if is_system "$1" || is_release "$1"; then
+        echo "Yes, Operating system is: $1"
+    else
+        echo "No, Operating system is: $1"
+    fi
+}
+
+is_mac() {
+    if is_system "Darwin" || is_release "Darwin"; then
+        return 0
+    else
+        return -1
+    fi
+}
+
+is_archlinux() {
+    if is_system "Arch Linux" || is_release "Arch Linux"; then
+        return 0
+    else
+        return -1
+    fi
+}
+
+
+is_ubuntu() {
+    if is_system "ubuntu" || is_release "ubuntu"; then
+        return 0
+    else
+        return -1
+    fi
+}
+
+no_file() {
+  if [ -f "$1" ]; then
+    return -1
+  else
+    return 0
+  fi
+}
+
+has_command() {
+  if command -v "$1" 2>&1 > /dev/null; then
+    return 0
+  else
+    echo "Command $1 not found"
+    return 1
+  fi
+}
+
+test_has_command() {
+  if has_command $1; then
+    echo "Command $1 found"
+  else
+    echo "Command $1 not found"
+  fi
+}
+
+no_command() {
+  check_command=$(command -v "$1" 2>&1)
+  if [[ -n "$check_command" ]]; then
+    # echo "Command at: $check_command"
+    return 1
+  else
+    return 0
+  fi
+}
+
+test_no_command() {
+  if no_command $1; then
+    echo "Command $1 not found"
+  else
+    echo "Command $1 found"
+  fi
+}
+
+reload() {
+  source "$HOME/.bashrc"
+}
+
+reload_dotfiles() {
+  source "$DOTFILES/config"
+}
+
+ctrdir() {
+  mkdir "$(pwd)/$1"
+  cd "$(pwd)/$1"
+}
+
+unset_aws() {
+  set +x
+  unset AWS_PROFILE
+  unset AWS_DEFAULT_PROFILE
+  unset AWS_SECRET_ACCESS_KEY
+  unset AWS_ACCESS_KEY_ID
+  set +x
+}
+
+run() {
+  number=$1
+  shift
+  for i in $(seq $number); do
+    $@
+  done
+}
+
+renamefiles() {
+  n=$1
+  shift
+  for f in "$(pwd)"/*; do
+    name=$(basename "$f")
+    mv "$f" "$(pwd)/$((n++)) - $name"
+  done
+}
+
+renameset() {
+  n=$1
+  shift
+  for f in "$@"; do
+    name=$(basename "$f")
+    mv "$f" "$(pwd)/$((n++)) - $name"
+  done
+}
+
+kx_show_ctrl_mapping() {
+  grep 'caps' /usr/share/X11/xkb/rules/base.lst
+}
+
+show_keybinding() {
+  wev
+}
+
+create_links(){
+    from_location="$1"
+    to_location="$2"
+    for f in "$from_location"/*; do
+        name=$(basename "$f")
+        echo "Symlinking to: ${to_location}: with ln -s $f $to_location/$name"
+        ln -s "$f" "$to_location/$name"
+    done
+}

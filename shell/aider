@@ -1,0 +1,179 @@
+#!/bin/bash
+
+export OLLAMA_CONTEXT_LENGTH=8192
+export OLLAMA_API_BASE=http://127.0.0.1:11434 # Mac/Linux
+
+# setx   OLLAMA_API_BASE http://127.0.0.1:11434 # Windows, restart shell after setx
+
+if [[ ! -h "$HOME/.aider.model.metadata.json" ]]; then
+  ln -s "$Dotfiles/aider/aider.model.metadata.json" "$HOME/.aider.model.metadata.json"
+fi
+
+if [[ ! -h "$HOME/.aider.model.settings.yml" ]]; then
+  ln -s "$Dotfiles/aider/aider.model.settings.yml" "$HOME/.aider.model.settings.yml"
+fi
+
+if [[ ! -h "$HOME/.aider.conf.yml" ]]; then
+  ln -s "$Dotfiles/aider/aider.config.yml" "$HOME/.aider.conf.yml"
+fi
+
+if no_command "aider"; then 
+  python -m pip install aider-install 
+  aider-install
+fi
+
+
+aider-zeta-q4(){
+  ollama pull huggingface.co/lmstudio-community/zeta-GGUF:zeta-Q4_K_M.gguf
+  aider --model ollama/huggingface.co/lmstudio-community/zeta-GGUF:zeta-Q4_K_M.gguf --watch-files
+}
+
+aider-zeta-q8(){
+  ollama pull huggingface.co/lmstudio-community/zeta-GGUF:zeta-Q8_0.gguf
+  aider --model ollama/huggingface.co/lmstudio-community/zeta-GGUF:zeta-Q8_0.gguf --watch-files
+}
+
+aider-devstral(){
+  ollama pull devstral:latest
+  aider --model ollama/devstral:latest --watch-files
+}
+
+aider-devstral-24b(){
+  ollama pull devstral:24b
+  aider --model ollama/devstral:24b --watch-files
+}
+
+aider-qwen25-coder(){
+  ollama pull qwen-2.5-coder:latest
+  aider --model ollama/qwen-2.5-coder:latest --watch-files
+}
+
+aider-qwen25-coder1-5b(){
+  ollama pull qwen2.5-coder:1.5b
+  aider --model ollama/qwen2.5-coder:1.5b --watch-files
+}
+
+aider-qwen25-coder0-5b(){
+  ollama pull qwen2.5-coder:0.5b
+  aider --model ollama/qwen2.5-coder:0.5b --watch-files
+}
+
+aider-qwen25-coder3b(){
+  ollama pull qwen2.5-coder:3b
+  aider --model ollama/qwen2.5-coder:3b --watch-files
+}
+
+aider-qwen25-coder7b(){
+  ollama pull qwen2.5-coder:7b
+  aider --model ollama/qwen2.5-coder:7b --watch-files
+}
+
+aider-qwen25-coder14b(){
+  ollama pull qwen-2.5-coder:14b
+  aider --model ollama/qwen-2.5-coder:14b --watch-files
+}
+
+aider-deepseek-coder(){
+  ollama pull deepseek-coder-v2:latest
+  aider --model ollama/deepseek-coder-v2:latest  --watch-files
+}
+
+aider-deepseek-coder-16b(){
+  ollama pull deepseek-coder-v2:16b
+  aider --model ollama/deepseek-coder-v2:16b  --watch-files
+}
+
+aider-deepseek-latest(){
+  ollama pull deepseek-r1:latest
+  aider --model ollama/deepseek-r1:latest  --watch-files
+}
+
+aider-deepseek-8b(){
+  ollama pull deepseek-r1:8b
+  aider --model ollama/deepseek-r1:8b --watch-files
+}
+
+aider-deepseek-7b(){
+  ollama pull deepseek-r1:7b
+  aider --model ollama/deepseek-r1:7b --watch-files
+}
+
+aider-deepseek-14b(){
+  ollama pull deepseek-r1:14b
+  aider --model ollama/deepseek-r1:14b --watch-files
+}
+
+aider-mistral(){
+  ollama pull mistral:latest
+  aider --model ollama/mistral:latest --watch-files
+}
+
+aider-gemma3-latest(){
+  ollama pull gemma3:latest
+  aider --model ollama/gemma3:latest --watch-files
+}
+
+aider-gemma3-27b(){
+  ollama pull gemma3:27b
+  aider --model ollama/gemma3:27b --watch-files
+}
+
+aider-gemma3-12b(){
+  ollama pull gemma3:12b
+  aider --model ollama/gemma3:12b --watch-files
+}
+
+aider-gemma3-4b(){
+  ollama pull gemma3:4b
+  aider --model ollama/gemma3:4b --watch-files
+}
+
+aider-gemma3-1b(){
+  ollama pull gemma3:1b
+  aider --model ollama/gemma3:1b --watch-files
+}
+
+aider-code-llama-7b(){
+  ollama pull codellama:7b
+  aider --model ollama/codellama:7b --watch-files
+}
+
+aider-code-llama-13b(){
+  ollama pull codellama:13b
+  aider --model ollama/codellama:13b --watch-files
+}
+
+aider-qwq(){
+  ollama pull qwq:latest
+  aider --model ollama/qwq:latest --watch-files
+}
+
+aider-qwen3-4b(){
+  ollama pull qwen-3:4b
+  aider --model ollama/qwen-3:4b --watch-files
+}
+
+aider-qwen3-8b(){
+  ollama pull qwen-3:8b
+  aider --model ollama/qwen-3:8b --watch-files
+}
+
+aider-qwen3-14b(){
+  ollama pull qwen-3:14b
+  aider --model ollama/qwen-3:14b --watch-files
+}
+
+aider-smollm-1-7b(){
+  ollama pull smollm:1.7b
+  aider --model ollama/smollm:1.7b --watch-files
+}
+
+aider-llama33(){
+  ollama pull ollama3.3:latest
+  aider --model ollama/ollama3.3:latest --watch-files
+}
+
+aider-llama32-vision(){
+  ollama pull ollama3.2-vision:latest
+  aider --model ollama/ollama3.2-vision:latest --watch-files
+}

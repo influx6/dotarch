@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# ensure tmux is installed
+if no_command tmux; then
+   if has_command brew; then
+     brew install tmux
+   fi
+fi
+
+mkdir -p "$HOME/.tmux"
+
+if [ ! -h "$HOME/.tmux/plugins" ]; then 
+  ln -s "$HOME/.tmux/plugins" "$HOME/.tmux/plugins"
+fi
+
+if [ ! -h "$HOME/.config/tmux" ]; then 
+  ln -s "$HOME/.tmux" "$HOME/.config/tmux"
+fi
+
+if [ ! -h "$HOME/.tmux.conf" ]; then 
+  ln -s "$Dotfiles/tmux/tmux.conf" "$HOME/.tmux.conf"
+fi
+
+if [ ! -h "$HOME/.tmux/.tmux.conf" ]; then 
+  ln -s "$Dotfiles/tmux/tmux.conf" "$HOME/.tmux/.tmux.conf"
+fi
+
+if [ ! -h "$HOME/.tmux/tmux.conf" ]; then 
+  ln -s "$Dotfiles/tmux/tmux.conf" "$HOME/.tmux/tmux.conf"
+fi
+
