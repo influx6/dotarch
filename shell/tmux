@@ -13,6 +13,54 @@ if [ ! -h "$HOME/.tmux/plugins" ]; then
   ln -nsf "$Dotfiles/tmux/plugins" "$HOME/.tmux/plugins"
 fi
 
+plugins=(
+  "tmux-plugins/tpm"
+  "catppuccin/tmux"
+  "tmux-plugins/tmux-cpu"
+  "tmux-plugins/tmux-open"
+  "tmux-plugins/tmux-sensible"
+  "tmux-plugins/tmux-yank"
+  "tmux-plugins/tmux-battery"
+  "tmux-plugins/tmux-fpp"
+  "tmux-plugins/tmux-copycat"
+  "tmux-plugins/tmux-sensible"
+  "tmux-plugins/tmux-resurrect"
+  "tmux-plugins/tmux-continuum" 
+  "omerxx/tmux-sessionx"
+  "tmux-plugins/tpm"
+)
+
+tmux_submodules_install(){
+	cd $DOTFILES
+	for f in "${plugins[@]}"; do
+	  plugin_base_name=$(basename "$f")
+	  # echo "Checking: plugin=$plugin_base_name from https://github.com/$f dir=$Dotfiles/tmux/plugins/$plugin_base_name"
+	  if [ ! -d "$Dotfiles/tmux/plugins/$plugin_base_name" ]; then
+	    echo "Installing: plugin=$plugin_base_name from https://github.com/$f"
+
+	    git clone "https://github.com/$f" "$Dotfiles/tmux/plugins/$plugin_base_name"
+	    git submodule add "https://github.com/$f" "tmux/plugins/$plugin_base_name"
+	  # else
+	  #   echo "Already installed: plugin=$plugin_base_name from https://github.com/$f"
+	  fi
+	done
+	cd -
+}
+
+tmux_submodules_add(){
+	cd $DOTFILES
+	for f in "${plugins[@]}"; do
+	  plugin_base_name=$(basename "$f")
+	  # echo "Checking: plugin=$plugin_base_name from https://github.com/$f dir=$Dotfiles/tmux/plugins/$plugin_base_name"
+	  if [ -d "$Dotfiles/tmux/plugins/$plugin_base_name" ]; then
+	    echo "Addd submodule: plugin=$plugin_base_name from https://github.com/$f"
+	    git submodule add "https://github.com/$f" "tmux/plugins/$plugin_base_name"
+	  fi
+	done
+	cd -
+}
+
+
 if [ ! -h "$HOME/.config/tmux" ]; then
   ln -nsf "$HOME/.tmux" "$HOME/.config/tmux"
 fi
@@ -25,3 +73,5 @@ fi
 if [ ! -h "$HOME/.tmux/tmux.conf" ]; then
   ln -nsf "$Dotfiles/tmux/tmux.conf" "$HOME/.tmux/tmux.conf"
 fi
+
+tmux_submodules_install

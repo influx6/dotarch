@@ -171,7 +171,7 @@ possible keymaps starting with `<space>`.
 | --- | --- | --- |
 | <code>&lt;leader&gt;sr</code> | Search and Replace | **n**, **v** |
 
-## [mason.nvim](https://github.com/williamboman/mason.nvim.git)
+## [mason.nvim](https://github.com/mason-org/mason.nvim.git)
 
 | Key | Description | Mode |
 | --- | --- | --- |
@@ -635,7 +635,7 @@ Part of [lazyvim.plugins.extras.util.chezmoi](/extras/util/chezmoi)
 | --- | --- | --- |
 | <code>&lt;leader&gt;sz</code> | Chezmoi | **n** |
 
-## [mason.nvim](https://github.com/williamboman/mason.nvim.git)
+## [mason.nvim](https://github.com/mason-org/mason.nvim.git)
 Part of [lazyvim.plugins.extras.util.gitui](/extras/util/gitui)
 
 | Key | Description | Mode |

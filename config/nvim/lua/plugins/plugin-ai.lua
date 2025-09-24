@@ -192,7 +192,7 @@ return {
     --     --- The below dependencies are optional,
     --     "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
     --     "ibhagwan/fzf-lua", -- for file_selector provider fzf
-    --     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+    --     "nvim-tree/nvim-web-devicons", -- or nvim-mini/mini.nvim
     --     {
     --       -- support for image pasting
     --       "HakonHarnes/img-clip.nvim",

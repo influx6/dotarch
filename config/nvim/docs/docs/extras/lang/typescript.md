@@ -386,7 +386,7 @@ opts = {
 
 </Tabs>
 
-## [mason.nvim](https://github.com/williamboman/mason.nvim)
+## [mason.nvim](https://github.com/mason-org/mason.nvim)
 
 <Tabs>
 
@@ -406,7 +406,7 @@ end
 
 ```lua
 {
-  "williamboman/mason.nvim",
+  "mason-org/mason.nvim",
   opts = function(_, opts)
     opts.ensure_installed = opts.ensure_installed or {}
     table.insert(opts.ensure_installed, "js-debug-adapter")
@@ -418,7 +418,7 @@ end
 
 </Tabs>
 
-## [mini.icons](https://github.com/echasnovski/mini.icons)
+## [mini.icons](https://github.com/nvim-mini/mini.nvim)
 
  Filetype icons
 
@@ -450,7 +450,7 @@ opts = {
 
 ```lua
 {
-  "echasnovski/mini.icons",
+  "nvim-mini/mini.nvim",
   opts = {
     file = {
       [".eslintrc.js"] = { glyph = "󰱺", hl = "MiniIconsYellow" },
@@ -549,7 +549,7 @@ end
   optional = true,
   dependencies = {
     {
-      "williamboman/mason.nvim",
+      "mason-org/mason.nvim",
       opts = function(_, opts)
         opts.ensure_installed = opts.ensure_installed or {}
         table.insert(opts.ensure_installed, "js-debug-adapter")

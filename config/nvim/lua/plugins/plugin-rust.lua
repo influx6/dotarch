@@ -137,7 +137,7 @@ return {
   },
 
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     optional = true,
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
@@ -161,7 +161,7 @@ return {
     ensure_installed = { "bacon-ls", "bacon", "codelldb" },
     dependencies = {
       "mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason-lspconfig.nvim",
       "neovim/nvim-lspconfig",
     },
     opts = {
