@@ -10,7 +10,7 @@ fi
 mkdir -p "$HOME/.tmux"
 
 if [ ! -h "$HOME/.tmux/plugins" ]; then
-  ln -nsf "$HOME/.tmux/plugins" "$HOME/.tmux/plugins"
+  ln -nsf "$Dotfiles/tmux/plugins" "$HOME/.tmux/plugins"
 fi
 
 if [ ! -h "$HOME/.config/tmux" ]; then

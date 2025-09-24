@@ -5,10 +5,10 @@ source $DOTFILES/installers/every/brew.sh
 
 yay -S --noconfirm --needed \
   cargo clang llvm mise \
-  imagemagick \
+  imagemagick tk \
   mariadb-libs postgresql-libs \
   github-cli \
-  lazygit lazydocker-bin
+  lazygit lazydocker
 
 
 # # install github sync
