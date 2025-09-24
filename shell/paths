@@ -26,7 +26,7 @@ export EMCC=$GITHUB/juj/emsdk
 export BOOST_ROOT=/usr/boost
 export ANACONDA_PATH=$HOME/anaconda3
 
-export BOX_ROOT=$HOME/Boxx
+export BOX_ROOT=$HOME/boxxed
 export BOX_DEV=$BOX_ROOT/@dev
 export BOX_FORMULAS=$BOX_ROOT/@formulas
 export EWE_PLATFORM=$BOX_DEV/ewe_platform
@@ -45,7 +45,7 @@ export ANDROID_TOOLS_BIN=$ANDROID_HOME/sdk/tools/bin
 
 
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
-export PATH=$GETH/:$ANDROIDSDK/platform-tools/:$HOME/.local/bin:$HOME/.cargo/bin:$Devlabs/bin:$USR_LOCAL/bin:$PATH
+export PATH=$GETH/:$ANDROIDSDK/platform-tools/:$HOME/.local/share/bin:$HOME/.local/share/bin:$HOME/.local/bin:$HOME/.cargo/bin:$Devlabs/bin:$USR_LOCAL/bin:$PATH
 export PATH=$HOME/.rbenv/bin:$GEM_HOME/bin::$GOBASE/bin:$BREWOPT:/usr/local/sbin:$HOME/local/gecko:$PATH
 export PATH=$HOME/.local/go/bin:$HOME/.rustup/bin:$HOME/.cargo/bin:/usr/local/go/bin:$HOME/Lab/bin:$PATH
 export PATH=$NODE_MODULES/bin:$NODE_MODULES/.bin:$LINUXBREW/bin:$Projects/bin:$HOME/local/bin:$HOME/local/go/bin:$HOME/.cargo/bin:$PATH

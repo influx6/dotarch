@@ -32,4 +32,5 @@ if has_command mise; then
   mise install python@3.10.0
   mise install python@3.11.8
   mise install python@3.12.10
+  mise use --global python@3.12.10
 fi
