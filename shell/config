@@ -32,7 +32,7 @@ source $Dotfiles/shell/paths
 source $Dotfiles/shell/installer
 source $Dotfiles/shell/systemd
 source $Dotfiles/shell/brew
-source $Dotfiles/shell/mise
+source $Dotfiles/shell/mised
 source $Dotfiles/shell/symlinks
 source $Dotfiles/shell/ghostty
 source $Dotfiles/shell/gitcrypt

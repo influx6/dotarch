@@ -1,0 +1,24 @@
+#!/bin/bash
+
+source $Dotfiles/shell/functions
+
+# install mise
+if no_command mise; then
+  curl https://mise.run | sh
+fi
+
+if has_command "mise"; then
+    if is_bash; then
+        echo "Mise activating bash"
+        eval "$(mise activate bash)"
+    elif is_zsh; then
+        echo "Mise activating zsh"
+        eval "$(mise activate zsh)"
+    elif is_fish; then
+        echo "Mise activating fish"
+        eval "$(mise activate fish)"
+    else
+        echo "Mise: setup not called"
+    fi
+fi
+
