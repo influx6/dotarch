@@ -27,7 +27,7 @@ return {
         "cmakelint",
         "cobol-language-support",
         "codelldb",
-        "codeql",
+        -- "codeql",
         "codespell",
         "colorgen-nvim",
         "commitlint",

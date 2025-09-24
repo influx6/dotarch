@@ -27,6 +27,11 @@ if no_command mise; then
 fi
 
 if has_command mise; then
+  # install nodejs and setup root
+  mise install node
+  mise use --global node
+
+  # install python basis
   mise install python@3.8.9
   mise install python@3.9.0
   mise install python@3.10.0
