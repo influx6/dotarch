@@ -1,0 +1,8 @@
+#!/bin/bash
+
+source $Dotfiles/shell/functions
+
+# if no_command intelli-shell; then
+#     # For sh-compatible shells on Linux/macOS/Windows (Bash, Zsh, Fish, Git Bash)
+#     curl -sSf https://raw.githubusercontent.com/lasantosr/intelli-shell/main/install.sh | sh
+# fi
