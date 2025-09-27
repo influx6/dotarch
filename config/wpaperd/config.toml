@@ -4,6 +4,6 @@
 # mode = "tile"
 
 [any]
-path = "~/Pictures/backgrounds"
+path = "~/boxxed/@photos/backgrounds"
 duration = "60s"
 mode = "tile"
