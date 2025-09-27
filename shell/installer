@@ -2,58 +2,87 @@
 
 install_files=$Dotfiles/installers
 
-setup_one(){
+
+install_one(){
     if is_ubuntu; then
-        location="$install_files/ubuntu/$1"
-        name=$(basename "$location")
-        echo "Executing script: ${name} from $location"
-        . $location
+        location="$install_files/ubuntu/$1.sh"
+        if [ -e $location ]; then
+            name=$(basename "$location")
+            echo "Executing script: ${name} from $location"
+            . $location
+            exit 0
+        fi
+        location="$install_files/every/$1.sh"
+        if [ -e $location ]; then
+            name=$(basename "$location")
+            echo "Executing script: ${name} from $location"
+            . $location
+        fi
     fi
     if is_archlinux; then
-        location="$install_files/archlinux/$1"
-        name=$(basename "$location")
-        echo "Executing script: ${name} from $location"
-        . $location
+        location="$install_files/archlinux/$1.sh"
+        if [ -e $location ]; then
+            name=$(basename "$location")
+            echo "Executing script: ${name} from $location"
+            . $location
+            exit 0
+        fi
+        location="$install_files/every/$1.sh"
+        if [ -e $location ]; then
+            name=$(basename "$location")
+            echo "Executing script: ${name} from $location"
+            . $location
+        fi
     fi
     if is_mac; then
         echo "Not yet supported or setup"
     fi
 }
 
-setup_every_one(){
-    location="$install_files/every/$1"
-    name=$(basename "$location")
-    echo "Executing script: ${name} from $location"
-    . $location
-}
 
-setup_every(){
-    location="$install_files/every/$1"
-    for f in "$location"/*.sh; do
-        name=$(basename "$f")
-        echo "Executing script: ${name}"
-        . $f
-    done
-}
-
-setup(){
+install_all(){
     if is_ubuntu; then
         location="$install_files/ubuntu/$1"
-        for f in "$location"/*.sh; do
-          name=$(basename "$f")
-          echo "Executing script: ${name}"
-          . $f
-        done
+        if [ -d $location ]; then 
+            for f in "$location"/*.sh; do
+            name=$(basename "$f")
+            echo "Executing script: ${name}"
+            . $f
+            done
+            exit 0
+        fi
+        location="$install_files/every/$1"
+        if [ -d $location ]; then 
+            for f in "$location"/*.sh; do
+                name=$(basename "$f")
+                echo "Executing script: ${name}"
+                . $f
+            done
+        fi
     fi
     if is_archlinux; then
         location="$install_files/archlinux/$1"
-        for f in "$location"/*.sh; do
-          name=$(basename "$f")
-          echo "Executing script: ${name}"
-          . $f
-        done
+        if [ -d $location ]; then 
+            for f in "$location"/*.sh; do
+            name=$(basename "$f")
+            echo "Executing script: ${name}"
+            . $f
+            done
+            exit 0
+        fi
+        location="$install_files/every/$1"
+        if [ -d $location ]; then 
+            for f in "$location"/*.sh; do
+                name=$(basename "$f")
+                echo "Executing script: ${name}"
+                . $f
+            done
+        fi
     fi
     if is_mac; then
         echo "Not yet supported or setup"
     fi
 }
+
+
+
