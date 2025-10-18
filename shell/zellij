@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if has_command "cargo"; then
+    if no_command "zellij"; then
+        # bash <(curl -L https://zellij.dev/launch)
+        cargo install --locked zellij
+    fi
+fi
+
+
+if [ ! -h "$HOME/.config/zellij" ]; then
+  ln -nsf "$Dotfiles/config/zellij" "$HOME/.config/zellij"
+fi

@@ -174,6 +174,11 @@ return {
             vim.cmd.RustLsp("debuggables")
           end, { desc = "Rust Debuggables", buffer = bufnr })
 
+          vim.keymap.set("n", "X", function()
+            vim.cmd("copen") -- Open the quickfix window
+            vim.diagnostic.setqflist() -- Populate with diagnostics from current buffer
+          end, { desc = "rustaceanvim's hover actions", buffer = bufnr })
+
           vim.keymap.set("n", "K", function()
             vim.cmd.RustLsp({ "hover", "actions" })
           end, { desc = "rustaceanvim's hover actions", buffer = bufnr })

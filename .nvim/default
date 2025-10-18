@@ -1,0 +1,142 @@
+let SessionLoad = 1
+let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-1 siso=-1
+let v:this_session=expand("<sfile>:p")
+silent only
+silent tabonly
+cd ~/dotarch
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+let s:shortmess_save = &shortmess
+if &shortmess =~ 'A'
+  set shortmess=aoOA
+else
+  set shortmess=aoO
+endif
+badd +177 ~/dotarch/config/nvim/lua/plugins/plugin-rust.lua
+badd +589 ~/dotarch/config/nvim/lua/plugins/plugin-cmps.lua
+badd +25 ~/dotarch/config/nvim/lua/config/keymaps.lua
+badd +384 config/nvim/docs/docs/configuration/general.md
+badd +1 ~/dotarch/config/nvim/lua/config/lazy.lua
+badd +36 ~/dotarch/config/nvim/lua/config/options.lua
+badd +44 ~/dotarch/config/nvim/lua/config/autocmds.lua
+argglobal
+%argdel
+edit ~/dotarch/config/nvim/lua/config/keymaps.lua
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+wincmd =
+argglobal
+balt config/nvim/docs/docs/configuration/general.md
+setlocal foldmethod=expr
+setlocal foldexpr=v:lua.vim.lsp.foldexpr()
+setlocal foldmarker={{{,}}}
+setlocal foldignore=#
+setlocal foldlevel=99
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldenable
+199
+sil! normal! zo
+207
+sil! normal! zo
+241
+sil! normal! zo
+let s:l = 25 - ((24 * winheight(0) + 34) / 69)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 25
+normal! 0
+wincmd w
+argglobal
+if bufexists(fnamemodify("~/dotarch/config/nvim/lua/plugins/plugin-rust.lua", ":p")) | buffer ~/dotarch/config/nvim/lua/plugins/plugin-rust.lua | else | edit ~/dotarch/config/nvim/lua/plugins/plugin-rust.lua | endif
+if &buftype ==# 'terminal'
+  silent file ~/dotarch/config/nvim/lua/plugins/plugin-rust.lua
+endif
+balt ~/dotarch/config/nvim/lua/plugins/plugin-cmps.lua
+setlocal foldmethod=expr
+setlocal foldexpr=v:lua.vim.lsp.foldexpr()
+setlocal foldmarker={{{,}}}
+setlocal foldignore=#
+setlocal foldlevel=99
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldenable
+61
+sil! normal! zo
+155
+sil! normal! zo
+167
+sil! normal! zo
+171
+sil! normal! zo
+172
+sil! normal! zo
+227
+sil! normal! zo
+228
+sil! normal! zo
+229
+sil! normal! zo
+273
+sil! normal! zo
+282
+sil! normal! zo
+299
+sil! normal! zo
+300
+sil! normal! zo
+318
+sil! normal! zo
+320
+sil! normal! zo
+321
+sil! normal! zo
+327
+sil! normal! zo
+335
+sil! normal! zo
+336
+sil! normal! zo
+let s:l = 177 - ((15 * winheight(0) + 34) / 69)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 177
+normal! 045|
+wincmd w
+wincmd =
+tabnext 1
+if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20
+let &shortmess = s:shortmess_save
+let &winminheight = s:save_winminheight
+let &winminwidth = s:save_winminwidth
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if filereadable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &g:so = s:so_save | let &g:siso = s:siso_save
+set hlsearch
+nohlsearch
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :

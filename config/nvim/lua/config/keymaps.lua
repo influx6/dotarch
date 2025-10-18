@@ -11,6 +11,65 @@ local map = vim.keymap.set
 --   vim.cmd
 -- end, { desc = "Show command line", remap = true })
 
+-- Show diagnosis quickfix list
+--
+-- To populate the quickfix list with diagnostics from the current buffer, you can use:
+-- Code
+--
+--         vim.cmd("copen") -- Open the quickfix window
+--         vim.diagnostic.setqflist() -- Populate with diagnostics from current buffer
+-- To navigate through the quickfix list:
+-- :cnext or ]q to go to the next item.
+-- :cprev or [q to go to the previous item.
+-- :cclose to close the quickfix window.
+-- location list.
+-- Similar to the quickfix list but specific to the current window. To populate the location list.
+-- Code
+--
+--         vim.cmd("lopen") -- Open the location list window
+--         vim.diagnostic.setloclist() -- Populate with diagnostics from current buffer
+-- To navigate:
+-- :lnext or ]l to go to the next item.
+-- :lprev or [l to go to the previous item.
+-- :lclose to close the location list window.
+--
+--
+--
+---- Single command:
+-- vim.cmd('echo 42')
+-- -- Multiline script:
+-- vim.cmd([[
+--   augroup my.group
+--     autocmd!
+--     autocmd FileType c setlocal cindent
+--   augroup END
+-- ]])
+-- -- Ex command :echo "foo". Note: string literals must be double-quoted.
+-- vim.cmd('echo "foo"')
+-- vim.cmd { cmd = 'echo', args = { '"foo"' } }
+-- vim.cmd.echo({ args = { '"foo"' } })
+-- vim.cmd.echo('"foo"')
+-- -- Ex command :write! myfile.txt
+-- vim.cmd('write! myfile.txt')
+-- vim.cmd { cmd = 'write', args = { 'myfile.txt' }, bang = true }
+-- vim.cmd.write { args = { 'myfile.txt' }, bang = true }
+-- vim.cmd.write { 'myfile.txt', bang = true }
+-- -- Ex command :vertical resize +2
+-- vim.cmd.resize({ '+2', mods = { vertical = true } })
+--
+--
+--
+
+map("n", "<leader>X", function()
+  vim.cmd("copen") -- Open the quickfix window
+  vim.diagnostic.setqflist() -- Populate with diagnostics from current buffer
+end, { desc = "Diagnosis QuickFix" })
+
+-- map("n", "<leader>Xx", function()
+--   vim.cmd([[lopen]]) -- Open the location list window
+--   vim.diagnostic.setloclist() -- Populate with diagnostics from current buffer
+-- end, { desc = "Diagnosis QuickFix" })
+
 -- quit
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 
@@ -168,7 +227,7 @@ map("i", ";", ";<c-g>u")
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
 --keywordprg
-map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
+-- map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 
 -- better indenting
 map("v", "<", "<gv")
