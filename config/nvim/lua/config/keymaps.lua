@@ -159,7 +159,7 @@ map("n", "<leader>0", "<C-I>", { desc = "Jumplist: go back", remap = true })
 -- Custom saving using .nvim/default
 map(
   "n",
-  "<TAB>s",
+  "<TAB>w",
   "<cmd>mksession! .nvim/default<cr>",
   { desc = "Save your current session to .nvim/default", remap = true }
 )
