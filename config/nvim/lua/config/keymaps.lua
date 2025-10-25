@@ -60,6 +60,56 @@ local map = vim.keymap.set
 --
 --
 
+-- Yank absolute file path to clipboard
+local function yank_absolute_file_path()
+  local file_path = vim.fn.expand("%:p")
+  if file_path and file_path ~= "" then
+    vim.fn.setreg("+", file_path)
+    vim.notify("Copied absolute path: " .. file_path, vim.log.levels.INFO, { title = "File Path" })
+  else
+    vim.notify("No file path to copy", vim.log.levels.WARN, { title = "File Path" })
+  end
+end
+
+-- Yank relative file path to clipboard
+local function yank_relative_file_path()
+  local file_path = vim.fn.expand("%:.")
+  if file_path and file_path ~= "" then
+    vim.fn.setreg("+", file_path)
+    vim.notify("Copied relative path: " .. file_path, vim.log.levels.INFO, { title = "File Path" })
+  else
+    vim.notify("No file path to copy", vim.log.levels.WARN, { title = "File Path" })
+  end
+end
+
+-- Yank filename only to clipboard
+local function yank_filename()
+  local filename = vim.fn.expand("%:t")
+  if filename and filename ~= "" then
+    vim.fn.setreg("+", filename)
+    vim.notify("Copied filename: " .. filename, vim.log.levels.INFO, { title = "File Name" })
+  else
+    vim.notify("No filename to copy", vim.log.levels.WARN, { title = "File Name" })
+  end
+end
+
+-- Yank basename (filename without extension) to clipboard
+local function yank_basename()
+  local basename = vim.fn.expand("%:t:r")
+  if basename and basename ~= "" then
+    vim.fn.setreg("+", basename)
+    vim.notify("Copied basename: " .. basename, vim.log.levels.INFO, { title = "File Basename" })
+  else
+    vim.notify("No basename to copy", vim.log.levels.WARN, { title = "File Basename" })
+  end
+end
+
+-- File path yanking keybindings
+map("n", "<leader>ya", yank_absolute_file_path, { desc = "Yank absolute file path" })
+map("n", "<leader>yr", yank_relative_file_path, { desc = "Yank relative file path" })
+map("n", "<leader>yf", yank_filename, { desc = "Yank filename" })
+map("n", "<leader>yb", yank_basename, { desc = "Yank basename (filename without extension)" })
+
 map("n", "<leader>X", function()
   vim.cmd("copen") -- Open the quickfix window
   vim.diagnostic.setqflist() -- Populate with diagnostics from current buffer

@@ -15,11 +15,18 @@ else
 endif
 badd +177 ~/dotarch/config/nvim/lua/plugins/plugin-rust.lua
 badd +589 ~/dotarch/config/nvim/lua/plugins/plugin-cmps.lua
-badd +25 ~/dotarch/config/nvim/lua/config/keymaps.lua
+badd +106 ~/dotarch/config/nvim/lua/config/keymaps.lua
 badd +384 config/nvim/docs/docs/configuration/general.md
 badd +1 ~/dotarch/config/nvim/lua/config/lazy.lua
 badd +36 ~/dotarch/config/nvim/lua/config/options.lua
 badd +44 ~/dotarch/config/nvim/lua/config/autocmds.lua
+badd +1 ~/dotarch/config/hypr/looknfeel.conf
+badd +1 ~/dotarch/config/hypr/input.conf
+badd +5 ~/dotarch/default/hypr/apps/terminals.conf
+badd +11 ~/dotarch/default/hypr/apps/browser.conf
+badd +14 ~/dotarch/documents/neovim/replace-with-newline.md
+badd +1 ~/dotarch/documents/neovim/fold-navigation.md
+badd +36 ~/dotarch/documents/neovim/neovim-get-current-filename.md
 argglobal
 %argdel
 edit ~/dotarch/config/nvim/lua/config/keymaps.lua
@@ -41,7 +48,7 @@ set winminwidth=0
 set winwidth=1
 wincmd =
 argglobal
-balt config/nvim/docs/docs/configuration/general.md
+balt ~/dotarch/default/hypr/apps/terminals.conf
 setlocal foldmethod=expr
 setlocal foldexpr=v:lua.vim.lsp.foldexpr()
 setlocal foldmarker={{{,}}}
@@ -50,17 +57,11 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-199
-sil! normal! zo
-207
-sil! normal! zo
-241
-sil! normal! zo
-let s:l = 25 - ((24 * winheight(0) + 34) / 69)
+let s:l = 106 - ((36 * winheight(0) + 34) / 69)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 25
+keepjumps 106
 normal! 0
 wincmd w
 argglobal
@@ -77,43 +78,7 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-61
-sil! normal! zo
-155
-sil! normal! zo
-167
-sil! normal! zo
-171
-sil! normal! zo
-172
-sil! normal! zo
-227
-sil! normal! zo
-228
-sil! normal! zo
-229
-sil! normal! zo
-273
-sil! normal! zo
-282
-sil! normal! zo
-299
-sil! normal! zo
-300
-sil! normal! zo
-318
-sil! normal! zo
-320
-sil! normal! zo
-321
-sil! normal! zo
-327
-sil! normal! zo
-335
-sil! normal! zo
-336
-sil! normal! zo
-let s:l = 177 - ((15 * winheight(0) + 34) / 69)
+let s:l = 177 - ((14 * winheight(0) + 34) / 69)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt

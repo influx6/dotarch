@@ -7,6 +7,7 @@ To place the top of a fold at the top of your screen in Neovim, you can move you
 Navigate to the fold you want to view.
 Press zV in normal mode to open all nested folds at the cursor and center them on the screen. 
 
+
 ## Navigate to the fold and then open it
 
 Use zj to move the cursor to the start of the next fold.
