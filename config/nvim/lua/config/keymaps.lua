@@ -62,6 +62,22 @@ local map = vim.keymap.set
 
 -- Yank absolute file path to clipboard
 local function yank_absolute_file_path()
+  --
+  -- vim.fn.expand(":p") is a Neovim Lua function call that expands a special Vim variable or string and returns the result.
+  --
+  -- In this specific case:
+  -- vim.fn.expand(...): This is the Lua interface to call Vim's built-in expand() function.
+  --
+  -- "%": This is a special Vim variable that represents the name of the current buffer. If the buffer is associated with a file, it will be the file path.
+  --
+  -- :p: This is a "modifier" applied to the % variable. The :p modifier expands the path to its full, absolute path.
+  --
+  -- Therefore, vim.fn.expand("%:p") returns the full, absolute path of the file currently open in the active buffer in Neovim.
+  --
+  -- For example, if you are editing a file named my_script.lua located at /home/user/projects/my_project/my_script.lua, then vim.fn.expand("%:p") would return /home/user/projects/my_project/my_script.lua.
+  --
+  --
+  --
   local file_path = vim.fn.expand("%:p")
   if file_path and file_path ~= "" then
     vim.fn.setreg("+", file_path)
