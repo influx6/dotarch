@@ -15,7 +15,7 @@ else
 endif
 badd +177 ~/dotarch/config/nvim/lua/plugins/plugin-rust.lua
 badd +589 ~/dotarch/config/nvim/lua/plugins/plugin-cmps.lua
-badd +106 ~/dotarch/config/nvim/lua/config/keymaps.lua
+badd +145 ~/dotarch/config/nvim/lua/config/keymaps.lua
 badd +384 config/nvim/docs/docs/configuration/general.md
 badd +1 ~/dotarch/config/nvim/lua/config/lazy.lua
 badd +36 ~/dotarch/config/nvim/lua/config/options.lua
@@ -57,12 +57,12 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 106 - ((36 * winheight(0) + 34) / 69)
+let s:l = 145 - ((29 * winheight(0) + 34) / 69)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 106
-normal! 0
+keepjumps 145
+normal! 07|
 wincmd w
 argglobal
 if bufexists(fnamemodify("~/dotarch/config/nvim/lua/plugins/plugin-rust.lua", ":p")) | buffer ~/dotarch/config/nvim/lua/plugins/plugin-rust.lua | else | edit ~/dotarch/config/nvim/lua/plugins/plugin-rust.lua | endif
@@ -78,7 +78,7 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 177 - ((14 * winheight(0) + 34) / 69)
+let s:l = 177 - ((12 * winheight(0) + 34) / 69)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
