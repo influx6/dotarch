@@ -8,6 +8,13 @@ if [[ ! -d $HOME/.config/ghostty ]]; then
   ln -s $DOTFILES/config/ghostty $HOME/.config/ghostty
 fi
 
+if [[ ! -d $HOME/.config/walker ]]; then
+  ln -s $DOTFILES/config/walker $HOME/.config/walker
+fi
+
+if [[ ! -d $HOME/.config/elephant ]]; then
+  ln -s $DOTFILES/config/elephant $HOME/.config/elephant
+fi
 
 if [[ ! -d $HOME/.local/share/hypr ]]; then
   ln -s $DOTFILES/config/hypr $HOME/.local/share/hypr
