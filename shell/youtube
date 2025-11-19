@@ -1,6 +1,10 @@
 #!/bin/bash
 
 alias pyoutube-audio='yt-dlp --socket-timeout $socket_timeout --retries infinite -ic -o "./audios/%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist --extract-audio --audio-format mp3 --audio-quality 0'
+
+
+alias pyoutube-split-audio='yt-dlp --socket-timeout $socket_timeout --split-chapters  --retries infinite -ic -o "./audios/%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist --extract-audio --split-chapters --audio-format mp3 --audio-quality 0'
+
 alias pyoutube='yt-dlp --socket-timeout $socket_timeout --retries infinite --ignore-errors -o "./%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist'
 alias pyoutube-best='yt-dlp --socket-timeout $socket_timeout -f best --retries infinite --ignore-errors -o "./%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist'
 alias pyoutube720='yt-dlp --socket-timeout $socket_timeout --retries infinite -f "bestvideo[height=720]+bestaudio/bestvideo+bestaudio" --ignore-errors -o "./%(playlist)s/%(playlist_index)s- %(title)s.%(ext)s" --yes-playlist'
