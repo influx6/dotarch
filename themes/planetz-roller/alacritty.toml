@@ -1,0 +1,67 @@
+# Palette Forge generated Alacritty palette for Planetz Roller Dark
+
+[colors.primary]
+background = "#2a2d34"
+foreground = "#f4f8f5"
+dim_foreground = "#f4f8f5"
+bright_foreground = "#f4f8f5"
+
+[colors.cursor]
+text = "#33363C"
+cursor = "#84EBC9"
+
+[colors.vi_mode_cursor]
+text = "#33363C"
+cursor = "#84EBC9"
+
+[colors.selection]
+text = "#F2F6F3"
+background = "#3D4148"
+
+[colors.search.matches]
+foreground = "#33363C"
+background = "#84EBC9"
+
+[colors.search.focused_match]
+foreground = "#33363C"
+background = "#3D4148"
+
+[colors.footer_bar]
+foreground = "#33363C"
+background = "#84EBC9"
+
+[colors.hints.start]
+foreground = "#33363C"
+background = "#84EBC9"
+
+[colors.hints.end]
+foreground = "#33363C"
+background = "#3D4148"
+
+[colors.normal]
+black = "#3f4349"
+red = "#ff6678"
+green = "#baef8d"
+yellow = "#f6a872"
+blue = "#959ff0"
+magenta = "#dba0d9"
+cyan = "#84ebc9"
+white = "#e3e9e4"
+
+[colors.bright]
+black = "#6d7178"
+red = "#ff7485"
+green = "#caf99e"
+yellow = "#ffb47a"
+blue = "#b4c6f0"
+magenta = "#ecadd9"
+cyan = "#bcf6e3"
+white = "#f6faf7"
+
+[[colors.indexed_colors]]
+index = 16
+color = "#ff6678"
+
+[[colors.indexed_colors]]
+index = 17
+color = "#84ebc9"

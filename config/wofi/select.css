@@ -1,11 +1,11 @@
 /* Use by power menu, theme selector, and other menus without visible search bar */
 
-@import ".config/wofi/style.css";
+@import "~/.config/wofi/style.css";
 
 #input {
     display: none;
-    opacity: 0;
+    opacity: 1;
     margin-top: -200px;
 }
 
-/* @import "~/.config/wofi/current/theme/wofi.css"; */
+@import "~/.config/wofi/current/theme/wofi.css";

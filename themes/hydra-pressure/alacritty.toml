@@ -1,0 +1,67 @@
+# Palette Forge generated Alacritty palette for Hydra Pressure Dark
+
+[colors.primary]
+background = "#0F1016"
+foreground = "#E2E6F1"
+dim_foreground = "#E2E6F1"
+bright_foreground = "#E2E6F1"
+
+[colors.cursor]
+text = "#0F1016"
+cursor = "#1BC5C9"
+
+[colors.vi_mode_cursor]
+text = "#0F1016"
+cursor = "#1BC5C9"
+
+[colors.selection]
+text = "#E2E6F1"
+background = "#272A34"
+
+[colors.search.matches]
+foreground = "#0F1016"
+background = "#1BC5C9"
+
+[colors.search.focused_match]
+foreground = "#0F1016"
+background = "#272A34"
+
+[colors.footer_bar]
+foreground = "#0F1016"
+background = "#1BC5C9"
+
+[colors.hints.start]
+foreground = "#0F1016"
+background = "#1BC5C9"
+
+[colors.hints.end]
+foreground = "#0F1016"
+background = "#272A34"
+
+[colors.normal]
+black = "#0C0D11"
+red = "#FF6A1F"
+green = "#9AE64F"
+yellow = "#FF9A3D"
+blue = "#1BC5C9"
+magenta = "#B537FF"
+cyan = "#5FE6E9"
+white = "#A5ABB8"
+
+[colors.bright]
+black = "#272A34"
+red = "#FF8140"
+green = "#B8FF74"
+yellow = "#FFC268"
+blue = "#39D8DF"
+magenta = "#C865FF"
+cyan = "#8AF2F4"
+white = "#E2E6F1"
+
+[[colors.indexed_colors]]
+index = 16
+color = "#FF9A3D"
+
+[[colors.indexed_colors]]
+index = 17
+color = "#1BC5C9"

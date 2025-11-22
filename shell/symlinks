@@ -1,5 +1,25 @@
 #!/bin/bash
 
+
+if [[ ! -d $HOME/.local/share/hypr ]]; then
+  ln -s $DOTFILES/config/hypr $HOME/.local/share/hypr
+fi
+
+if [[ ! -d $HOME/.config/hypr ]]; then
+  mkdir -p $HOME/.config/hypr
+  ln -s $DOTFILES/config/hypr $HOME/.config/hypr
+fi
+
+mkdir -p $HOME/.config/omarchy
+
+if [[ ! -d $HOME/.config/omarchy/branding ]]; then
+  ln -s $DOTFILES/branding $HOME/.config/omarchy/branding
+fi
+
+if [[ ! -d $HOME/.config/omarchy/themes ]]; then
+  ln -s $DOTFILES/themes $HOME/.config/omarchy/themes
+fi
+
 if [[ ! -d $HOME/.config/bacon ]]; then
   ln -s $DOTFILES/config/bacon $HOME/.config/bacon
 fi
@@ -14,14 +34,6 @@ fi
 
 if [[ ! -d $HOME/.config/elephant ]]; then
   ln -s $DOTFILES/config/elephant $HOME/.config/elephant
-fi
-
-if [[ ! -d $HOME/.local/share/hypr ]]; then
-  ln -s $DOTFILES/config/hypr $HOME/.local/share/hypr
-fi
-
-if [[ ! -d $HOME/.config/hypr ]]; then
-  ln -s $DOTFILES/config/hypr $HOME/.config/hypr
 fi
 
 if [[ ! -d $HOME/.config/systemd ]]; then
@@ -96,3 +108,4 @@ fi
 if [[ ! -d $HOME/.config/wpaperd ]]; then
   ln -s $DOTFILES/config/wpaperd $HOME/.config/wpaperd
 fi
+
