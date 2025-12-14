@@ -3,7 +3,16 @@
 source $DOTFILES/shell/functions
 
 export RUST_BACKTRACE=full
-# export RUSTFLAGS="-Z threads=10 -Zproc-macro-backtrace"
+# export RUSTFLAGS="-Z threads=10 -Zproc-macro-backtrace -Zmacro-backtrace"
+# `RUSTFLAGS="-Zmacro-backtrace"`
+
+enable_rust_backtrace(){
+    export RUSTFLAGS="-Z threads=10 -Zproc-macro-backtrace -Zmacro-backtrace"
+}
+
+disable_rust_backtrace(){
+    unset RUSTFLAGS
+}
 
 if no_command wget; then
     if is_archlinux; then

@@ -7,10 +7,10 @@ else
 fi
 
 if no_symlink "$ZED_DIRECTORY/settings.json"; then
-  ln -s "$Dotfiles/zed/settings.json" "$ZED_DIRECTORY/settings.json"
+  ln -s "$Dotfiles/config/zed/settings.json" "$ZED_DIRECTORY/settings.json"
 fi
 
 if no_symlink "$ZED_DIRECTORY/keymap.json"; then
-  ln -s "$Dotfiles/zed/keymap.json" "$ZED_DIRECTORY/keymap.json"
+  ln -s "$Dotfiles/config/zed/keymap.json" "$ZED_DIRECTORY/keymap.json"
 fi
 
