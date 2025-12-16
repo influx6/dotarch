@@ -62,7 +62,7 @@ return {
     dependencies = {
       "dmitmel/cmp-digraphs",
       "nvim-lua/plenary.nvim",
-      "milanglacier/minuet-ai.nvim",
+      -- "milanglacier/minuet-ai.nvim",
       "moyiz/blink-emoji.nvim",
       "jdrupal-dev/css-vars.nvim",
       "MahanRahmati/blink-nerdfont.nvim",
