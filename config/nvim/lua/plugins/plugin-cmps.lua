@@ -149,8 +149,8 @@ return {
           "buffer",
           "ripgrep",
           "spell",
-          "minuet",
-          "avante", -- only after I enable avante
+          -- "minuet",
+          -- "avante", -- only after I enable avante
           "references",
           "dictionary",
           "omni",
@@ -186,19 +186,19 @@ return {
             -- fallbacks = {},
             -- override = nil, -- Override the source's functions
           },
-          minuet = {
-            name = "minuet",
-            module = "minuet.blink",
-            score_offset = 90, -- Gives minuet higher priority among suggestions
-          },
-          avante = {
-            score_offset = 90,
-            module = "blink-cmp-avante",
-            name = "Avante",
-            opts = {
-              -- options for blink-cmp-avante
-            },
-          },
+          -- minuet = {
+          --   name = "minuet",
+          --   module = "minuet.blink",
+          --   score_offset = 90, -- Gives minuet higher priority among suggestions
+          -- },
+          -- avante = {
+          --   score_offset = 90,
+          --   module = "blink-cmp-avante",
+          --   name = "Avante",
+          --   opts = {
+          --     -- options for blink-cmp-avante
+          --   },
+          -- },
           -- 👇🏻👇🏻 add the ripgrep provider config below
           ripgrep = {
             module = "blink-ripgrep",
