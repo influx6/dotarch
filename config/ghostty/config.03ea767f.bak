@@ -1,9 +1,5 @@
 # Dynamic theme colors
-# config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
-# theme = Catppuccin Mocha
-# theme = Catppuccin Macchiato, Blazer, Banana Blueberry, Black Metal (Bathory), Bright Lights, Chalkboard, Ciapre, Cutie Pro
-theme = Aura
-
+config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
 
 # Font
 font-family = "CaskaydiaMono Nerd Font"
@@ -43,4 +39,3 @@ keybind = shift+down=adjust_selection:down
 keybind = ctrl+shift+c=text:\x03
 keybind = ctrl+l=clear_screen
 keybind = ctrl+r=reset
-keybind = shift+enter=text:\x1b\r

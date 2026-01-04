@@ -1,0 +1,36 @@
+#!/bin/bash
+
+
+litellm_start(){
+    if has_command "pip"; then
+        if no_command "litellm"; then
+            echo "Installing litellm"
+            pip install 'litellm[proxy]'
+        fi
+    else
+        echo "Unable to install litellm with pip, please setup"
+    fi
+
+    if no_command "litellm"; then
+        echo "No litellm for me to run with"
+    else
+        litellm --config $DOTFILES/config/litellm/copilot-config.yaml
+    fi
+}
+
+claude_start() {
+    ANTHROPIC_AUTH_TOKEN="litellm-647e8dd5-7197-4639-899f-463408b3fb44"
+    ANTHROPIC_BASE_URL="http://localhost:4444"
+    ANTHROPIC_MODEL="claude-sonnet-4"
+    ANTHROPIC_SMALL_FAST_MODEL="gpt-4"
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        claude
+    fi
+}
+

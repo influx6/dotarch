@@ -29,6 +29,7 @@ fi
 # custom functions we want to use.
 source $Dotfiles/shell/paths
 
+source $Dotfiles/shell/clauderc
 source $Dotfiles/shell/zellij
 source $Dotfiles/shell/installer
 source $Dotfiles/shell/autocomplete
