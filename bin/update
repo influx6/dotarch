@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+snapshot create || [ $? -eq 127 ]
+update-git
+update-perform

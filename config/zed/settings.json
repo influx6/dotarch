@@ -100,7 +100,7 @@
     "dock": "left"
   },
   "tab_bar": {
-    "show": false
+    "show": true
   },
   "relative_line_numbers": true,
   "preferred_line_length": 150,

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if (($# == 0)); then
+  echo "Usage: launch-or-focus-webapp [window-pattern] [url]"
+  exit 1
+fi
+
+exec launch-or-focus "$1" "launch-webapp '$2'"

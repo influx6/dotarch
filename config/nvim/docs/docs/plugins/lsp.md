@@ -56,10 +56,10 @@ opts = function()
       severity_sort = true,
       signs = {
         text = {
-          [vim.diagnostic.severity.ERROR] = LazyVim.config.icons.diagnostics.Error,
-          [vim.diagnostic.severity.WARN] = LazyVim.config.icons.diagnostics.Warn,
-          [vim.diagnostic.severity.HINT] = LazyVim.config.icons.diagnostics.Hint,
-          [vim.diagnostic.severity.INFO] = LazyVim.config.icons.diagnostics.Info,
+          [vim.diagnostic.severity.ERROR] = require("lazyvim.util").config.icons.diagnostics.Error,
+          [vim.diagnostic.severity.WARN] = require("lazyvim.util").config.icons.diagnostics.Warn,
+          [vim.diagnostic.severity.HINT] = require("lazyvim.util").config.icons.diagnostics.Hint,
+          [vim.diagnostic.severity.INFO] = require("lazyvim.util").config.icons.diagnostics.Info,
         },
       },
     },
@@ -86,7 +86,7 @@ opts = function()
       },
     },
     -- options for vim.lsp.buf.format
-    -- `bufnr` and `filter` is handled by the LazyVim formatter,
+    -- `bufnr` and `filter` is handled by the require("lazyvim.util") formatter,
     -- but can be also overridden when specified
     format = {
       formatting_options = nil,
@@ -176,10 +176,10 @@ end
         severity_sort = true,
         signs = {
           text = {
-            [vim.diagnostic.severity.ERROR] = LazyVim.config.icons.diagnostics.Error,
-            [vim.diagnostic.severity.WARN] = LazyVim.config.icons.diagnostics.Warn,
-            [vim.diagnostic.severity.HINT] = LazyVim.config.icons.diagnostics.Hint,
-            [vim.diagnostic.severity.INFO] = LazyVim.config.icons.diagnostics.Info,
+            [vim.diagnostic.severity.ERROR] = require("lazyvim.util").config.icons.diagnostics.Error,
+            [vim.diagnostic.severity.WARN] = require("lazyvim.util").config.icons.diagnostics.Warn,
+            [vim.diagnostic.severity.HINT] = require("lazyvim.util").config.icons.diagnostics.Hint,
+            [vim.diagnostic.severity.INFO] = require("lazyvim.util").config.icons.diagnostics.Info,
           },
         },
       },
@@ -206,7 +206,7 @@ end
         },
       },
       -- options for vim.lsp.buf.format
-      -- `bufnr` and `filter` is handled by the LazyVim formatter,
+      -- `bufnr` and `filter` is handled by the require("lazyvim.util") formatter,
       -- but can be also overridden when specified
       format = {
         formatting_options = nil,
@@ -265,15 +265,15 @@ end
   ---@param opts PluginLspOpts
   config = function(_, opts)
     -- setup autoformat
-    LazyVim.format.register(LazyVim.lsp.formatter())
+    require("lazyvim.util").format.register(require("lazyvim.util").lsp.formatter())
 
     -- setup keymaps
-    LazyVim.lsp.on_attach(function(client, buffer)
+    require("lazyvim.util").lsp.on_attach(function(client, buffer)
       require("lazyvim.plugins.lsp.keymaps").on_attach(client, buffer)
     end)
 
-    LazyVim.lsp.setup()
-    LazyVim.lsp.on_dynamic_capability(require("lazyvim.plugins.lsp.keymaps").on_attach)
+    require("lazyvim.util").lsp.setup()
+    require("lazyvim.util").lsp.on_dynamic_capability(require("lazyvim.plugins.lsp.keymaps").on_attach)
 
     -- diagnostics signs
     if vim.fn.has("nvim-0.10.0") == 0 then
@@ -289,7 +289,7 @@ end
     if vim.fn.has("nvim-0.10") == 1 then
       -- inlay hints
       if opts.inlay_hints.enabled then
-        LazyVim.lsp.on_supports_method("textDocument/inlayHint", function(client, buffer)
+        require("lazyvim.util").lsp.on_supports_method("textDocument/inlayHint", function(client, buffer)
           if
             vim.api.nvim_buf_is_valid(buffer)
             and vim.bo[buffer].buftype == ""
@@ -302,7 +302,7 @@ end
 
       -- code lens
       if opts.codelens.enabled and vim.lsp.codelens then
-        LazyVim.lsp.on_supports_method("textDocument/codeLens", function(client, buffer)
+        require("lazyvim.util").lsp.on_supports_method("textDocument/codeLens", function(client, buffer)
           vim.lsp.codelens.refresh()
           vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
             buffer = buffer,
@@ -315,7 +315,7 @@ end
     if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
       opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
         or function(diagnostic)
-          local icons = LazyVim.config.icons.diagnostics
+          local icons = require("lazyvim.util").config.icons.diagnostics
           for d, icon in pairs(icons) do
             if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
               return icon
@@ -385,16 +385,16 @@ end
         ensure_installed = vim.tbl_deep_extend(
           "force",
           ensure_installed,
-          LazyVim.opts("mason-lspconfig.nvim").ensure_installed or {}
+          require("lazyvim.util").opts("mason-lspconfig.nvim").ensure_installed or {}
         ),
         handlers = { setup },
       })
     end
 
-    if LazyVim.lsp.is_enabled("denols") and LazyVim.lsp.is_enabled("vtsls") then
+    if require("lazyvim.util").lsp.is_enabled("denols") and require("lazyvim.util").lsp.is_enabled("vtsls") then
       local is_deno = require("lspconfig.util").root_pattern("deno.json", "deno.jsonc")
-      LazyVim.lsp.disable("vtsls", is_deno)
-      LazyVim.lsp.disable("denols", function(root_dir, config)
+      require("lazyvim.util").lsp.disable("vtsls", is_deno)
+      require("lazyvim.util").lsp.disable("denols", function(root_dir, config)
         if not is_deno(root_dir) then
           config.settings.deno.enable = false
         end

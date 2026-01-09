@@ -10,7 +10,7 @@ install_one(){
             name=$(basename "$location")
             echo "Executing script: ${name} from $location"
             . $location
-            exit 0
+            return 0
         fi
         location="$install_files/every/$1.sh"
         if [ -e $location ]; then
@@ -25,7 +25,7 @@ install_one(){
             name=$(basename "$location")
             echo "Executing script: ${name} from $location"
             . $location
-            exit 0
+            return 0
         fi
         location="$install_files/every/$1.sh"
         if [ -e $location ]; then
@@ -43,16 +43,16 @@ install_one(){
 install_all(){
     if is_ubuntu; then
         location="$install_files/ubuntu/$1"
-        if [ -d $location ]; then 
+        if [ -d $location ]; then
             for f in "$location"/*.sh; do
             name=$(basename "$f")
             echo "Executing script: ${name}"
             . $f
             done
-            exit 0
+            return 0
         fi
         location="$install_files/every/$1"
-        if [ -d $location ]; then 
+        if [ -d $location ]; then
             for f in "$location"/*.sh; do
                 name=$(basename "$f")
                 echo "Executing script: ${name}"
@@ -62,16 +62,16 @@ install_all(){
     fi
     if is_archlinux; then
         location="$install_files/archlinux/$1"
-        if [ -d $location ]; then 
+        if [ -d $location ]; then
             for f in "$location"/*.sh; do
             name=$(basename "$f")
             echo "Executing script: ${name}"
             . $f
             done
-            exit 0
+            return 0
         fi
         location="$install_files/every/$1"
-        if [ -d $location ]; then 
+        if [ -d $location ]; then
             for f in "$location"/*.sh; do
                 name=$(basename "$f")
                 echo "Executing script: ${name}"
@@ -83,6 +83,3 @@ install_all(){
         echo "Not yet supported or setup"
     fi
 }
-
-
-

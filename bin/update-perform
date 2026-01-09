@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+update-available-reset
+update-system-pkgs
+migrate
+update-restart

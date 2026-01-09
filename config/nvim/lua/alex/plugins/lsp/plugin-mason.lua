@@ -1,0 +1,264 @@
+return {
+    {
+        "mason-org/mason.nvim",
+        dependencies = {
+            "mason-org/mason-lspconfig.nvim",
+        },
+        opts = {
+            ensure_installed = {
+                "prettier", -- prettier formatter
+                "stylua",   -- lua formatter
+                "isort",    -- python formatter
+                "black",    -- python formatter
+                "pylint",
+                "eslint_d",
+                "codelldb",
+                "actionlint",
+                "ansible-language-server",
+                "ansible-lint",
+                "asmfmt",
+                "astro-language-server",
+                "awk-language-server",
+                "bash-debug-adapter",
+                "bash-language-server",
+                "bibtex-tidy",
+                "biome",
+                "black",
+                "blackd-client",
+                "buf",
+                "bzl",
+                "clang-format",
+                "clangd",
+                "cljfmt",
+                "clojure-lsp",
+                "cmake-language-server",
+                "cmakelang",
+                "cmakelint",
+                "cobol-language-support",
+                "codelldb",
+                -- "codeql",
+                "codespell",
+                "colorgen-nvim",
+                "commitlint",
+                "contextive",
+                "copilot-language-server",
+                "cpplint",
+                "cpptools",
+                "cql-language-server",
+                "crlfmt",
+                "css-lsp",
+                "css-variables-language-server",
+                "cssmodules-language-server",
+                "debugpy",
+                "deno",
+                "digestif",
+                "docformatter",
+                "docker-compose-language-service",
+                "dockerfile-language-server",
+                "dot-language-server",
+                -- "dprint",
+                "earthlyls",
+                -- "editorconfig-checker",
+                "elixir-ls",
+                "emmet-ls",
+                "erb-formatter",
+                "erb-lint",
+                "eslint-lsp",
+                "findent",
+                "fixjson",
+                "gitlint",
+                "gitui",
+                "glint",
+                "glsl_analyzer",
+                "go-debug-adapter",
+                "gofumpt",
+                "goimports",
+                "golangci-lint",
+                "golangci-lint-langserver",
+                "golines",
+                "gopls",
+                "gotests",
+                "gotestsum",
+                "gradle-language-server",
+                "graphql-language-service-cli",
+                -- "hadolint",
+                "haml-lint",
+                "hclfmt",
+                "helm-ls",
+                "hlint",
+                "html-lsp",
+                "htmlbeautifier",
+                "htmlhint",
+                -- "htmx-lsp",
+                "hydra-lsp",
+                "isort",
+                "java-debug-adapter",
+                "java-test",
+                "jdtls",
+                "jinja-lsp",
+                "jq",
+                "jq-lsp",
+                "js-debug-adapter",
+                "json-lsp",
+                "json-to-struct",
+                "jsonld-lsp",
+                "jsonlint",
+                "julia-lsp",
+                "kcl",
+                "kotlin-debug-adapter",
+                "kotlin-language-server",
+                "latexindent",
+                "llm-ls",
+                -- "ltex-ls",
+                "lua-language-server",
+                "luacheck",
+                "luau-lsp",
+                "markdown-oxide",
+                "markdown-toc",
+                "markdownlint",
+                "markdownlint-cli2",
+                "marksman",
+                "markuplint",
+                "misspell",
+                "mypy",
+                "neocmakelsp",
+                "php-cs-fixer",
+                "php-debug-adapter",
+                -- "phpactor",
+                "phpcbf",
+                "phpcs",
+                "phpmd",
+                "prettier",
+                -- "pretty-php",
+                "prettydiff",
+                "proselint",
+                "prosemd-lsp",
+                "protolint",
+                "protols",
+                "pydocstyle",
+                "pymarkdownlnt",
+                "pyment",
+                "pyright",
+                -- "python-lsp-server",
+                "rubocop",
+                "ruby-lsp",
+                "rubyfmt",
+                "ruff",
+                "rufo",
+                "shfmt",
+                "snakefmt",
+                "solang",
+                "solang-llvm",
+                "solhint",
+                "solidity",
+                "solidity-ls",
+                "sql-formatter",
+                "sqlfluff",
+                "sqlfmt",
+                "sqlls",
+                "sqls",
+                "standardjs",
+                "staticcheck",
+                "stylelint",
+                "stylelint-lsp",
+                "stylua",
+                "templ",
+                "terraform-ls",
+                "tex-fmt",
+                "texlab",
+                "textlint",
+                "tflint",
+                "tfsec",
+                "tinymist",
+                "tlint",
+                "tree-sitter-cli",
+                "ts-standard",
+                "ts_query_ls",
+                "tsp-server",
+                "typos",
+                "typos-lsp",
+                "usort",
+                "vim-language-server",
+                "vint",
+                "vtsls",
+                "write-good",
+                "yaml-language-server",
+                "yamlfmt",
+                "yamllint",
+                "yq",
+                "zls",
+            },
+            ui = {
+                icons = {
+                    package_installed = "✓",
+                    package_pending = "➜",
+                    package_uninstalled = "✗",
+                },
+            },
+        },
+        config = function(_, opts)
+            local mason = require("mason")
+            local mason_lspconfig = require("mason-lspconfig")
+
+            if vim.g.lazyvim_rust_diagnostics == "bacon-ls" then
+                vim.list_extend(opts.ensure_installed, { "bacon", "bacon-ls" })
+            end
+
+            mason.setup(opts)
+
+            local mr = require("mason-registry")
+            mr:on("package:install:success", function()
+                vim.defer_fn(function()
+                    -- trigger FileType event to possibly load this newly installed LSP server
+                    require("lazy.core.handler.event").trigger({
+                        event = "FileType",
+                        buf = vim.api.nvim_get_current_buf(),
+                    })
+                end, 100)
+            end)
+
+            mr.refresh(function()
+                for _, tool in ipairs(opts.ensure_installed) do
+                    local p = mr.get_package(tool)
+                    if not p:is_installed() then
+                        p:install()
+                    end
+                end
+            end)
+
+            mason_lspconfig.setup({
+                ensure_installed = {
+                    "tsserver",
+                    "html",
+                    "cssls",
+                    "tailwindcss",
+                    "svelte",
+                    "lua_ls",
+                    "graphql",
+                    "emmet_ls",
+                    "prismals",
+                    "pyright",
+                }
+            })
+        end,
+    },
+
+    {
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
+        opts = {
+            ensure_installed = {
+                "prettier", -- prettier formatter
+                "stylua",   -- lua formatter
+                "isort",    -- python formatter
+                "black",    -- python formatter
+                "pylint",
+                "eslint_d",
+                "pylint",   -- python linter
+                "eslint_d", -- js linter
+            },
+        },
+        dependencies = {
+            "mason-org/mason.nvim",
+        },
+    },
+}

@@ -21,6 +21,11 @@ if no_command go && has_command brew; then
   brew install go
 fi
 
+# install lazygit (brew is required)
+if no_command lazygit && has_command brew; then
+  brew install lazygit
+fi
+
 # install mise
 if no_command mise; then
   curl https://mise.run | sh

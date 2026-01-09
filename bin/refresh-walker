@@ -1,0 +1,6 @@
+#!/bin/bash
+
+refresh-config walker/config.toml
+refresh-config elephant/calc.toml
+refresh-config elephant/desktopapplications.toml
+restart-walker

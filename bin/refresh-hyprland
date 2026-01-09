@@ -1,0 +1,7 @@
+#!/bin/bash
+
+refresh-config hypr/autostart.conf
+refresh-config hypr/bindings.conf
+refresh-config hypr/envs.conf
+refresh-config hypr/input.conf
+refresh-config hypr/hyprland.conf

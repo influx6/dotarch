@@ -168,25 +168,25 @@ map(
 map("n", "<TAB>t", "<cmd>terminal<cr>", { desc = "Terminal within current buffer", remap = true })
 map("t", "<esc>", "<C-\\><C-N>", { desc = "Remap <ESC> key to enter normal mode in terminal", remap = true })
 
--- Snack Terminal Mappings - owning here
-map("n", "<c-/>", function()
-    Snacks.terminal(nil, { cwd = LazyVim.root() })
-end, { desc = "Terminal (Root Dir)" })
-map("n", "<c-?>", function()
-    Snacks.terminal(nil)
-end, { desc = "which_key_ignore" })
+-- -- Snack Terminal Mappings - owning here
+-- map("n", "<c-/>", function()
+--     Snacks.terminal(nil, { cwd = LazyVim.root() })
+-- end, { desc = "Terminal (Root Dir)" })
+-- map("n", "<c-?>", function()
+--     Snacks.terminal(nil)
+-- end, { desc = "which_key_ignore" })
 
--- Snack Terminal Mappings - alternative keys
-map("n", "<leader>fT", function()
-    Snacks.terminal(nil)
-end, { desc = "Terminal (cwd)" })
-map("n", "<leader>ft", function()
-    Snacks.terminal(nil, { cwd = LazyVim.root() })
-end, { desc = "Terminal (Root Dir)" })
+-- -- Snack Terminal Mappings - alternative keys
+-- map("n", "<leader>fT", function()
+--     Snacks.terminal(nil)
+-- end, { desc = "Terminal (cwd)" })
+-- map("n", "<leader>ft", function()
+--     Snacks.terminal(nil, { cwd = LazyVim.root() })
+-- end, { desc = "Terminal (Root Dir)" })
 
--- Snack terminal closing support
-map("t", "<C-/>", "<cmd>close<cr>", { desc = "Close Bottom Floating Terminal" })
-map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
+-- -- Snack terminal closing support
+-- map("t", "<C-/>", "<cmd>close<cr>", { desc = "Close Bottom Floating Terminal" })
+-- map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
 map("n", "<leader><TAB>t", function()
     vim.cmd.vnew()
@@ -337,7 +337,7 @@ end, { desc = "Inspect Tree" })
 -- Clear search and stop snippet on escape
 map({ "i", "n", "s" }, "<esc>", function()
     vim.cmd("noh")
-    LazyVim.cmp.actions.snippet_stop()
+    -- LazyVim.cmp.actions.snippet_stop()
     return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
