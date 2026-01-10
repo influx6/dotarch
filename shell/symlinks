@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 mkdir -p $HOME/.config/omarchy
 
 if [[ ! -d $HOME/.config/omarchy/branding ]]; then
@@ -17,6 +16,10 @@ fi
 
 if [[ ! -d $HOME/.config/ghostty ]]; then
   ln -s $DOTFILES/config/ghostty $HOME/.config/ghostty
+fi
+
+if [[ ! -d $HOME/.local/share/applications ]]; then
+  ln -s $DOTFILES/dotarch/applications $HOME/.local/share/applications
 fi
 
 if [[ ! -d $HOME/.config/walker ]]; then
@@ -103,4 +106,3 @@ fi
 if [[ ! -d $HOME/.config/wpaperd ]]; then
   ln -s $DOTFILES/config/wpaperd $HOME/.config/wpaperd
 fi
-

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=WhatsApp
+Comment=WhatsApp
+Exec=launch-webapp https://web.whatsapp.com/
+Terminal=false
+Type=Application
+Icon=/home/darkvoid/.local/share/applications/icons/WhatsApp.png
+StartupNotify=true
