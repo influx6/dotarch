@@ -10,7 +10,6 @@ yay -S --noconfirm --needed \
   github-cli \
   lazygit lazydocker
 
-
 # # install github sync
 # if no_dir $HOME/.github-org-sync; then
 #   git clone https://github.com/oxzi/github-orga-sync ~/.github-org-sync && cd ~/.github-org-sync && go install && cd -
@@ -24,6 +23,8 @@ fi
 # install lazygit (brew is required)
 if no_command lazygit && has_command brew; then
   brew install lazygit
+  brew install git-ext
+  git xet install
 fi
 
 # install mise
