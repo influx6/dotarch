@@ -2,7 +2,7 @@
 Version=1.0
 Name=HEY
 Comment=HEY
-Exec=omarchy-launch-webapp https://app.hey.com
+Exec=launch-webapp https://app.hey.com
 Terminal=false
 Type=Application
 Icon=/home/darkvoid/.local/share/applications/icons/HEY.png

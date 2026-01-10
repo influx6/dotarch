@@ -19,7 +19,7 @@ if [[ ! -d $HOME/.config/ghostty ]]; then
 fi
 
 if [[ ! -d $HOME/.local/share/applications ]]; then
-  ln -s $DOTFILES/dotarch/applications $HOME/.local/share/applications
+  ln -s $DOTFILES/applications/ $HOME/.local/share/applications
 fi
 
 if [[ ! -d $HOME/.config/walker ]]; then
