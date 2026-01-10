@@ -13,22 +13,22 @@ opt.undofile = true
 
 -- tabs & indentation
 --
-opt.expandtab = true  -- Convert tabs to spaces
+opt.expandtab = true -- Convert tabs to spaces
 opt.autoindent = true -- copy indent from current line when starting new one
 opt.smarttab = true
 opt.smartindent = true
-opt.tabstop = 2    -- 2 spaces for tabs (prettier default)
+opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
 opt.shiftwidth = 4 -- Amount of indent with << and >>, 4 spaces for indent width
 
 -- search settings
 opt.ignorecase = true -- ignore case when searching
-opt.smartcase = true  -- if you include mixed case in your search, assumes you want case-sensitive
+opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
 
 opt.breakindent = true
 
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
-opt.number = true         -- shows absolute line number on cursor line (when relative number is on)
+opt.number = true -- shows absolute line number on cursor line (when relative number is on)
 
 -- line wrapping
 opt.wrap = false -- disable line wrapping
@@ -39,7 +39,7 @@ opt.wrap = false -- disable line wrapping
 -- (have to use iterm2 or any other true color terminal)
 opt.termguicolors = true
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
-opt.signcolumn = "yes"  -- show sign column so that text doesn't shift
+opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
@@ -53,7 +53,6 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 -- turn off swapfile
 opt.swapfile = false
-
 
 -- Swap to neotree if you want to use neotree instead.
 vim.g.file_manager = "oil.nvim"
