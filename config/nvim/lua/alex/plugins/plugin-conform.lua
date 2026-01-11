@@ -1,7 +1,27 @@
 return {
   "stevearc/conform.nvim",
-  event = { "BufReadPre", "BufNewFile" },
-  config = function()
+  lazy = true,
+  cmd = "ConformInfo",
+  keys = {
+    {
+      "<leader>cF",
+      function()
+        require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
+      end,
+      mode = { "n", "x" },
+      desc = "Format Injected Langs",
+    },
+  },
+  opts = function()
+    -- local plugin = require("lazy.core.config").plugins["conform.nvim"]
+    -- if plugin.config ~= M.setup then
+    --   LazyVim.error({
+    --     "Don't set `plugin.config` for `conform.nvim`.\n",
+    --     "This will break **LazyVim** formatting.\n",
+    --     "Please refer to the docs at https://www.lazyvim.org/plugins/formatting",
+    --   }, { title = "LazyVim" })
+    -- end
+
     local conform = require("conform")
 
     -- register auto execution when files are saved
@@ -12,7 +32,15 @@ return {
       end,
     })
 
-    conform.setup({
+    vim.keymap.set({ "n", "v" }, "<leader>mp", function()
+      conform.format({
+        lsp_fallback = true,
+        async = false,
+        timeout_ms = 1000,
+      })
+    end, { desc = "Format file or range (in visual mode)" })
+
+    return {
       formatters_by_ft = {
         typescript = { "prettier" },
         javascriptreact = { "prettier" },
@@ -38,19 +66,11 @@ return {
           args = { "-formatter", "basic", "-indentless_arrays=true" },
         },
       },
-      format_on_save = {
-        lsp_fallback = true,
-        async = false,
-        timeout_ms = 1000,
-      },
-    })
-
-    vim.keymap.set({ "n", "v" }, "<leader>mp", function()
-      conform.format({
-        lsp_fallback = true,
-        async = false,
-        timeout_ms = 1000,
-      })
-    end, { desc = "Format file or range (in visual mode)" })
+      -- format_on_save = {
+      --   lsp_fallback = true,
+      --   async = false,
+      --   timeout_ms = 1000,
+      -- },
+    }
   end,
 }
