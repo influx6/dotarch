@@ -1,13 +1,88 @@
 model_list:
+  - model_name: gemini-3-flash
+    litellm_params:
+      model: github_copilot/gemini-3-flash
+      default_fallbacks:
+        - gpt-4
+      extra_headers:
+        {
+          "Editor-Version": "vscode/1.85.1",
+          "Copilot-Integration-Id": "vscode-chat",
+        }
+  - model_name: gemini-2.5-pro
+    litellm_params:
+      model: github_copilot/gemini-2.5-pro
+      default_fallbacks:
+        - gpt-4
+      extra_headers:
+        {
+          "Editor-Version": "vscode/1.85.1",
+          "Copilot-Integration-Id": "vscode-chat",
+        }
   - model_name: gpt-4
     litellm_params:
       model: github_copilot/gpt-4
-      extra_headers: {"Editor-Version": "vscode/1.85.1", "Copilot-Integration-Id": "vscode-chat"}
+      default_fallbacks:
+        - gpt-4
+      extra_headers:
+        {
+          "Editor-Version": "vscode/1.85.1",
+          "Copilot-Integration-Id": "vscode-chat",
+        }
+  - model_name: claude-haiku-4.5
+    litellm_params:
+      model: github_copilot/claude-haiku-4.5
+      default_fallbacks:
+        - gpt-4
+      extra_headers:
+        {
+          "Editor-Version": "vscode/1.85.1",
+          "Copilot-Integration-Id": "vscode-chat",
+        }
   - model_name: claude-opus-4
     litellm_params:
-      model: github_copilot/claude-opus-4
-      extra_headers: {"Editor-Version": "vscode/1.85.1", "Copilot-Integration-Id": "vscode-chat"}
+      model: github_copilot/claude-opus-41
+      default_fallbacks:
+        - gpt-4
+      extra_headers:
+        {
+          "Editor-Version": "vscode/1.85.1",
+          "Copilot-Integration-Id": "vscode-chat",
+        }
+  - model_name: claude-opus-4.5
+    litellm_params:
+      model: github_copilot/claude-opus-4.5
+      default_fallbacks:
+        - gpt-4
+      extra_headers:
+        {
+          "Editor-Version": "vscode/1.85.1",
+          "Copilot-Integration-Id": "vscode-chat",
+        }
   - model_name: claude-sonnet-4
     litellm_params:
       model: github_copilot/claude-sonnet-4
-      extra_headers: {"Editor-Version": "vscode/1.85.1", "Copilot-Integration-Id": "vscode-chat"}
+      default_fallbacks:
+        - gpt-4
+      extra_headers:
+        {
+          "Editor-Version": "vscode/1.85.1",
+          "Copilot-Integration-Id": "vscode-chat",
+        }
+  - model_name: claude-sonnet-4.5
+    litellm_params:
+      model: github_copilot/claude-sonnet-4.5
+      default_fallbacks:
+        - gpt-4
+      extra_headers:
+        {
+          "Editor-Version": "vscode/1.85.1",
+          "Copilot-Integration-Id": "vscode-chat",
+        }
+
+litellm_settings:
+  drop_params: true
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  salt_key: os.environ/LITELLM_SALT_KEY

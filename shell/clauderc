@@ -1,5 +1,10 @@
 #!/bin/bash
 
+LITELLM_MASTER_KEY=litellm-647e8dd5-7197-4639-899f-463408b3fb44
+LITELLM_SALT_KEY=litellm-3efab3d2-e033-46fe-976f-f2f05115ef98
+ENABLE_NETWORK_MONITOR=true
+LOG_LEVEL=DEBUG
+
 
 litellm_start(){
     if has_command "pip"; then
@@ -19,9 +24,9 @@ litellm_start(){
 }
 
 claude_start() {
-    ANTHROPIC_AUTH_TOKEN="litellm-647e8dd5-7197-4639-899f-463408b3fb44"
-    ANTHROPIC_BASE_URL="http://localhost:4444"
-    ANTHROPIC_MODEL="claude-sonnet-4"
+    ANTHROPIC_AUTH_TOKEN=$LITELLM_MASTER_KEY
+    ANTHROPIC_BASE_URL="http://localhost:4000"
+    ANTHROPIC_MODEL="claude-sonnet-4.5"
     ANTHROPIC_SMALL_FAST_MODEL="gpt-4"
     if no_command "claude"; then
         if has_command "npm"; then
@@ -34,3 +39,104 @@ claude_start() {
     fi
 }
 
+test_gemini_flash() {
+    curl --location 'http://0.0.0.0:4000/chat/completions' \
+        --header "Authorization: Bearer $LITELLM_MASTER_KEY" \
+        --header 'Content-Type: application/json' \
+        --header 'Editor-Version: CommandLine/1.0' \
+        --data '{
+        "model": "gemini-3-flash",
+        "messages": [
+            {
+            "role": "user",
+            "content": "what llm are you"
+            }
+        ]
+        }'
+}
+
+test_claude_opus() {
+    curl --location 'http://0.0.0.0:4000/chat/completions' \
+        --header "Authorization: Bearer $LITELLM_MASTER_KEY" \
+        --header 'Content-Type: application/json' \
+        --header 'Editor-Version: CommandLine/1.0' \
+        --data '{
+        "model": "claude-opus-4",
+        "messages": [
+            {
+            "role": "user",
+            "content": "what llm are you"
+            }
+        ]
+        }'
+}
+
+test_claude_haiku() {
+    curl --location 'http://0.0.0.0:4000/chat/completions' \
+        --header "Authorization: Bearer $LITELLM_MASTER_KEY" \
+        --header 'Content-Type: application/json' \
+        --header 'Editor-Version: CommandLine/1.0' \
+        --data '{
+        "model": "claude-haiku-4.5",
+        "messages": [
+            {
+            "role": "user",
+            "content": "what llm are you"
+            }
+        ]
+        }'
+}
+
+test_claude_sonnet() {
+    curl --location 'http://0.0.0.0:4000/chat/completions' \
+        --header "Authorization: Bearer $LITELLM_MASTER_KEY" \
+        --header 'Content-Type: application/json' \
+        --header 'Editor-Version: CommandLine/1.0' \
+        --data '{
+        "model": "claude-sonnet-4",
+        "messages": [
+            {
+            "role": "user",
+            "content": "what llm are you"
+            }
+        ]
+        }'
+    
+}
+
+test_claude_sonnet45() {
+    curl --location 'http://0.0.0.0:4000/chat/completions' \
+        --header "Authorization: Bearer $LITELLM_MASTER_KEY" \
+        --header 'Content-Type: application/json' \
+        --header 'Editor-Version: CommandLine/1.0' \
+        --data '{
+        "model": "claude-sonnet-4.5",
+        "messages": [
+            {
+            "role": "user",
+            "content": "what llm are you"
+            }
+        ]
+        }'
+}
+
+test_gpt4() {
+    curl --location 'http://0.0.0.0:4000/chat/completions' \
+        --header 'Content-Type: application/json' \
+        --header 'Editor-Version: CommandLine/1.0' \
+        --data '{
+        "model": "gpt-4",
+        "messages": [
+            {
+            "role": "user",
+            "content": "what llm are you"
+            }
+        ]
+        }'
+}
+
+test_models() {
+    curl --location 'http://0.0.0.0:4000/v1/models' \
+        --header 'Content-Type: application/json' \
+        --header 'Editor-Version: CommandLine/1.0' 
+}
