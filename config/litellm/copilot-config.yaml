@@ -1,3 +1,6 @@
+# See more in https://docs.litellm.ai/docs/proxy/config_settings
+# For Github Copiliot you need to explicitly enable the Anthropic and Google Models in page: https://github.com/settings/copilot/features
+
 model_list:
   - model_name: gemini-3-flash
     litellm_params:
