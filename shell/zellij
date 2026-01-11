@@ -11,3 +11,7 @@ fi
 if [ ! -h "$HOME/.config/zellij" ]; then
   ln -nsf "$Dotfiles/config/zellij" "$HOME/.config/zellij"
 fi
+
+zellij_start(){
+    zellij --attach brave-donkey
+}
