@@ -13,5 +13,13 @@ if [ ! -h "$HOME/.config/zellij" ]; then
 fi
 
 zellij_start(){
-    zellij --attach brave-donkey
+    zellij attach brave-donkey
+}
+
+zellij_ewe(){
+    zellij attach -c ewetumo-development
+}
+
+zellij_agent(){
+    zellij attach -c agentic-agent
 }
