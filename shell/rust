@@ -1,5 +1,17 @@
 #!/bin/env bash
 
+#
+#Emacs Lisp files have been installed to:
+#  /home/linuxbrew/.linuxbrew/share/emacs/site-lisp/llvm
+#==> llvm
+#CLANG_CONFIG_FILE_SYSTEM_DIR: /home/linuxbrew/.linuxbrew/etc/clang
+# CLANG_CONFIG_FILE_USER_DIR:   ~/.config/clang
+#
+#LLD is now provided in a separate formula:
+#  brew install lld
+#
+
+
 source $DOTFILES/shell/functions
 
 export RUST_BACKTRACE=full
@@ -14,7 +26,7 @@ disable_rust_backtrace(){
     unset RUSTFLAGS
 }
 
-if no_command rust; then
+if no_command "rustup"; then
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	brew install mold llvm gcc
 fi

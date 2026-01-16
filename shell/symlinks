@@ -29,7 +29,7 @@ fi
 if [[ ! -h $HOME/.config/systemd ]]; then
   # ln -s $DOTFILES/systemd $HOME/.config/systemd
   mkdir -p $HOME/.config/systemd
-  cp -rf $DOTFILES/config/systemd/user $HOME/.config/systemd/user
+  \cp -u -r -f $DOTFILES/config/systemd/user $HOME/.config/systemd/user
 fi
 
 if [[ ! -h $HOME/.config/Typora ]]; then
