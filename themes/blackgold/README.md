@@ -13,10 +13,10 @@ Perfectly suited to the omarchy.org aesthetic — bold, minimal, and refined.
 
 # Installation Theme
 
-To install this theme, simply use the omarchy-theme-install command:
+To install this theme, simply use the theme-install command:
 
 ```bash
-omarchy-theme-install https://github.com/HANCORE-linux/omarchy-blackgold-theme.git
+theme-install https://github.com/HANCORE-linux/blackgold-theme.git
 ```
 ## Vesktop-Theme
 For Vesktop users, you can install this theme by copying the theme file to your Vesktop themes directory:

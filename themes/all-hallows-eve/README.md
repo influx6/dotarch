@@ -19,7 +19,7 @@ Use the builtin installation script (available after version 1.4.0):
 
 Dark:
 ```bash
-omarchy-theme-install https://github.com/guilhermetk/omarchy-all-hallows-eve-theme
+theme-install https://github.com/guilhermetk/all-hallows-eve-theme
 ```
 
 ### Acknowledgments

@@ -6,19 +6,19 @@ Flexoki is minimalistic and high-contrast. The colors are calibrated for legibil
 
 Learn more at [stephango.com/flexoki](https://stephango.com/flexoki)
 
-Flexoki Light: [github.com/euandeas/omarchy-flexoki-light-theme](https://github.com/euandeas/omarchy-flexoki-light-theme)
+Flexoki Light: [github.com/euandeas/flexoki-light-theme](https://github.com/euandeas/flexoki-light-theme)
 
 ## Installation:
 
 ### Method 1
-1. Copy `https://github.com/euandeas/omarchy-flexoki-dark-theme`
+1. Copy `https://github.com/euandeas/flexoki-dark-theme`
 2. Click `SUPER + ALT + SPACE`
 3. Click `Install > Style > Theme`
 4. Paste the link 
 
 ### Method 2:
 ```bash
-omarchy-theme-install https://github.com/euandeas/omarchy-flexoki-dark-theme.git
+theme-install https://github.com/euandeas/flexoki-dark-theme.git
 ```
 
 ## Preview

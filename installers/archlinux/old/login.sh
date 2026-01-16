@@ -82,7 +82,7 @@ sudo mv /tmp/seamless-login /usr/local/bin/seamless-login
 sudo chmod +x /usr/local/bin/seamless-login
 rm /tmp/seamless-login.c
 
-cat <<EOF | sudo tee /etc/systemd/system/omarchy-seamless-login.service
+cat <<EOF | sudo tee /etc/systemd/system/seamless-login.service
 [Unit]
 Description=Omarchy Seamless Auto-Login
 Documentation=https://github.com/basecamp/omarchy
@@ -120,7 +120,7 @@ EOF
 sudo systemctl mask plymouth-quit-wait.service
 
 sudo systemctl daemon-reload
-sudo systemctl enable omarchy-seamless-login.service
+sudo systemctl enable seamless-login.service
 
 # Disable getty@tty1 to prevent conflicts
 sudo systemctl disable getty@tty1.service

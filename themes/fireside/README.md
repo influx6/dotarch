@@ -22,10 +22,10 @@ Fireside is a warm, cozy theme for Omarchy inspired by the gentle glow of a crac
 
 ### Omarchy
 
-To install this theme, simply use the `omarchy-theme-install` command:
+To install this theme, simply use the `theme-install` command:
 
 ```bash
-omarchy-theme-install https://github.com/bjarneo/omarchy-fireside-theme
+theme-install https://github.com/bjarneo/fireside-theme
 ```
 
 

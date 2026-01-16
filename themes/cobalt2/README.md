@@ -13,16 +13,16 @@ This is the **Cobalt2** Theme for [Omarchy.org](https://omarchy.org), providing 
 
 ## Installation
 
-To install this theme, simply use the `omarchy-theme-install` command:
+To install this theme, simply use the `theme-install` command:
 
 ```bash
-omarchy-theme-install https://github.com/hoblin/omarchy-cobalt2-theme
+theme-install https://github.com/hoblin/cobalt2-theme
 ```
 
 Alternatively, you can install it via the Omarchy TUI:
 1. Press `Super + Alt + Space` to open the Omarchy menu
 2. Select `Install > Style > Theme`
-3. Paste the repository URL: `https://github.com/hoblin/omarchy-cobalt2-theme`
+3. Paste the repository URL: `https://github.com/hoblin/cobalt2-theme`
 
 Once installed, press `Super + Ctrl + Shift + Space`, select "Cobalt2" and everything should refresh automatically.
 

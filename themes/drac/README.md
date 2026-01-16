@@ -92,7 +92,7 @@ I use a group of packages for my theme:
 > Run this command in your terminal:
 
 ```bash
-omarchy-theme-install https://github.com/ShehabShaef/omarchy-drac-theme
+theme-install https://github.com/ShehabShaef/drac-theme
 ```
 ---
 

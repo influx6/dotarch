@@ -22,10 +22,10 @@ Pulsar is a vibrant, cosmic-inspired dark theme for Omarchy that captures the br
 
 ### Omarchy
 
-To install this theme, simply use the `omarchy-theme-install` command:
+To install this theme, simply use the `theme-install` command:
 
 ```bash
-omarchy-theme-install https://github.com/bjarneo/omarchy-pulsar-theme
+theme-install https://github.com/bjarneo/pulsar-theme
 ```
 
 ## X.com

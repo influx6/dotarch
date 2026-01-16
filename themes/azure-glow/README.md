@@ -62,10 +62,10 @@ A deep, cyber-ocean aesthetic — shadowy bases lit by bright azure and electric
 ---
 
 ## Install
-To install this theme, use the `omarchy-theme-install` command:
+To install this theme, use the `theme-install` command:
 
 ```bash
-omarchy-theme-install https://github.com/Hydradevx/omarchy-azure-glow-theme
+theme-install https://github.com/Hydradevx/azure-glow-theme
 ```
 
 ---

@@ -212,8 +212,8 @@ CCODE
   rm /tmp/seamless-login.c
 fi
 
-if [ ! -f /etc/systemd/system/omarchy-seamless-login.service ]; then
-  cat <<EOF | sudo tee /etc/systemd/system/omarchy-seamless-login.service
+if [ ! -f /etc/systemd/system/seamless-login.service ]; then
+  cat <<EOF | sudo tee /etc/systemd/system/seamless-login.service
 [Unit]
 Description=Omarchy Seamless Auto-Login
 Documentation=https://github.com/basecamp/omarchy
@@ -256,9 +256,9 @@ if ! systemctl is-enabled plymouth-quit-wait.service | grep -q masked; then
   sudo systemctl daemon-reload
 fi
 
-# Enable omarchy-seamless-login.service only if not already enabled
-if ! systemctl is-enabled omarchy-seamless-login.service | grep -q enabled; then
-  sudo systemctl enable omarchy-seamless-login.service
+# Enable seamless-login.service only if not already enabled
+if ! systemctl is-enabled seamless-login.service | grep -q enabled; then
+  sudo systemctl enable seamless-login.service
 fi
 
 # Disable getty@tty1.service only if not already disabled

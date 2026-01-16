@@ -11,10 +11,10 @@ Crafted for a workspace that looks poised yet dynamic — where focus doesn’t 
 
 # Installation Theme
 
-To install this theme, simply use the omarchy-theme-install command:
+To install this theme, simply use the theme-install command:
 
 ```bash
-omarchy-theme-install https://github.com/HANCORE-linux/omarchy-sapphire-theme.git
+theme-install https://github.com/HANCORE-linux/sapphire-theme.git
 ```
 ## Vesktop-Theme
 For Vesktop users, you can install this theme by copying the theme file to your Vesktop themes directory:

@@ -16,10 +16,10 @@ Old-school intrusion, soft light, sharp mind—where legends in dim rooms rewrot
 
 ## Installation
 
-To install this theme, simply use the `omarchy-theme-install` command:
+To install this theme, simply use the `theme-install` command:
 
 ```bash
-omarchy-theme-install https://github.com/rondilley/omarchy-retropc-theme
+theme-install https://github.com/rondilley/retropc-theme
 ```
 
 ## Included Configurations
@@ -63,7 +63,7 @@ fc-cache
 ```
 
 ## Inspiration
-[https://github.com/bjarneo/omarchy-ash-theme](https://github.com/bjarneo/omarchy-ash-theme)
+[https://github.com/bjarneo/ash-theme](https://github.com/bjarneo/ash-theme)
 
 ## X.com
 [Ron_Dilley](https://x.com/Ron_Dilley)

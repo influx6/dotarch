@@ -13,10 +13,10 @@ Built out of passion for custom hardware aesthetics and functional beauty — be
 
 # Installation Theme
 
-To install this theme, simply use the omarchy-theme-install command:
+To install this theme, simply use the theme-install command:
 
 ```bash
-omarchy-theme-install https://github.com/HANCORE-linux/omarchy-blackturq-theme.git
+theme-install https://github.com/HANCORE-linux/blackturq-theme.git
 ```
 
 ## Vesktop-Theme

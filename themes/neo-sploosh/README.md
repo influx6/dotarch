@@ -8,7 +8,7 @@
 ## Install
 
 ```sh
-omarchy-theme-install https://github.com/monoooki/omarchy-neo-sploosh-theme
+theme-install https://github.com/monoooki/neo-sploosh-theme
 ```
 
 Companion themes for other editors are also available:

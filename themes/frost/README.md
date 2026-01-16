@@ -22,10 +22,10 @@ Frost is a simple, elegant, and dark theme for Omarchy inspired by the serene be
 
 ### Omarchy
 
-To install this theme, simply use the `omarchy-theme-install` command:
+To install this theme, simply use the `theme-install` command:
 
 ```bash
-omarchy-theme-install https://github.com/bjarneo/omarchy-frost-theme
+theme-install https://github.com/bjarneo/frost-theme
 ```
 
 

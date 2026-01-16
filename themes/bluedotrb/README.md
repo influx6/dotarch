@@ -1,14 +1,14 @@
 # bluedotrb
 
-![Image](https://github.com/dotsilva/omarchy-bluedotrb-theme/blob/66fa0674392bc572cf484be01f92939da923079c/preview.png)
+![Image](https://github.com/dotsilva/bluedotrb-theme/blob/66fa0674392bc572cf484be01f92939da923079c/preview.png)
 
 An Omarchy theme featuring Ruby language references, heavily inspired in [nightfox/carbonfox neovim theme](https://github.com/EdenEast/nightfox.nvim).
-There is a red version: [dotrb](https://github.com/dotsilva/omarchy-dotrb-theme)
+There is a red version: [dotrb](https://github.com/dotsilva/dotrb-theme)
 
 # Install
 
 ```
-omarchy-theme-install https://github.com/dotsilva/omarchy-bluedotrb-theme
+theme-install https://github.com/dotsilva/bluedotrb-theme
 ```
 
 # Featuring

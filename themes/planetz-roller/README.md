@@ -8,7 +8,7 @@
 ## Install
 
 ```sh
-omarchy-theme-install https://github.com/monoooki/omarchy-planetz-roller-theme
+theme-install https://github.com/monoooki/planetz-roller-theme
 ```
 
 Companion themes for other editors are also available:

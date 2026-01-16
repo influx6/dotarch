@@ -1,5 +1,5 @@
 close_when_open = true
-theme = "omarchy-default"
+theme = "default"
 theme_base = []
 theme_location = ["~/.config/walker/themes/"]
 hotreload_theme = true
@@ -44,7 +44,7 @@ keywords = ["omarchy", "github"]
 
 [[builtins.bookmarks.entries]]
 label = "Omarchy Manual"
-url = "https://manuals.omamix.org/2/the-omarchy-manual"
+url = "https://manuals.omamix.org/2/the-manual"
 keywords = ["omarchy"]
 
 [builtins.calc]

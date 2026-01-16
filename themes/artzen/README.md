@@ -5,10 +5,10 @@ A calm and artful theme that brings balanced darkness to your desktop environmen
 
 | Preview |
 | :--: |
-| ![preview](https://github.com/tahfizhabib/omarchy-artzen-theme/blob/4be3b5671b629bd9f6a132238d8631658bd35f7b/media/preview.png) |
+| ![preview](https://github.com/tahfizhabib/artzen-theme/blob/4be3b5671b629bd9f6a132238d8631658bd35f7b/media/preview.png) |
 
 ## Installation
 
 ```bash
-omarchy-theme-install https://github.com/tahfizhabib/omarchy-artzen-theme
+theme-install https://github.com/tahfizhabib/artzen-theme
 ```

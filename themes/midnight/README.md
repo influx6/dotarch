@@ -11,7 +11,7 @@ A blacked-out theme for DHH's [Omarchy](https://omarchy.org), an opinioned Arch 
 The following command needs to be run to install 
 
 ```bash
-omarchy-theme-install https://github.com/JaxonWright/omarchy-midnight-theme.git
+theme-install https://github.com/JaxonWright/midnight-theme.git
 ```
 
 ## Usage

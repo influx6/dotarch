@@ -14,10 +14,10 @@ The theme features the classic Monokai Pro colors: vivid pinks, electric blues, 
 
 ### Omarchy
 
-To install this theme, simply use the `omarchy-theme-install` command:
+To install this theme, simply use the `theme-install` command:
 
 ```bash
-omarchy-theme-install https://github.com/bjarneo/omarchy-monokai-theme
+theme-install https://github.com/bjarneo/monokai-theme
 ```
 
 

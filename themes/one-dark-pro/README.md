@@ -26,4 +26,4 @@ Use the built-in installation script (available after version 1.4.0):
 
 Dark:
 ```bash
-omarchy-theme-install https://github.com/sc0ttman/omarchy-one-dark-pro-theme
+theme-install https://github.com/sc0ttman/one-dark-pro-theme

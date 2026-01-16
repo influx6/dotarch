@@ -7,5 +7,5 @@ A Tokyo Night OLED variant for Omarchy theme.
 ## Installation
 
 ```bash
-omarchy-theme-install https://github.com/Justin-De-Sio/omarchy-tokyoled-theme
+theme-install https://github.com/Justin-De-Sio/tokyoled-theme
 ```

@@ -8,10 +8,10 @@ This is the Dracula Theme for [Omarchy.org](https://omarchy.org), providing a co
 
 ## Installation
 
-To install this theme, simply use the `omarchy-theme-install` command:
+To install this theme, simply use the `theme-install` command:
 
 ```bash
-omarchy-theme-install https://github.com/catlee/omarchy-dracula-theme
+theme-install https://github.com/catlee/dracula-theme
 ```
 
 ## X.com

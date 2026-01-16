@@ -2,7 +2,7 @@
 Version=1.0
 Name=Disk Usage
 Comment=Disk Usage
-Exec= --class TUI.float -e bash -c 'dust -r; read -n 1 -s'
+Exec=alacritty --class TUI.float -e bash -c 'dust -r; read -n 1 -s'
 Terminal=false
 Type=Application
 Icon=/home/darkvoid/.local/share/applications/icons/Disk Usage.png

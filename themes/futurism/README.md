@@ -8,10 +8,10 @@ This is the Futurism theme for [Omarchy.org](https://omarchy.org), providing a v
 
 ## Installation
 
-To install this theme, simply use the `omarchy-theme-install` command:
+To install this theme, simply use the `theme-install` command:
 
 ```bash
-omarchy-theme-install https://github.com/bjarneo/omarchy-futurism-theme
+theme-install https://github.com/bjarneo/futurism-theme
 ```
 
 ## X.com

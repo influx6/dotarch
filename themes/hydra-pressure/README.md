@@ -8,7 +8,7 @@
 ## Install
 
 ```sh
-omarchy-theme-install https://github.com/monoooki/omarchy-hydra-pressure-theme
+theme-install https://github.com/monoooki/hydra-pressure-theme
 ```
 
 Companion themes for other editors are also available:

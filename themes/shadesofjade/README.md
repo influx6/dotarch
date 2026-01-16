@@ -3,7 +3,7 @@ Inspired by the quiet strength of jade stone — gentle greens layered over dark
 The palette reflects renewal and focus, where each shade of green guides the eye yet doesn’t demand attention.
 Designed to embody balance and subtle vitality — the system looks alive with purpose, not noise.
 
-- VScode Theme https://github.com/Justikun/omarchy-osaka-jade-theme/blob/main/vscode.json <br>
+- VScode Theme https://github.com/Justikun/osaka-jade-theme/blob/main/vscode.json <br>
 
 # Screenshots
 <img width="2560" height="1440" alt="screenshot-2025-10-05_09-00-46" src="https://github.com/user-attachments/assets/ae85874f-58d6-464d-bc7b-20e4d1bdb55b" />
@@ -14,10 +14,10 @@ Designed to embody balance and subtle vitality — the system looks alive with p
 
 # Installation Theme
 
-To install this theme, simply use the omarchy-theme-install command:
+To install this theme, simply use the theme-install command:
 
 ```bash
-omarchy-theme-install https://github.com/HANCORE-linux/omarchy-shadesofjade-theme.git
+theme-install https://github.com/HANCORE-linux/shadesofjade-theme.git
 ```
 ## Vesktop-Theme
 For Vesktop users, you can install this theme by copying the theme file to your Vesktop themes directory:

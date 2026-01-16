@@ -22,10 +22,10 @@ Sakura is an elegant, high-contrast theme for Omarchy inspired by the delicate b
 
 ### Omarchy
 
-To install this theme, simply use the `omarchy-theme-install` command:
+To install this theme, simply use the `theme-install` command:
 
 ```bash
-omarchy-theme-install https://github.com/bjarneo/omarchy-sakura-theme
+theme-install https://github.com/bjarneo/sakura-theme
 ```
 
 
