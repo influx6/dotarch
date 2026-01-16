@@ -5,6 +5,9 @@ LITELLM_SALT_KEY=litellm-3efab3d2-e033-46fe-976f-f2f05115ef98
 ENABLE_NETWORK_MONITOR=true
 LOG_LEVEL=DEBUG
 
+if has_command "claude"; then
+    curl -fsSL https://claude.ai/install.sh | bash
+fi
 
 litellm_start(){
     if has_command "pip"; then
