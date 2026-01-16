@@ -14,6 +14,11 @@ disable_rust_backtrace(){
     unset RUSTFLAGS
 }
 
+if no_command rust; then
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	brew install mold llvm gcc
+fi
+
 if no_command wget; then
     if is_archlinux; then
         if has_command yay; then

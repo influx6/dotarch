@@ -1,5 +1,8 @@
 #!/bin/sh
 
+git config --global user.email "Ewetumo Alexander"
+git config --global user.name "alex.ewetumo@gmail.com"
+
 
 alias gt="git"
 alias gtadd="git add"

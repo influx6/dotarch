@@ -1,112 +1,105 @@
 #!/bin/bash
 
-mkdir -p $HOME/.config/omarchy
-
-if [[ ! -d $HOME/.config/omarchy/branding ]]; then
-  ln -s $DOTFILES/branding $HOME/.config/omarchy/branding
-fi
-
-if [[ ! -d $HOME/.config/omarchy/themes ]]; then
-  ln -s $DOTFILES/themes $HOME/.config/omarchy/themes
-fi
-
-if [[ ! -d $HOME/.config/bacon ]]; then
+if [[ ! -h $HOME/.config/bacon ]]; then
   ln -s $DOTFILES/config/bacon $HOME/.config/bacon
 fi
 
-if [[ ! -d $HOME/.config/ghostty ]]; then
+if [[ ! -h $HOME/.config/ghostty ]]; then
   ln -s $DOTFILES/config/ghostty $HOME/.config/ghostty
 fi
 
-if [[ ! -d $HOME/.claude/settings.json ]]; then
+if [[ ! -h $HOME/.claude/settings.json ]]; then
+  mkdir -p $HOME/.claude
   ln -s $DOTFILES/config/claude/settings.json $HOME/.claude/settings.json
 fi
 
-if [[ ! -d $HOME/.local/share/applications ]]; then
-  ln -s $DOTFILES/applications/ $HOME/.local/share/applications
+if [[ ! -h $HOME/.local/share/applications ]]; then
+  mkdir -p $HOME/.local/share/
+  ln -s $DOTFILES/applications $HOME/.local/share/applications
 fi
 
-if [[ ! -d $HOME/.config/walker ]]; then
+if [[ ! -h $HOME/.config/walker ]]; then
   ln -s $DOTFILES/config/walker $HOME/.config/walker
 fi
 
-if [[ ! -d $HOME/.config/elephant ]]; then
+if [[ ! -h $HOME/.config/elephant ]]; then
   ln -s $DOTFILES/config/elephant $HOME/.config/elephant
 fi
 
-if [[ ! -d $HOME/.config/systemd ]]; then
+if [[ ! -h $HOME/.config/systemd ]]; then
   # ln -s $DOTFILES/systemd $HOME/.config/systemd
-  cp -r $DOTFILES/config/systemd/user $HOME/.config/systemd/user
+  mkdir -p $HOME/.config/systemd
+  cp -rf $DOTFILES/config/systemd/user $HOME/.config/systemd/user
 fi
 
-if [[ ! -d $HOME/.config/Typora ]]; then
+if [[ ! -h $HOME/.config/Typora ]]; then
   ln -s $DOTFILES/config/Typora $HOME/.config/Typora
 fi
 
-if [[ ! -d $HOME/.config/waybar ]]; then
+if [[ ! -h $HOME/.config/waybar ]]; then
   ln -s $DOTFILES/config/waybar $HOME/.config/waybar
 fi
 
-if [[ ! -d $HOME/.config/wofi ]]; then
+if [[ ! -h $HOME/.config/wofi ]]; then
   ln -s $DOTFILES/config/wofi $HOME/.config/wofi
 fi
 
-if [[ ! -d $HOME/.config/yay ]]; then
+if [[ ! -h $HOME/.config/yay ]]; then
   ln -s $DOTFILES/config/yay $HOME/.config/yay
 fi
 
-if [[ ! -d $HOME/.config/nautilus ]]; then
+if [[ ! -h $HOME/.config/nautilus ]]; then
   ln -s $DOTFILES/config/nautilus $HOME/.config/nautilus
 fi
 
-if [[ ! -d $HOME/.config/kitty ]]; then
+if [[ ! -h $HOME/.config/kitty ]]; then
   ln -s $DOTFILES/config/kitty $HOME/.config/kitty
 fi
 
-if [[ ! -d $HOME/.config/fcitx5 ]]; then
+if [[ ! -h $HOME/.config/fcitx5 ]]; then
   ln -s $DOTFILES/config/fcitx5 $HOME/.config/fcitx5
 fi
 
-if [[ ! -d $HOME/.config/fcitx ]]; then
+if [[ ! -h $HOME/.config/fcitx ]]; then
   ln -s $DOTFILES/config/fcitx $HOME/.config/fcitx
 fi
 
-if [[ ! -d $HOME/.config/niri ]]; then
+if [[ ! -h $HOME/.config/niri ]]; then
   ln -s $DOTFILES/config/niri $HOME/.config/niri
 fi
 
-if [[ ! -d $HOME/.config/fastfetch ]]; then
+if [[ ! -h $HOME/.config/fastfetch ]]; then
   ln -s $DOTFILES/config/fastfetch $HOME/.config/fastfetch
 fi
 
-if [[ ! -d $HOME/.config/alacritty ]]; then
+if [[ ! -h $HOME/.config/alacritty ]]; then
   ln -s $DOTFILES/config/alacritty $HOME/.config/alacritty
 fi
 
-if [[ ! -d $HOME/.config/btop ]]; then
+if [[ ! -h $HOME/.config/btop ]]; then
   ln -s $DOTFILES/config/btop $HOME/.config/btop
 fi
 
-if [[ ! -d $HOME/.config/environment.d ]]; then
+if [[ ! -h $HOME/.config/environment.d ]]; then
   ln -s $DOTFILES/config/environment.d $HOME/.config/environment.d
 fi
 
-if [[ ! -d $HOME/.config/fontconfig ]]; then
+if [[ ! -h $HOME/.config/fontconfig ]]; then
   ln -s $DOTFILES/config/fontconfig $HOME/.config/fontconfig
 fi
 
-if [[ ! -d $HOME/.config/lazydocker ]]; then
+if [[ ! -h $HOME/.config/lazydocker ]]; then
   ln -s $DOTFILES/config/lazydocker $HOME/.config/lazydocker
 fi
 
-if [[ ! -d $HOME/.config/lazygit ]]; then
+if [[ ! -h $HOME/.config/lazygit ]]; then
   ln -s $DOTFILES/config/lazygit $HOME/.config/lazygit
 fi
 
-if [[ ! -d $HOME/.config/xournalpp ]]; then
+if [[ ! -h $HOME/.config/xournalpp ]]; then
   ln -s $DOTFILES/config/xournalpp $HOME/.config/xournalpp
 fi
 
-if [[ ! -d $HOME/.config/wpaperd ]]; then
+if [[ ! -h $HOME/.config/wpaperd ]]; then
   ln -s $DOTFILES/config/wpaperd $HOME/.config/wpaperd
 fi

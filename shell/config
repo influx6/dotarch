@@ -9,6 +9,8 @@ alias paste-buffer="xclip -selection clipboard -o"
 
 export LANG=en_US.UTF-8
 
+export DOTFILES="$Dotfiles"
+
 # load functions first
 source $DOTFILES/shell/functions
 
