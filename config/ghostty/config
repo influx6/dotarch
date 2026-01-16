@@ -6,7 +6,7 @@ theme = Aura
 
 
 # Font
-font-family = "CaskaydiaMono Nerd Font"
+# font-family = "CaskaydiaMono Nerd Font"
 font-style = Regular
 font-size = 11
 

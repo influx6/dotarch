@@ -5,9 +5,9 @@ LITELLM_SALT_KEY=litellm-3efab3d2-e033-46fe-976f-f2f05115ef98
 ENABLE_NETWORK_MONITOR=true
 LOG_LEVEL=DEBUG
 
-if has_command "claude"; then
-    curl -fsSL https://claude.ai/install.sh | bash
-fi
+# if has_command "claude"; then
+#     curl -fsSL https://claude.ai/install.sh | bash
+# fi
 
 litellm_start(){
     if has_command "pip"; then
@@ -27,10 +27,10 @@ litellm_start(){
 }
 
 claude_start() {
-    ANTHROPIC_AUTH_TOKEN=$LITELLM_MASTER_KEY
-    ANTHROPIC_BASE_URL="http://localhost:4000"
-    ANTHROPIC_MODEL="claude-sonnet-4.5"
-    ANTHROPIC_SMALL_FAST_MODEL="gpt-4"
+    export ANTHROPIC_AUTH_TOKEN=$LITELLM_MASTER_KEY
+    export ANTHROPIC_BASE_URL="http://localhost:4000"
+    export ANTHROPIC_MODEL="claude-sonnet-4.5"
+    export ANTHROPIC_SMALL_FAST_MODEL="gpt-4"
     if no_command "claude"; then
         if has_command "npm"; then
             npm install -g @anthropic-ai/claude-code
