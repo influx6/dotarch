@@ -3,7 +3,7 @@
 yay -S --noconfirm --needed \
   gnome-calculator gnome-keyring signal-desktop \
   obsidian-bin libreoffice obs-studio kdenlive \
-  xournalpp localsend-bin
+  xournalpp localsend-bin htop sysstat iftop
 
 # Packages known to be flaky or having key signing issues are run one-by-one
 for pkg in pinta typora spotify zoom; do
