@@ -6,3 +6,15 @@ if no_command "atuin"; then
     curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 fi
 
+if has_command "atuin"; then
+    if is_bash; then
+        echo 'eval "$(atuin init bash)"' >> ~/.bashrc
+    elif is_zsh; then
+        echo 'eval "$(atuin init zsh)"' >> ~/.zshrc
+    elif is_fish; then
+        atuin init fish | source
+    else
+        echo "Mise: setup not called"
+    fi
+fi
+
