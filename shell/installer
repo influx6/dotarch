@@ -6,6 +6,7 @@ install_files=$Dotfiles/installers
 install_one(){
     if is_ubuntu; then
         location="$install_files/ubuntu/$1.sh"
+        echo "TryUbuntu: Executing: $location"
         if [ -e $location ]; then
             name=$(basename "$location")
             echo "Executing script: ${name} from $location"
@@ -13,6 +14,7 @@ install_one(){
             return 0
         fi
         location="$install_files/every/$1.sh"
+        echo "TryUbuntu: Executing: $location"
         if [ -e $location ]; then
             name=$(basename "$location")
             echo "Executing script: ${name} from $location"
@@ -21,6 +23,7 @@ install_one(){
     fi
     if is_archlinux; then
         location="$install_files/archlinux/$1.sh"
+        echo "TryArch: Executing: $location"
         if [ -e $location ]; then
             name=$(basename "$location")
             echo "Executing script: ${name} from $location"
@@ -28,6 +31,7 @@ install_one(){
             return 0
         fi
         location="$install_files/every/$1.sh"
+        echo "TryArch: Executing: $location"
         if [ -e $location ]; then
             name=$(basename "$location")
             echo "Executing script: ${name} from $location"
@@ -43,6 +47,7 @@ install_one(){
 install_all(){
     if is_ubuntu; then
         location="$install_files/ubuntu/$1"
+        echo "TryUbuntu: Executing: $location"
         if [ -d $location ]; then
             for f in "$location"/*.sh; do
             name=$(basename "$f")
@@ -52,6 +57,7 @@ install_all(){
             return 0
         fi
         location="$install_files/every/$1"
+        echo "TryUbuntu: Executing: $location"
         if [ -d $location ]; then
             for f in "$location"/*.sh; do
                 name=$(basename "$f")
@@ -62,6 +68,7 @@ install_all(){
     fi
     if is_archlinux; then
         location="$install_files/archlinux/$1"
+        echo "TryArch: Executing: $location"
         if [ -d $location ]; then
             for f in "$location"/*.sh; do
             name=$(basename "$f")
@@ -71,6 +78,7 @@ install_all(){
             return 0
         fi
         location="$install_files/every/$1"
+        echo "TryArch: Executing: $location"
         if [ -d $location ]; then
             for f in "$location"/*.sh; do
                 name=$(basename "$f")
