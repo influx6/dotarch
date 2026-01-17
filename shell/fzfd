@@ -2,14 +2,14 @@
 
 source $Dotfiles/shell/functions
 
-# install mise
+# install fzf
 if no_command "fzf"; then
     yay --noconfirm --needed fzf
 fi
 
 if has_command "fzf"; then
     if is_bash; then
-        echo "Mise activating bash"
+        echo "Fzf activating bash"
         eval "$(fzf --bash)"
     elif is_zsh; then
         eval "$(fzf --zsh)"
