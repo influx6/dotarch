@@ -1,0 +1,22 @@
+#!/bin/bash
+
+source $Dotfiles/shell/functions
+
+# install mise
+if no_command "fzf"; then
+    yay --noconfirm --needed fzf
+fi
+
+if has_command "fzf"; then
+    if is_bash; then
+        echo "Mise activating bash"
+        eval "$(fzf --bash)"
+    elif is_zsh; then
+        eval "$(fzf --zsh)"
+    elif is_fish; then
+        eval "$(fzf --fish)"
+    else
+        echo "fzf: setup not called"
+    fi
+fi
+
