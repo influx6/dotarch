@@ -1,5 +1,57 @@
 local diagnostics = vim.g.lazyvim_rust_diagnostics or "rust-analyzer"
 
+-- Add luarocks path for lua-toml
+package.path = package.path .. ";" .. vim.env.HOME .. "/.luarocks/share/lua/5.1/?.lua"
+package.path = package.path .. ";" .. vim.env.HOME .. "/.luarocks/share/lua/5.4/?.lua"
+
+--- Ensure lua-toml is installed via luarocks
+--- @return boolean success
+local function ensure_lua_toml_installed()
+  -- Check if already available
+  local ok = pcall(require, "toml")
+  if ok then
+    return true
+  end
+
+  -- Check if luarocks is available
+  if vim.fn.executable("luarocks") ~= 1 then
+    vim.notify("luarocks not found, cannot auto-install lua-toml", vim.log.levels.WARN)
+    return false
+  end
+
+  -- Install lua-toml
+  vim.notify("Installing lua-toml via luarocks...", vim.log.levels.INFO)
+  local result = vim.fn.system({ "luarocks", "--local", "install", "lua-toml" })
+  if vim.v.shell_error ~= 0 then
+    vim.notify("Failed to install lua-toml: " .. result, vim.log.levels.ERROR)
+    return false
+  end
+
+  vim.notify("lua-toml installed successfully", vim.log.levels.INFO)
+  return true
+end
+
+--- Safely require the toml parser
+--- @return table|nil toml module or nil if not available
+local function get_toml_parser()
+  local ok, toml = pcall(require, "toml")
+  if ok then
+    return toml
+  end
+
+  -- Try to install it
+  if ensure_lua_toml_installed() then
+    -- Clear cache and retry
+    package.loaded["toml"] = nil
+    ok, toml = pcall(require, "toml")
+    if ok then
+      return toml
+    end
+  end
+
+  return nil
+end
+
 --- Get the rust-analyzer log file path
 --- Uses XDG_STATE_HOME or falls back to ~/.local/state
 --- @return string log file path
@@ -15,23 +67,90 @@ local function get_rust_analyzer_logfile()
   return string.format("%s/rust-analyzer-%s.log", log_dir, date)
 end
 
---- Get the sysroot for the current project's toolchain
---- Respects rust-toolchain.toml if present in the project
---- @return string|nil sysroot path or nil if rustc not found
-local function get_rust_sysroot()
-  -- Run rustc --print sysroot from the current buffer's directory
-  -- This respects rust-toolchain.toml
-  local bufdir = vim.fn.expand("%:p:h")
-  if bufdir == "" then
-    bufdir = vim.uv.cwd()
+--- Get the toolchain channel from rust-toolchain.toml if present
+--- @param root_dir string|nil project root directory
+--- @return string|nil toolchain channel (e.g., "stable", "nightly", "1.75.0") or nil
+local function get_toolchain_from_project(root_dir)
+  if not root_dir then
+    return nil
   end
 
-  local result = vim.fn.systemlist({ "rustc", "--print", "sysroot" })
+  local toolchain_path = root_dir .. "/rust-toolchain.toml"
+  local stat = vim.uv.fs_stat(toolchain_path)
+
+  if not stat or stat.type ~= "file" then
+    -- Also check for rust-toolchain (without .toml extension)
+    toolchain_path = root_dir .. "/rust-toolchain"
+    stat = vim.uv.fs_stat(toolchain_path)
+    if not stat or stat.type ~= "file" then
+      return nil
+    end
+
+    -- Plain rust-toolchain file just contains the channel name
+    local file = io.open(toolchain_path, "r")
+    if not file then
+      return nil
+    end
+    local content = file:read("*all")
+    file:close()
+    return vim.fn.trim(content)
+  end
+
+  -- Parse rust-toolchain.toml
+  local file = io.open(toolchain_path, "r")
+  if not file then
+    return nil
+  end
+
+  local content = file:read("*all")
+  file:close()
+
+  local toml = get_toml_parser()
+  if not toml then
+    -- Fallback: simple pattern matching for channel
+    local channel = content:match('%[toolchain%].-channel%s*=%s*"([^"]+)"')
+    return channel
+  end
+
+  local ok, parsed = pcall(toml.parse, content)
+  if not ok or not parsed then
+    return nil
+  end
+
+  if parsed.toolchain and parsed.toolchain.channel then
+    return parsed.toolchain.channel
+  end
+
+  return nil
+end
+
+--- Get the sysroot for the current project's toolchain
+--- Reads rust-toolchain.toml if present, otherwise falls back to default rustup toolchain
+--- @param root_dir string|nil project root directory
+--- @return string|nil sysroot path or nil if rustc not found
+local function get_rust_sysroot(root_dir)
+  local toolchain = get_toolchain_from_project(root_dir)
+
+  local result
+  if toolchain then
+    -- Use the specific toolchain from rust-toolchain.toml
+    result = vim.fn.systemlist({ "rustup", "run", toolchain, "rustc", "--print", "sysroot" })
+    if vim.v.shell_error == 0 and result[1] then
+      return vim.fn.trim(result[1])
+    end
+    vim.notify(
+      string.format("Toolchain '%s' from rust-toolchain.toml not installed", toolchain),
+      vim.log.levels.WARN
+    )
+  end
+
+  -- Fallback: use default rustup toolchain
+  result = vim.fn.systemlist({ "rustc", "--print", "sysroot" })
   if vim.v.shell_error == 0 and result[1] then
     return vim.fn.trim(result[1])
   end
 
-  -- Fallback: try rustup default sysroot
+  -- Last resort: try stable
   result = vim.fn.systemlist({ "rustup", "run", "stable", "rustc", "--print", "sysroot" })
   if vim.v.shell_error == 0 and result[1] then
     return vim.fn.trim(result[1])
@@ -40,8 +159,40 @@ local function get_rust_sysroot()
   return nil
 end
 
+--- Get the sysroot source path for the current project's toolchain
+--- This is the path to the standard library source code
+--- @param root_dir string|nil project root directory
+--- @return string|nil sysroot source path or nil if not found
+local function get_rust_sysroot_src(root_dir)
+  local sysroot = get_rust_sysroot(root_dir)
+  if not sysroot then
+    return nil
+  end
+
+  -- Standard library source is at: <sysroot>/lib/rustlib/src/rust/library
+  local sysroot_src = sysroot .. "/lib/rustlib/src/rust/library"
+
+  -- Verify the path exists
+  local stat = vim.uv.fs_stat(sysroot_src)
+  if stat and stat.type == "directory" then
+    return sysroot_src
+  end
+
+  -- Fallback: try the older path format (pre-1.47)
+  sysroot_src = sysroot .. "/lib/rustlib/src/rust/src"
+  stat = vim.uv.fs_stat(sysroot_src)
+  if stat and stat.type == "directory" then
+    return sysroot_src
+  end
+
+  vim.notify(
+    "rust-src component not found. Install with: rustup component add rust-src",
+    vim.log.levels.WARN
+  )
+  return nil
+end
+
 --- Load environment variables from .cargo/config.toml if present
---- Handles both simple string values and table values with {value, relative, force}
 --- @param root_dir string|nil project root directory
 --- @return table<string, string> environment variables
 local function load_cargo_env(root_dir)
@@ -64,43 +215,30 @@ local function load_cargo_env(root_dir)
   local content = file:read("*all")
   file:close()
 
+  -- Try to use proper TOML parser
+  local toml = get_toml_parser()
+  if not toml then
+    vim.notify("lua-toml not installed, skipping .cargo/config.toml parsing", vim.log.levels.WARN)
+    return {}
+  end
+
+  local ok, parsed = pcall(toml.parse, content)
+  if not ok or not parsed then
+    vim.notify("Failed to parse .cargo/config.toml: " .. tostring(parsed), vim.log.levels.WARN)
+    return {}
+  end
+
   local env_vars = {}
-  local in_env_section = false
-
-  for line in content:gmatch("[^\r\n]+") do
-    -- Skip comments and empty lines
-    if not line:match("^%s*#") and not line:match("^%s*$") then
-      -- Check for section header
-      local section = line:match("^%s*%[([%w_%-%.]+)%]%s*$")
-      if section then
-        in_env_section = (section == "env")
-      elseif in_env_section then
-        -- Parse env variable definitions
-        -- Format 1: VAR_NAME = "value"
-        -- Format 2: VAR_NAME = { value = "path", relative = true, force = true }
-        local var_name, var_value = line:match("^%s*([%w_]+)%s*=%s*(.+)%s*$")
-        if var_name and var_value then
-          -- Check if it's a simple string value
-          local simple_value = var_value:match('^"([^"]*)"$')
-          if simple_value then
-            env_vars[var_name] = simple_value
-          else
-            -- Parse table format: { value = "...", relative = true/false, force = true/false }
-            local table_value = var_value:match('^{(.+)}$')
-            if table_value then
-              local value = table_value:match('value%s*=%s*"([^"]*)"')
-              local is_relative = table_value:match("relative%s*=%s*true") ~= nil
-
-              if value then
-                if is_relative then
-                  -- Make relative paths absolute based on project root
-                  env_vars[var_name] = root_dir .. "/" .. value
-                else
-                  env_vars[var_name] = value
-                end
-              end
-            end
-          end
+  if parsed.env then
+    for var_name, var_value in pairs(parsed.env) do
+      if type(var_value) == "string" then
+        env_vars[var_name] = var_value
+      elseif type(var_value) == "table" and var_value.value then
+        if var_value.relative then
+          -- Make relative paths absolute based on project root
+          env_vars[var_name] = root_dir .. "/" .. var_value.value
+        else
+          env_vars[var_name] = var_value.value
         end
       end
     end
@@ -144,60 +282,17 @@ local function load_rust_analyzer_toml()
   local content = file:read("*all")
   file:close()
 
-  -- Parse TOML manually (basic parser for rust-analyzer settings)
-  local settings = {}
-  local current_section = settings
+  -- Try to use proper TOML parser
+  local toml = get_toml_parser()
+  if not toml then
+    vim.notify("lua-toml not installed, skipping rust-analyzer.toml parsing", vim.log.levels.WARN)
+    return nil
+  end
 
-  for line in content:gmatch("[^\r\n]+") do
-    -- Skip comments and empty lines
-    if not line:match("^%s*#") and not line:match("^%s*$") then
-      -- Check for section header [section.subsection]
-      local section = line:match("^%s*%[([%w%.%-_]+)%]%s*$")
-      if section then
-        -- Navigate/create nested tables for the section
-        current_section = settings
-        for part in section:gmatch("[^%.]+") do
-          current_section[part] = current_section[part] or {}
-          current_section = current_section[part]
-        end
-      else
-        -- Parse key = value
-        local key, value = line:match("^%s*([%w_%.%-]+)%s*=%s*(.+)%s*$")
-        if key and value then
-          -- Parse the value
-          local parsed_value
-          if value == "true" then
-            parsed_value = true
-          elseif value == "false" then
-            parsed_value = false
-          elseif value:match("^%d+$") then
-            parsed_value = tonumber(value)
-          elseif value:match('^".*"$') then
-            parsed_value = value:sub(2, -2)
-          elseif value:match("^%[.*%]$") then
-            -- Parse simple array of strings
-            parsed_value = {}
-            for item in value:gmatch('"([^"]+)"') do
-              table.insert(parsed_value, item)
-            end
-          else
-            parsed_value = value
-          end
-
-          -- Handle dotted keys (e.g., "cargo.allFeatures")
-          local target = current_section
-          local parts = {}
-          for part in key:gmatch("[^%.]+") do
-            table.insert(parts, part)
-          end
-          for i = 1, #parts - 1 do
-            target[parts[i]] = target[parts[i]] or {}
-            target = target[parts[i]]
-          end
-          target[parts[#parts]] = parsed_value
-        end
-      end
-    end
+  local ok, settings = pcall(toml.parse, content)
+  if not ok or not settings then
+    vim.notify("Failed to parse rust-analyzer.toml: " .. tostring(settings), vim.log.levels.WARN)
+    return nil
   end
 
   vim.notify("Loaded rust-analyzer.toml from: " .. config_path, vim.log.levels.INFO)
@@ -513,12 +608,6 @@ return {
       local root_patterns = { "Cargo.toml", "rust-toolchain.toml", ".git" }
       local root_dir = vim.fs.root(0, root_patterns)
 
-      -- Set sysroot dynamically based on project's toolchain (respects rust-toolchain.toml)
-      local sysroot = get_rust_sysroot()
-      if sysroot then
-        opts.server.default_settings["rust-analyzer"].cargo.sysroot = sysroot
-      end
-
       -- Load environment variables from .cargo/config.toml
       local cargo_env = load_cargo_env(root_dir)
       if next(cargo_env) then
@@ -533,6 +622,21 @@ return {
         -- Merge project settings into opts.server.default_settings["rust-analyzer"]
         local ra_settings = opts.server.default_settings["rust-analyzer"] or {}
         opts.server.default_settings["rust-analyzer"] = deep_merge(ra_settings, project_settings)
+      end
+
+      -- Set sysroot dynamically based on project's toolchain (respects rust-toolchain.toml)
+      -- IMPORTANT: This is done AFTER loading rust-analyzer.toml to ensure we override
+      -- any "discover" or incorrect sysroot values from the project config
+      local sysroot = get_rust_sysroot(root_dir)
+      if sysroot then
+        opts.server.default_settings["rust-analyzer"].cargo.sysroot = sysroot
+      end
+
+      -- Set sysrootSrc dynamically for proper standard library navigation
+      local sysroot_src = get_rust_sysroot_src(root_dir)
+      if sysroot_src then
+        opts.server.default_settings["rust-analyzer"].cargo.sysrootSrc = sysroot_src
+        vim.notify("rust-analyzer sysrootSrc: " .. sysroot_src, vim.log.levels.DEBUG)
       end
 
       vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
