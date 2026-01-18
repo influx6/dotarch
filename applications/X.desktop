@@ -2,7 +2,7 @@
 Version=1.0
 Name=X
 Comment=X
-Exec=launch-webapp https://x.com/
+Exec=run-command launch-webapp https://x.com/
 Terminal=false
 Type=Application
 Icon=/home/darkvoid/.local/share/applications/icons/X.png

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+directory="$Dotfiles"
+
+command_binary="$1"
+shift
+command_args="$*"
+
+echo "Executing command: $command_binary $command_args"
+
+$directory/bin/$command_binary $command_args

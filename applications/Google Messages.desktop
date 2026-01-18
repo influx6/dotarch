@@ -2,7 +2,7 @@
 Version=1.0
 Name=Google Messages
 Comment=Google Messages
-Exec=launch-webapp https://messages.google.com/web/conversations
+Exec=run-command launch-webapp https://messages.google.com/web/conversations
 Terminal=false
 Type=Application
 Icon=/home/darkvoid/.local/share/applications/icons/Google Messages.png

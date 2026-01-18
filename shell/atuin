@@ -9,10 +9,13 @@ fi
 if has_command "atuin"; then
     if is_bash; then
         eval "$(atuin init bash)"
+        atuin import bash
     elif is_zsh; then
         eval "$(atuin init zsh)"
+        atuin import zsh
     elif is_fish; then
         atuin init fish | source
+        atuin import fish
     else
         echo "Mise: setup not called"
     fi

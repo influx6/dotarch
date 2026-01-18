@@ -2,7 +2,7 @@
 Version=1.0
 Name=Zoom
 Comment=Zoom
-Exec=webapp-handler-zoom %u
+Exec=run-command webapp-handler-zoom %u
 Terminal=false
 Type=Application
 Icon=/home/darkvoid/.local/share/applications/icons/Zoom.png

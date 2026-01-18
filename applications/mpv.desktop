@@ -40,7 +40,7 @@ Comment[tr]=Filmleri ve şarkıları oynatın
 Comment[zh_CN]=播放电影和歌曲
 Comment[zh_TW]=播放電影和歌曲
 Icon=mpv
-TryExec=mpv
+TryExec=run-command mpv
 Exec=mpv --player-operation-mode=pseudo-gui -- %U
 Terminal=false
 Categories=AudioVideo;Audio;Video;Player;TV;

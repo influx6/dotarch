@@ -6,4 +6,5 @@ yay -S --noconfirm --needed tree zoxide ripgrep exa fd fzf walker lazygit lazydo
 
 if no_command "atuin"; then 
 	curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+	yay -S --needed --noconfirm bash-preexec
 fi
