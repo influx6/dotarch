@@ -4,6 +4,11 @@ if [[ ! -h $HOME/.local/bin/run-command ]]; then
   ln -s $DOTFILES/bin/run-command $HOME/.local/bin/run-command
 fi
 
+if [[ ! -h $HOME/.config/rust-analyzer ]]; then
+  ln -s $DOTFILES/config/rust-analyzer $HOME/.config/rust-analyzer
+fi
+
+
 if [[ ! -h $HOME/.config/bacon ]]; then
   ln -s $DOTFILES/config/bacon $HOME/.config/bacon
 fi

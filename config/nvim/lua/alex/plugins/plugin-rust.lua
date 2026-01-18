@@ -1,5 +1,109 @@
 local diagnostics = vim.g.lazyvim_rust_diagnostics or "rust-analyzer"
 
+--- Load rust-analyzer.toml from project root if present
+--- @return table|nil settings table or nil if not found
+local function load_rust_analyzer_toml()
+  -- Find project root by looking for Cargo.toml or rust-analyzer.toml
+  local root_patterns = { "rust-analyzer.toml", "Cargo.toml", ".git" }
+  local root_dir = vim.fs.root(0, root_patterns)
+
+  if not root_dir then
+    return nil
+  end
+
+  local config_path = root_dir .. "/rust-analyzer.toml"
+  local stat = vim.uv.fs_stat(config_path)
+
+  if not stat or stat.type ~= "file" then
+    return nil
+  end
+
+  -- Read the file content
+  local file = io.open(config_path, "r")
+  if not file then
+    vim.notify("Failed to open rust-analyzer.toml", vim.log.levels.WARN)
+    return nil
+  end
+
+  local content = file:read("*all")
+  file:close()
+
+  -- Parse TOML manually (basic parser for rust-analyzer settings)
+  local settings = {}
+  local current_section = settings
+
+  for line in content:gmatch("[^\r\n]+") do
+    -- Skip comments and empty lines
+    if not line:match("^%s*#") and not line:match("^%s*$") then
+      -- Check for section header [section.subsection]
+      local section = line:match("^%s*%[([%w%.%-_]+)%]%s*$")
+      if section then
+        -- Navigate/create nested tables for the section
+        current_section = settings
+        for part in section:gmatch("[^%.]+") do
+          current_section[part] = current_section[part] or {}
+          current_section = current_section[part]
+        end
+      else
+        -- Parse key = value
+        local key, value = line:match("^%s*([%w_%.%-]+)%s*=%s*(.+)%s*$")
+        if key and value then
+          -- Parse the value
+          local parsed_value
+          if value == "true" then
+            parsed_value = true
+          elseif value == "false" then
+            parsed_value = false
+          elseif value:match("^%d+$") then
+            parsed_value = tonumber(value)
+          elseif value:match('^".*"$') then
+            parsed_value = value:sub(2, -2)
+          elseif value:match("^%[.*%]$") then
+            -- Parse simple array of strings
+            parsed_value = {}
+            for item in value:gmatch('"([^"]+)"') do
+              table.insert(parsed_value, item)
+            end
+          else
+            parsed_value = value
+          end
+
+          -- Handle dotted keys (e.g., "cargo.allFeatures")
+          local target = current_section
+          local parts = {}
+          for part in key:gmatch("[^%.]+") do
+            table.insert(parts, part)
+          end
+          for i = 1, #parts - 1 do
+            target[parts[i]] = target[parts[i]] or {}
+            target = target[parts[i]]
+          end
+          target[parts[#parts]] = parsed_value
+        end
+      end
+    end
+  end
+
+  vim.notify("Loaded rust-analyzer.toml from: " .. config_path, vim.log.levels.INFO)
+  return settings
+end
+
+--- Deep merge two tables, with t2 values taking precedence
+--- @param t1 table base table
+--- @param t2 table override table
+--- @return table merged table
+local function deep_merge(t1, t2)
+  local result = vim.deepcopy(t1)
+  for k, v in pairs(t2) do
+    if type(v) == "table" and type(result[k]) == "table" then
+      result[k] = deep_merge(result[k], v)
+    else
+      result[k] = v
+    end
+  end
+  return result
+end
+
 -- Find a way to run bacon in terminal
 -- BACON_SCRATCH = nil
 -- BACON_BUFFER = nil
@@ -128,7 +232,7 @@ return {
     lazy = false,
     version = vim.fn.has("nvim-0.10.0") == 0 and "^4" or false,
     -- root = { "Cargo.toml", "rust-project.json" },
-    ft = { "rust" },
+    -- ft = { "rust" },
     ensure_installed = { "bacon-ls", "bacon", "codelldb" },
     dependencies = {
       "mason.nvim",
@@ -203,7 +307,7 @@ return {
             cargo = {
               allFeatures = true,
               loadOutDirsFromCheck = true,
-              linkedProjects = true,
+              -- linkedProjects = true,
               buildScripts = {
                 enable = true,
               },
@@ -272,18 +376,32 @@ return {
       },
     },
     config = function(_, opts)
-      if LazyVim.has("mason.nvim") then
+      -- Check if mason.nvim is available using pcall
+      local mason_ok, _ = pcall(require, "mason")
+      if mason_ok then
         local codelldb = vim.fn.exepath("codelldb")
-        local codelldb_lib_ext = io.popen("uname"):read("*l") == "Linux" and ".so" or ".dylib"
-        local library_path = vim.fn.expand("$MASON/opt/lldb/lib/liblldb" .. codelldb_lib_ext)
-        opts.dap = {
-          adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb, library_path),
-        }
+        if codelldb ~= "" then
+          local codelldb_lib_ext = vim.uv.os_uname().sysname == "Linux" and ".so" or ".dylib"
+          local library_path = vim.fn.expand("$MASON/opt/lldb/lib/liblldb" .. codelldb_lib_ext)
+          opts.dap = {
+            adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb, library_path),
+          }
+        end
       end
+
+      -- Load project-specific rust-analyzer.toml if present
+      local project_settings = load_rust_analyzer_toml()
+      if project_settings then
+        -- Merge project settings into opts.server.default_settings["rust-analyzer"]
+        local ra_settings = opts.server.default_settings["rust-analyzer"] or {}
+        opts.server.default_settings["rust-analyzer"] = deep_merge(ra_settings, project_settings)
+      end
+
       vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
       if vim.fn.executable("rust-analyzer") == 0 then
-        LazyVim.error(
-          "**rust-analyzer** not found in PATH, please install it.\nhttps://rust-analyzer.github.io/",
+        vim.notify(
+          "rust-analyzer not found in PATH, please install it.\nhttps://rust-analyzer.github.io/",
+          vim.log.levels.ERROR,
           { title = "rustaceanvim" }
         )
       end

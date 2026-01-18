@@ -1,0 +1,108 @@
+# rust-analyzer configuration for ewe_platform
+# Enables LSP completions including C++ bindings from llama.cpp
+
+# Enable proc-macro support for better completions
+[procMacro]
+enable = true
+ignored = {}
+
+# Configure cargo settings
+[cargo]
+# Build with all features to ensure bindings are generated
+allFeatures = true
+# Load out-of-tree sources (needed for generated bindings)
+loadOutDirsFromCheck = true
+# Run build scripts to generate C++ bindings
+runBuildScripts = true
+# Set build script overrides if needed
+buildScripts.enable = true
+# Use sysroot for better completions
+sysroot = "discover"
+
+# Additional directories to watch for changes
+extraEnv = {}
+
+# Configure check on save
+[check]
+# Use clippy for additional lints
+command = "clippy"
+# Check all targets including build scripts
+allTargets = true
+# Include all features to ensure bindings are checked
+allFeatures = true
+
+# Completion settings
+[completion]
+# Enable auto-import suggestions
+autoimport.enable = true
+# Show completions from private items when appropriate
+privateEditable.enable = true
+# Full function signatures in completions
+callable.snippets = "fill_arguments"
+# Limit completion items for performance
+limit = 100
+
+# Inlay hints for better code understanding
+[inlayHints]
+# Show type hints for bindings
+bindingModeHints.enable = true
+# Show parameter names in function calls
+parameterHints.enable = true
+# Show type hints for variables
+typeHints.enable = true
+# Show chaining hints
+chainingHints.enable = true
+# Show closure return type hints
+closureReturnTypeHints.enable = "always"
+
+# Hover documentation
+[hover]
+# Show documentation on hover
+documentation.enable = true
+# Show keyword documentation
+documentation.keywords.enable = true
+
+# Diagnostics configuration
+[diagnostics]
+# Enable all diagnostics
+enable = true
+# Don't disable any diagnostics
+disabled = []
+
+# Linked projects - include the C++ bindings crate explicitly
+[linkedProjects]
+# rust-analyzer will auto-discover from Cargo.toml, but we ensure
+# the bindings crate is properly indexed
+
+# Rust files configuration
+[files]
+# Watch generated binding files in target directory
+watcher = "server"
+# Exclude large unnecessary directories from indexing
+excludeDirs = [
+    "tools/emsdk",
+    "tools/dawn",
+    "target/release",
+    ".git"
+]
+
+# Workspace configuration for the C++ bindings
+[workspace]
+# Load the entire workspace
+members = []
+
+# Experimental settings for better FFI/bindgen support
+[rustfmt]
+# Use project rustfmt config
+overrideCommand = []
+
+# Lens configuration
+[lens]
+# Show run lens for examples
+enable = true
+run.enable = true
+debug.enable = true
+implementations.enable = true
+references.adt.enable = true
+references.trait.enable = true
+references.method.enable = true
