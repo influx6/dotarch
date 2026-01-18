@@ -29,7 +29,7 @@ litellm_start(){
 claude_start() {
     export ANTHROPIC_AUTH_TOKEN=$LITELLM_MASTER_KEY
     export ANTHROPIC_BASE_URL="http://localhost:4000"
-    export ANTHROPIC_MODEL="claude-sonnet-4.5"
+    export ANTHROPIC_MODEL="claude-opus-4.5"
     export ANTHROPIC_SMALL_FAST_MODEL="gpt-4"
     if no_command "claude"; then
         if has_command "npm"; then

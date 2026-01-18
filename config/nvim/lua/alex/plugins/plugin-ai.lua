@@ -46,7 +46,7 @@ return {
 
   -- AI completion
   -- {
-  --
+
   --     "milanglacier/minuet-ai.nvim",
   --     config = function()
   --         -- provider = 'openai_fim_compatible',

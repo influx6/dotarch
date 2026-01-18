@@ -1,0 +1,21 @@
+[/]
+edge-tiling-offset=uint32 1
+enable-autotiling=true
+enable-tiling-system-windows-suggestions=true
+focus-window-down=['<Control>j']
+focus-window-left=['<Control>h']
+focus-window-right=['<Control>l']
+focus-window-up=['<Control>k']
+inner-gaps=uint32 4
+move-window-center=['<Super>c']
+move-window-down=['<Super>j']
+move-window-left=['<Super>h']
+move-window-right=['<Super>l']
+move-window-up=['<Super>k']
+outer-gaps=uint32 4
+selected-layouts=[['Layout 2'], ['Layout 2']]
+span-window-down=['<Super>bracketright']
+span-window-left=['<Super>minus']
+span-window-right=['<Super>equal']
+span-window-up=['<Super>bracketleft']
+window-use-custom-border-color=false

@@ -42,7 +42,7 @@ source $Dotfiles/shell/symlinks
 source $Dotfiles/shell/ghostty
 source $Dotfiles/shell/gitcrypt
 source $Dotfiles/shell/direnv
-source $Dotfiles/shell/atuin
+source $Dotfiles/shell/zoxide
 source $Dotfiles/shell/fzfd
 source $Dotfiles/shell/jj
 source $Dotfiles/shell/alias

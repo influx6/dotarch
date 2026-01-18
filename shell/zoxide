@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if no_command "zoxide"; then
+   curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+fi
+
+if has_command "zoxide"; then
+    if is_bash; then
+        echo "Zoxide: Init Bash"
+        eval "$(zoxide init bash)"
+    elif is_zsh; then
+        echo "Zoxide: Init Zsh"
+        eval "$(zoxide init zsh)"
+    elif is_fish; then
+        echo "Zoxide: Init Fish"
+        zoxide init fish | source
+    else
+        echo "Mise: setup not called"
+    fi
+fi
+

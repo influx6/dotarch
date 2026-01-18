@@ -91,9 +91,6 @@ return {
   },
 
   -- {
-  --     "danilamihailov/beacon.nvim",
-  -- },
-  -- {
   --   "Canop/nvim-bacon",
   --   config = function()
   --     require("bacon").setup({
@@ -106,21 +103,24 @@ return {
   -- },
 
   {
-    "Saecki/crates.nvim",
-    event = { "BufRead Cargo.toml" },
-    opts = {
-      completion = {
-        crates = {
-          enabled = true,
+    "saecki/crates.nvim",
+    -- event = { "BufRead Cargo.toml" },
+    config = function()
+      require("crates").setup({
+
+        completion = {
+          crates = {
+            enabled = true,
+          },
         },
-      },
-      lsp = {
-        enabled = true,
-        actions = true,
-        completion = true,
-        hover = true,
-      },
-    },
+        lsp = {
+          enabled = true,
+          actions = true,
+          completion = true,
+          hover = true,
+        },
+      })
+    end,
   },
 
   {
@@ -203,6 +203,7 @@ return {
             cargo = {
               allFeatures = true,
               loadOutDirsFromCheck = true,
+              linkedProjects = true,
               buildScripts = {
                 enable = true,
               },
