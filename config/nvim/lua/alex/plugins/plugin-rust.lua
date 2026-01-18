@@ -1,5 +1,121 @@
 local diagnostics = vim.g.lazyvim_rust_diagnostics or "rust-analyzer"
 
+--- Get the rust-analyzer log file path
+--- Uses XDG_STATE_HOME or falls back to ~/.local/state
+--- @return string log file path
+local function get_rust_analyzer_logfile()
+  local state_dir = vim.env.XDG_STATE_HOME or (vim.env.HOME .. "/.local/state")
+  local log_dir = state_dir .. "/nvim/rust-analyzer"
+
+  -- Ensure log directory exists
+  vim.fn.mkdir(log_dir, "p")
+
+  -- Use date-based log file name for easier debugging
+  local date = os.date("%Y-%m-%d")
+  return string.format("%s/rust-analyzer-%s.log", log_dir, date)
+end
+
+--- Get the sysroot for the current project's toolchain
+--- Respects rust-toolchain.toml if present in the project
+--- @return string|nil sysroot path or nil if rustc not found
+local function get_rust_sysroot()
+  -- Run rustc --print sysroot from the current buffer's directory
+  -- This respects rust-toolchain.toml
+  local bufdir = vim.fn.expand("%:p:h")
+  if bufdir == "" then
+    bufdir = vim.uv.cwd()
+  end
+
+  local result = vim.fn.systemlist({ "rustc", "--print", "sysroot" })
+  if vim.v.shell_error == 0 and result[1] then
+    return vim.fn.trim(result[1])
+  end
+
+  -- Fallback: try rustup default sysroot
+  result = vim.fn.systemlist({ "rustup", "run", "stable", "rustc", "--print", "sysroot" })
+  if vim.v.shell_error == 0 and result[1] then
+    return vim.fn.trim(result[1])
+  end
+
+  return nil
+end
+
+--- Load environment variables from .cargo/config.toml if present
+--- Handles both simple string values and table values with {value, relative, force}
+--- @param root_dir string|nil project root directory
+--- @return table<string, string> environment variables
+local function load_cargo_env(root_dir)
+  if not root_dir then
+    return {}
+  end
+
+  local config_path = root_dir .. "/.cargo/config.toml"
+  local stat = vim.uv.fs_stat(config_path)
+
+  if not stat or stat.type ~= "file" then
+    return {}
+  end
+
+  local file = io.open(config_path, "r")
+  if not file then
+    return {}
+  end
+
+  local content = file:read("*all")
+  file:close()
+
+  local env_vars = {}
+  local in_env_section = false
+
+  for line in content:gmatch("[^\r\n]+") do
+    -- Skip comments and empty lines
+    if not line:match("^%s*#") and not line:match("^%s*$") then
+      -- Check for section header
+      local section = line:match("^%s*%[([%w_%-%.]+)%]%s*$")
+      if section then
+        in_env_section = (section == "env")
+      elseif in_env_section then
+        -- Parse env variable definitions
+        -- Format 1: VAR_NAME = "value"
+        -- Format 2: VAR_NAME = { value = "path", relative = true, force = true }
+        local var_name, var_value = line:match("^%s*([%w_]+)%s*=%s*(.+)%s*$")
+        if var_name and var_value then
+          -- Check if it's a simple string value
+          local simple_value = var_value:match('^"([^"]*)"$')
+          if simple_value then
+            env_vars[var_name] = simple_value
+          else
+            -- Parse table format: { value = "...", relative = true/false, force = true/false }
+            local table_value = var_value:match('^{(.+)}$')
+            if table_value then
+              local value = table_value:match('value%s*=%s*"([^"]*)"')
+              local is_relative = table_value:match("relative%s*=%s*true") ~= nil
+
+              if value then
+                if is_relative then
+                  -- Make relative paths absolute based on project root
+                  env_vars[var_name] = root_dir .. "/" .. value
+                else
+                  env_vars[var_name] = value
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  if next(env_vars) then
+    vim.notify(
+      string.format("Loaded %d env vars from .cargo/config.toml", vim.tbl_count(env_vars)),
+      vim.log.levels.INFO
+    )
+  end
+
+  return env_vars
+end
+
 --- Load rust-analyzer.toml from project root if present
 --- @return table|nil settings table or nil if not found
 local function load_rust_analyzer_toml()
@@ -247,6 +363,9 @@ return {
         float_win_config = { auto_focus = true },
       },
       server = {
+        -- Custom log file location (instead of /tmp)
+        logfile = get_rust_analyzer_logfile(),
+
         on_attach = function(_, bufnr)
           vim.keymap.set("n", "<leader>dr", function()
             vim.cmd.RustLsp("debuggables")
@@ -313,6 +432,7 @@ return {
               },
               -- Reload rust-analyzer if the Cargo.toml/Cargo.lock file changes
               autoreload = true,
+              -- Sysroot will be set dynamically in config function
             },
 
             -- Add clippy lints for Rust if using rust-analyzer
@@ -387,6 +507,24 @@ return {
             adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb, library_path),
           }
         end
+      end
+
+      -- Find project root
+      local root_patterns = { "Cargo.toml", "rust-toolchain.toml", ".git" }
+      local root_dir = vim.fs.root(0, root_patterns)
+
+      -- Set sysroot dynamically based on project's toolchain (respects rust-toolchain.toml)
+      local sysroot = get_rust_sysroot()
+      if sysroot then
+        opts.server.default_settings["rust-analyzer"].cargo.sysroot = sysroot
+      end
+
+      -- Load environment variables from .cargo/config.toml
+      local cargo_env = load_cargo_env(root_dir)
+      if next(cargo_env) then
+        -- Merge with existing extraEnv or create new
+        local existing_env = opts.server.default_settings["rust-analyzer"].cargo.extraEnv or {}
+        opts.server.default_settings["rust-analyzer"].cargo.extraEnv = vim.tbl_extend("force", existing_env, cargo_env)
       end
 
       -- Load project-specific rust-analyzer.toml if present
