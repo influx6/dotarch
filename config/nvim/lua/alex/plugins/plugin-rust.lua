@@ -138,10 +138,7 @@ local function get_rust_sysroot(root_dir)
     if vim.v.shell_error == 0 and result[1] then
       return vim.fn.trim(result[1])
     end
-    vim.notify(
-      string.format("Toolchain '%s' from rust-toolchain.toml not installed", toolchain),
-      vim.log.levels.WARN
-    )
+    vim.notify(string.format("Toolchain '%s' from rust-toolchain.toml not installed", toolchain), vim.log.levels.WARN)
   end
 
   -- Fallback: use default rustup toolchain
@@ -185,10 +182,7 @@ local function get_rust_sysroot_src(root_dir)
     return sysroot_src
   end
 
-  vim.notify(
-    "rust-src component not found. Install with: rustup component add rust-src",
-    vim.log.levels.WARN
-  )
+  vim.notify("rust-src component not found. Install with: rustup component add rust-src", vim.log.levels.WARN)
   return nil
 end
 
@@ -450,6 +444,7 @@ return {
       "rcarriga/nvim-dap-ui",
       "mfussenegger/nvim-dap", -- The core DAP client
       "nvim-neotest/nvim-nio",
+      "adaszko/tree_climber_rust.nvim",
       "mason-org/mason-lspconfig.nvim",
       "neovim/nvim-lspconfig",
     },
@@ -462,6 +457,24 @@ return {
         logfile = get_rust_analyzer_logfile(),
 
         on_attach = function(_, bufnr)
+          vim.keymap.set("n", "<leader>cc", '<cmd>lua require("tree_climber_rust").init_selection()<CR>', {
+            noremap = true,
+            silent = true,
+            buffer = bufnr,
+          })
+
+          vim.keymap.set("n", "<leader>cn", '<cmd>lua require("tree_climber_rust").select_incremental()<CR>', {
+            noremap = true,
+            silent = true,
+            buffer = bufnr,
+          })
+
+          vim.keymap.set("n", "<leader>cN", '<cmd>lua require("tree_climber_rust").select_previous()<CR>', {
+            noremap = true,
+            silent = true,
+            buffer = bufnr,
+          })
+
           vim.keymap.set("n", "<leader>dr", function()
             vim.cmd.RustLsp("debuggables")
           end, { desc = "Rust Debuggables", buffer = bufnr })
