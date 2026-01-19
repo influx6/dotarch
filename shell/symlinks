@@ -1,6 +1,10 @@
 #!/bin/bash
 
 if [[ ! -h $HOME/.local/bin/run-command ]]; then
+  ln -s $DOTFILES/bin/run-command $HOME/.local/bin/launch-webapp
+fi
+
+if [[ ! -h $HOME/.local/bin/run-command ]]; then
   ln -s $DOTFILES/bin/run-command $HOME/.local/bin/run-command
 fi
 

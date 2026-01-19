@@ -3,7 +3,7 @@
 
 
 mise use -g fzf@latest
-mise use -g python@latest
+mise use -g python@3.12.10
 
 pip install wheel setuptools pip build installer
 

@@ -2,7 +2,7 @@
 Version=1.0
 Name=WhatsApp
 Comment=WhatsApp
-Exec=run-command launch-webapp https://web.whatsapp.com/
+Exec=/home/darkvoid/.local/bin/launch-webapp https://web.whatsapp.com/
 Terminal=false
 Type=Application
 Icon=/home/darkvoid/.local/share/applications/icons/WhatsApp.png
