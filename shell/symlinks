@@ -9,6 +9,10 @@ if [[ ! -h $HOME/.config/rust-analyzer ]]; then
 fi
 
 
+if [[ ! -h $HOME/.config/ashell ]]; then
+  ln -s $DOTFILES/config/ashell $HOME/.config/ashell
+fi
+
 if [[ ! -h $HOME/.config/bacon ]]; then
   ln -s $DOTFILES/config/bacon $HOME/.config/bacon
 fi
