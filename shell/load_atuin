@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+
+source $Dotfiles/shell/load_functions
+
+export PATH="$HOME/.atuin/bin:$PATH"
+
+# install mise
+if no_command "atuin"; then
+  curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+fi
+
+if has_command "mise"; then
+    if is_bash; then
+        echo "Atuin activating bash"
+        eval "$(atuin init bash)"
+    elif is_zsh; then
+        echo "Atuin activating zsh"
+        eval "$(atuin init zsh)"
+    elif is_fish; then
+        echo "Atuin activating fish"
+        atuin init fish | source
+    else
+        echo "Atuin: setup not called"
+    fi
+fi
+

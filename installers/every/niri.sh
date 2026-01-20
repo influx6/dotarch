@@ -65,6 +65,7 @@ sudo pacman -S --noconfirm --asdeps \
   niri xwayland-satellite xdg-desktop-portal-gtk alacritty \
   polkit-gnome wpaperd swww waypaper wallrizz hyprpaper
 
+
 yay -S --noconfirm python-imageio-ffmpeg nirius waybar-niri-taskbar ashell 
 
 # niri-companion:
@@ -82,4 +83,7 @@ cd -
 
 # curl -sSL https://hyprlax.com/install.sh | bash
 
-# systemctl --user add-wants niri.service 
+# Uncomment this if you want dms-shell instead
+#
+# yay -S --noconfirm dms-shell-bin
+# systemctl --user add-wants niri.service dms
