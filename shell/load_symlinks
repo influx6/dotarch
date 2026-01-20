@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Helper function to create symlinks safely
+# Usage: safe_symlink <source> <target>
+# Creates parent directories if needed, removes existing file/symlink if present
+safe_symlink() {
+  local source="$1"
+  local target="$2"
+
+  # Create parent directory if it doesn't exist
+  mkdir -p "$(dirname "$target")"
+
+  # Only create symlink if source exists and target is not already correctly linked
+  if [[ -e "$source" ]]; then
+    if [[ -L "$target" && "$(readlink "$target")" == "$source" ]]; then
+      # Already correctly linked, skip
+      return 0
+    fi
+    # Remove existing file/symlink and create new symlink
+    ln -sf "$source" "$target"
+  fi
+}
+
+safe_symlink "$DOTFILES/bin/run-command" "$HOME/.local/bin/launch-webapp"
+safe_symlink "$DOTFILES/bin/run-command" "$HOME/.local/bin/run-command"
+safe_symlink "$DOTFILES/config/rust-analyzer" "$HOME/.config/rust-analyzer"
+safe_symlink "$DOTFILES/config/ashell" "$HOME/.config/ashell"
+safe_symlink "$DOTFILES/config/bacon" "$HOME/.config/bacon"
+safe_symlink "$DOTFILES/config/ghostty" "$HOME/.config/ghostty"
+safe_symlink "$DOTFILES/config/claude/settings.json" "$HOME/.claude/settings.json"
+safe_symlink "$DOTFILES/applications" "$HOME/.local/share/applications"
+safe_symlink "$DOTFILES/config/walker" "$HOME/.config/walker"
+safe_symlink "$DOTFILES/config/elephant" "$HOME/.config/elephant"
+safe_symlink "$DOTFILES/config/Typora" "$HOME/.config/Typora"
+safe_symlink "$DOTFILES/config/waybar" "$HOME/.config/waybar"
+safe_symlink "$DOTFILES/config/wofi" "$HOME/.config/wofi"
+safe_symlink "$DOTFILES/config/yay" "$HOME/.config/yay"
+safe_symlink "$DOTFILES/config/nautilus" "$HOME/.config/nautilus"
+safe_symlink "$DOTFILES/config/kitty" "$HOME/.config/kitty"
+safe_symlink "$DOTFILES/config/fcitx5" "$HOME/.config/fcitx5"
+safe_symlink "$DOTFILES/config/fcitx" "$HOME/.config/fcitx"
+safe_symlink "$DOTFILES/config/niri" "$HOME/.config/niri"
+safe_symlink "$DOTFILES/config/fastfetch" "$HOME/.config/fastfetch"
+safe_symlink "$DOTFILES/config/alacritty" "$HOME/.config/alacritty"
+safe_symlink "$DOTFILES/config/btop" "$HOME/.config/btop"
+safe_symlink "$DOTFILES/config/environment.d" "$HOME/.config/environment.d"
+safe_symlink "$DOTFILES/config/fontconfig" "$HOME/.config/fontconfig"
+safe_symlink "$DOTFILES/config/lazydocker" "$HOME/.config/lazydocker"
+safe_symlink "$DOTFILES/config/lazygit" "$HOME/.config/lazygit"
+safe_symlink "$DOTFILES/config/xournalpp" "$HOME/.config/xournalpp"
+safe_symlink "$DOTFILES/config/wpaperd" "$HOME/.config/wpaperd"
+
+# Special case: systemd needs to copy files, not symlink
+if [[ ! -h $HOME/.config/systemd ]]; then
+  mkdir -p $HOME/.config/systemd
+  \cp -u -r -f $DOTFILES/config/systemd/user $HOME/.config/systemd/user
+fi

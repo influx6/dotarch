@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source $Dotfiles/shell/functions
+source $Dotfiles/shell/load_functions
 
 if no_command "ulauncher"; then
 	mkidr -p ~/apps

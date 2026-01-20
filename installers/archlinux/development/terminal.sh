@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $DOTFILES/shell/functions
+source $DOTFILES/shell/load_functions
 
 yay -S --noconfirm --needed \
   wget curl unzip inetutils impala \

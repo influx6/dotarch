@@ -12,7 +12,7 @@ export LANG=en_US.UTF-8
 export DOTFILES="$Dotfiles"
 
 # load functions first
-source $DOTFILES/shell/functions
+source $DOTFILES/shell/load_functions
 
 # then others
 
@@ -29,55 +29,55 @@ fi
 # don't use the path within the shell/functions
 # as they need to be first to prepare
 # custom functions we want to use.
-source $Dotfiles/shell/paths
+source $Dotfiles/shell/load_paths
 
-source $Dotfiles/shell/clauderc
-source $Dotfiles/shell/zellij
-source $Dotfiles/shell/installer
-source $Dotfiles/shell/autocomplete
-source $Dotfiles/shell/systemd
-source $Dotfiles/shell/brew
-source $Dotfiles/shell/mised
-source $Dotfiles/shell/symlinks
-source $Dotfiles/shell/ghostty
-source $Dotfiles/shell/gitcrypt
-source $Dotfiles/shell/direnv
-source $Dotfiles/shell/zoxide
-source $Dotfiles/shell/fzfd
-source $Dotfiles/shell/jj
-source $Dotfiles/shell/alias
-source $Dotfiles/shell/omakub
-source $Dotfiles/shell/neovim
-source $Dotfiles/shell/dotnet
-source $Dotfiles/shell/sops
-source $Dotfiles/shell/exits
-source $Dotfiles/shell/ca
-source $Dotfiles/shell/tmux
-source $Dotfiles/shell/cargo
-source $Dotfiles/shell/deno
-source $Dotfiles/shell/ssh
-source $Dotfiles/shell/sha
-source $Dotfiles/shell/golang
-source $Dotfiles/shell/git
-source $Dotfiles/shell/kubectl
-source $Dotfiles/shell/net
-source $Dotfiles/shell/android
-source $Dotfiles/shell/docker
-source $Dotfiles/shell/microk8s
-source $Dotfiles/shell/python
-source $Dotfiles/shell/flutter
-source $Dotfiles/shell/sdkman
-source $Dotfiles/shell/ssh-agent
-source $Dotfiles/shell/ansible
-source $Dotfiles/shell/nodejs
-source $Dotfiles/shell/rust
-source $Dotfiles/shell/wasm
-source $Dotfiles/shell/youtube
-source $Dotfiles/shell/nvidia
-source $Dotfiles/shell/gnome-hotkeys
-source $Dotfiles/shell/aider
-source $Dotfiles/shell/vscode
-source $Dotfiles/shell/zed
+source $Dotfiles/shell/load_clauderc
+source $Dotfiles/shell/load_zellij
+source $Dotfiles/shell/load_installer
+source $Dotfiles/shell/load_autocomplete
+source $Dotfiles/shell/load_systemd
+source $Dotfiles/shell/load_brew
+source $Dotfiles/shell/load_mised
+source $Dotfiles/shell/load_symlinks
+source $Dotfiles/shell/load_ghostty
+source $Dotfiles/shell/load_gitcrypt
+source $Dotfiles/shell/load_direnv
+source $Dotfiles/shell/load_zoxide
+source $Dotfiles/shell/load_fzfd
+source $Dotfiles/shell/load_jj
+source $Dotfiles/shell/load_alias
+source $Dotfiles/shell/load_omakub
+source $Dotfiles/shell/load_neovim
+source $Dotfiles/shell/load_dotnet
+source $Dotfiles/shell/load_sops
+source $Dotfiles/shell/load_exits
+source $Dotfiles/shell/load_ca
+source $Dotfiles/shell/load_tmux
+source $Dotfiles/shell/load_cargo
+source $Dotfiles/shell/load_deno
+source $Dotfiles/shell/load_ssh
+source $Dotfiles/shell/load_sha
+source $Dotfiles/shell/load_golang
+source $Dotfiles/shell/load_git
+source $Dotfiles/shell/load_kubectl
+source $Dotfiles/shell/load_net
+source $Dotfiles/shell/load_android
+source $Dotfiles/shell/load_docker
+source $Dotfiles/shell/load_microk8s
+source $Dotfiles/shell/load_python
+source $Dotfiles/shell/load_flutter
+source $Dotfiles/shell/load_sdkman
+source $Dotfiles/shell/load_ssh_agent
+source $Dotfiles/shell/load_ansible
+source $Dotfiles/shell/load_nodejs
+source $Dotfiles/shell/load_rust
+source $Dotfiles/shell/load_wasm
+source $Dotfiles/shell/load_youtube
+source $Dotfiles/shell/load_nvidia
+source $Dotfiles/shell/load_gnome_hotkeys
+source $Dotfiles/shell/load_aider
+source $Dotfiles/shell/load_vscode
+source $Dotfiles/shell/load_zed
 
 # bash completion
-source $Dotfiles/shell/bash_completions
+source $Dotfiles/shell/load_bash_completions

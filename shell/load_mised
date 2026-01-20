@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $Dotfiles/shell/functions
+source $Dotfiles/shell/load_functions
 
 # install mise
 if no_command mise; then

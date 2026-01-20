@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $Dotfiles/shell/functions
+source $Dotfiles/shell/load_functions
 
 # install fzf
 if no_command "fzf"; then

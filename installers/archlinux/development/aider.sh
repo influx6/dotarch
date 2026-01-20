@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $DOTFILES/shell/functions
+source $DOTFILES/shell/load_functions
 
 if no_command aider; then
     if has_command pip; then

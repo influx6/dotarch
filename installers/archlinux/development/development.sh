@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $DOTFILES/shell/functions
+source $DOTFILES/shell/load_functions
 source $DOTFILES/installers/every/brew.sh
 
 yay -S --noconfirm --needed \

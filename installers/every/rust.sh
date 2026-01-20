@@ -1,6 +1,6 @@
 #!/bin/env bash
 
-source $DOTFILES/shell/functions
+source $DOTFILES/shell/load_functions
 
 # install rustlang
 if no_command rustup; then

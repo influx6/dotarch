@@ -26,6 +26,50 @@ litellm_start(){
     fi
 }
 
+ollama_start(){
+    if has_command "brew"; then
+        if no_command "ollama"; then
+            echo "Installing ollama"
+            sudo pacman -S --noconfirm ollama-cuda cuda nvtop 
+        fi
+    else
+        echo "Unable to install ollama with brew, please setup"
+    fi
+
+    if no_command "ollama"; then
+        echo "No ollama for me to run with"
+    else
+        # # First, create the array
+        # mapfile -t GPU_UUIDS < <(nvidia-smi -L | grep -oP '(?<=UUID: )GPU-[a-f0-9-]+')
+        #
+        # # Method 2: Join with comma
+        # IFS=',' GPU_UUIDS_COMMA="${GPU_UUIDS[*]}"
+        # echo "Identified GPU UUDs: $GPU_UUIDS_COMMA"
+        #
+        # export CUDA_VISIBLE_DEVICES="$GPU_UUIDS_COMMA"
+        # echo "Setting CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
+
+        ollama serve
+    fi
+}
+
+
+claude_llama_start() {
+    export ANTHROPIC_AUTH_TOKEN=ollama
+    export ANTHROPIC_BASE_URL=http://localhost:11434
+
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        claude
+    fi
+}
+
 claude_start() {
     export ANTHROPIC_AUTH_TOKEN="$LITELLM_MASTER_KEY"
     export ANTHROPIC_BASE_URL="http://localhost:4000"
