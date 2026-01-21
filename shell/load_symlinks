@@ -24,6 +24,7 @@ safe_symlink() {
 safe_symlink "$DOTFILES/bin/run-command" "$HOME/.local/bin/launch-webapp"
 safe_symlink "$DOTFILES/bin/run-command" "$HOME/.local/bin/run-command"
 safe_symlink "$DOTFILES/config/rust-analyzer" "$HOME/.config/rust-analyzer"
+safe_symlink "$DOTFILES/config/fuzzel" "$HOME/.config/fuzzel"
 safe_symlink "$DOTFILES/config/ashell" "$HOME/.config/ashell"
 safe_symlink "$DOTFILES/config/bacon" "$HOME/.config/bacon"
 safe_symlink "$DOTFILES/config/ghostty" "$HOME/.config/ghostty"

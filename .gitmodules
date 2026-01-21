@@ -34,3 +34,6 @@
 [submodule "tmux/plugins/tmux-sessionx"]
 	path = tmux/plugins/tmux-sessionx
 	url = https://github.com/omerxx/tmux-sessionx
+[submodule "config/fuzzel/catppuccin"]
+	path = config/fuzzel/catppuccin
+	url = git@github.com:catppuccin/fuzzel.git

@@ -53,6 +53,7 @@ sudo pacman -S --noconfirm --asdeps \
   python-imageio-ffmpeg  \
   mako  nwg-look greetd \
   alacritty \
+  walker elephant \
   swaybg \
   swayidle \
   swaylock-effects \
@@ -82,6 +83,9 @@ cargo install --path ./swaytreesave
 cd -
 
 # curl -sSL https://hyprlax.com/install.sh | bash
+
+yay -S --noconfirm freetype2 harfbuzz cairo pango wayland libxkbcommon anyrun rofi tofi bemenu
+
 
 # Uncomment this if you want dms-shell instead
 #
