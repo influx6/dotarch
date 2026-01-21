@@ -26,6 +26,7 @@ litellm_start(){
     fi
 }
 
+
 ollama_start(){
     if has_command "brew"; then
         if no_command "ollama"; then
@@ -62,15 +63,15 @@ reset_claude_environment_variables(){
 }
 
 claude_llama_start() {
-    reset_claude_environment_variables
+    reset_claude_environment_variables .
 
     export ANTHROPIC_AUTH_TOKEN="ollama"
     export ANTHROPIC_BASE_URL="http://localhost:11434"
 
     model="$1"
     if [[ -z $model ]]; then 
-        # model="gpt-oss:20b"
-        model="qwen3-coder:30b"
+        model="gpt-oss:20b"
+        # model="qwen3-coder:30b"
     fi
 
     if no_command "claude"; then
@@ -81,6 +82,58 @@ claude_llama_start() {
         fi
     else
         claude --model "$model"
+    fi
+}
+
+opencode_start(){
+    reset_claude_environment_variables
+
+    if has_command "curl"; then
+        if no_command "opencode"; then
+            echo "Installing opencode"
+            curl -fsSL https://opencode.ai/install | bash
+        fi
+    else
+        echo "Unable to install opencode with curl, please setup"
+    fi
+
+    if no_command "opencode"; then
+        echo "No opencode for me to run with"
+    else
+        opencode 
+    fi
+}
+
+opencode_ralph(){
+    reset_claude_environment_variables
+
+    if has_command "curl"; then
+        if no_command "opencode"; then
+            echo "Installing opencode"
+            curl -fsSL https://opencode.ai/install | bash
+        fi
+    else
+        echo "Unable to install opencode with curl, please setup"
+    fi
+
+    model="$1"
+    shift
+    prompt_type="$1"
+    shift
+    prompt_data="$*"
+
+    if no_command "opencode"; then
+        echo "No opencode for me to run with"
+    else
+        if [[ $prompt_type == "file" ]]; then 
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            cat $prompt_data | opencode run --model "$model" --dangerously-skip-permissions
+        elif [[ $prompt_type == "message" ]]; then 
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            echo "$prompt_data" | opencode run --model "$model"  --dangerously-skip-permissions
+        else
+            echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
+        fi
     fi
 }
 
