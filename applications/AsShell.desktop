@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=AShell
+Comment=AShell
+Exec=ashell
+Terminal=false
+Type=Application
+Icon=/home/darkvoid/.local/share/applications/icons/ashell.jpg
+StartupNotify=true
