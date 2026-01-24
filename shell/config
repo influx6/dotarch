@@ -32,7 +32,7 @@ fi
 source $Dotfiles/shell/load_paths
 
 source $Dotfiles/shell/load_atuin
-source $Dotfiles/shell/load_clauderc
+source $Dotfiles/shell/load_ai
 source $Dotfiles/shell/load_zellij
 source $Dotfiles/shell/load_installer
 source $Dotfiles/shell/load_autocomplete

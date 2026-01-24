@@ -5,9 +5,46 @@ LITELLM_SALT_KEY=litellm-3efab3d2-e033-46fe-976f-f2f05115ef98
 ENABLE_NETWORK_MONITOR=true
 LOG_LEVEL=DEBUG
 
+export LLAMA_CPP_BIN="$HOME/app/llama.cpp/build/bin/"
+export PATH="$LLAMA_CPP_BIN:$PATH"
+
 # if has_command "claude"; then
 #     curl -fsSL https://claude.ai/install.sh | bash
 # fi
+
+export MODEL_LOCATIONS="$HOME/Boxxed/@dev/models"
+
+unsloth_glm_start(){
+    python3 -m sglang.launch_server \
+        --model-path "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash" \
+        --tp-size 4 \
+        --tool-call-parser glm47  \
+        --reasoning-parser glm45 \
+        --speculative-algorithm EAGLE \
+        --speculative-num-steps 3 \
+        --speculative-eagle-topk 1 \
+        --speculative-num-draft-tokens 4 \
+        --mem-fraction-static 0.8 \
+        --served-model-name glm-4.7-flash \
+        --host 0.0.0.0 \
+        --port 8000
+}
+
+glm_start(){
+    python3 -m sglang.launch_server \
+        --model-path "$MODEL_LOCATIONS/zai-org/GLM-4.7-Flash" \
+        --tp-size 4 \
+        --tool-call-parser glm47  \
+        --reasoning-parser glm45 \
+        --speculative-algorithm EAGLE \
+        --speculative-num-steps 3 \
+        --speculative-eagle-topk 1 \
+        --speculative-num-draft-tokens 4 \
+        --mem-fraction-static 0.8 \
+        --served-model-name glm-4.7-flash \
+        --host 0.0.0.0 \
+        --port 8000
+}
 
 litellm_start(){
     if has_command "pip"; then
