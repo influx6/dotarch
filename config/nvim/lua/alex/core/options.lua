@@ -69,3 +69,6 @@ vim.g.lazyvim_python_lsp = "pyright"
 
 -- Support proper session restoration
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
+-- Enable automatic reading of file when changed outside of Neovim, if the buffer is not modified
+vim.opt.autoread = true

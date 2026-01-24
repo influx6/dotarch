@@ -29,3 +29,11 @@ vim.api.nvim_create_autocmd("TermOpen", {
     vim.opt.relativenumber = true
   end,
 })
+
+-- Check for changes on events like gaining focus or cursor movement
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  group = vim.api.nvim_create_augroup("checktime_group", { clear = true }),
+  callback = function()
+    vim.cmd("checktime")
+  end,
+})

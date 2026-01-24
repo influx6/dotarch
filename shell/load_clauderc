@@ -133,10 +133,10 @@ opencode_ralph(){
     else
         if [[ $prompt_type == "file" ]]; then 
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            cat $prompt_data | opencode run --model "$model" --dangerously-skip-permissions
+            cat $prompt_data | opencode run --model "$model" 
         elif [[ $prompt_type == "message" ]]; then 
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            echo "$prompt_data" | opencode run --model "$model"  --dangerously-skip-permissions
+            echo "$prompt_data" | opencode run --model "$model"
         else
             echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
         fi
