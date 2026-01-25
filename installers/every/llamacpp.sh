@@ -9,7 +9,6 @@ sudo pacman -S --noconfirm --needed pciutils base-devel cmake curl \
 
 yay -Sy --noconfirm --needed rocm-hip-sdk rocm-hip-libraries rocm-hip-runtime
 
-pip install sglang
 
 mkdir $HOME/apps
 cd $HOME/apps
@@ -24,12 +23,13 @@ cmake llama.cpp -B llama.cpp/build \
 
 cmake --build llama.cpp/build --config Release -j --clean-first --target llama-cli llama-mtmd-cli llama-server llama-gguf-split
 
-export LLAMA_CPP_BIN="$HOME/app/llama.cpp/build/bin/"
+export LLAMA_CPP_BIN="$HOME/apps/llama.cpp/build/bin/"
 export PATH="$LLAMA_CPP_BIN:$PATH"
 
 cd -
 
 pip install huggingface_hub hf_transfer
+pip install sglang
 pip install git+https://github.com/huggingface/transformers.git
 
 git config --global credential.helper store

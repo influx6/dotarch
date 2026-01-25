@@ -5,18 +5,137 @@ LITELLM_SALT_KEY=litellm-3efab3d2-e033-46fe-976f-f2f05115ef98
 ENABLE_NETWORK_MONITOR=true
 LOG_LEVEL=DEBUG
 
-export LLAMA_CPP_BIN="$HOME/app/llama.cpp/build/bin/"
+export LLAMA_CPP_BIN="$HOME/apps/llama.cpp/build/bin/"
 export PATH="$LLAMA_CPP_BIN:$PATH"
-
-# if has_command "claude"; then
-#     curl -fsSL https://claude.ai/install.sh | bash
-# fi
 
 export MODEL_LOCATIONS="$HOME/Boxxed/@dev/models"
 
-unsloth_glm_start(){
+reset_claude_environment_variables(){
+    unset ANTHROPIC_AUTH_TOKEN
+    unset ANTHROPIC_BASE_URL
+    unset ANTHROPIC_MODEL
+    unset ANTHROPIC_SMALL_FAST_MODEL
+    unset CLAUDE_CODE_MAX_OUTPUT_TOKENS
+}
+
+llamacpp_glm_start(){
+    which_file="$1"
+    if [[ -z $which_file ]]; then
+        # Too big: 
+        #
+        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # which_file="GLM-4.7-Flash-Q4_K_S.gguf"
+        # which_file="GLM-4.7-Flash-Q3_K_M.gguf"
+        #
+        # Smaller models with good precision
+        # which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        # which_file="GLM-4.7-Flash-UD-Q2_K_XL.gguf"
+        which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        # which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+    fi
+
+    # For general use-case:  --temp 1.0 --top-p 0.95
+    # For tool-calling:  --temp 0.7 --top-p 1.0
+    # Default ctx: --ctx-size 16384 \
+    # Other arguments you can use:
+    #
+    # --ctx-size 202752 \
+    # --n-gpu-layers 99 \
+    #
+    # context size =   202752
+    # output tokens =  128000
+    # output tokens =  64000
+    # recomended was = 16384
+
+    llama-server \
+    --model "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash-GGUF/${which_file}" \
+    --alias "unsloth/GLM-4.7-Flash" \
+    --flash-attn auto \
+    --threads -1 \
+    --seed 3407 \
+    --temp 0.6 \
+    --top-p 1.0 \
+    --min-p 0.01 \
+    --fit on \
+    --sleep-idle-seconds 600 \
+    --repeat-penalty 1.0 \
+    --ctx-size 128000 \
+    --port 8001 \
+    --jinja
+}
+
+
+claude_llamacpp_start() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="llamacpp"
+    export ANTHROPIC_BASE_URL="http://localhost:8001"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+
+    model="$1"
+    if [[ -z $model ]]; then 
+        model="unsloth/GLM-4.7-Flash"
+    fi
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        claude --model "$model"
+    fi
+}
+
+claude_llamacpp_ralph() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="llamacpp"
+    export ANTHROPIC_BASE_URL="http://localhost:8001"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+    # context size =   202752
+    # output tokens =  64000
+    # recomended was = 16384
+
+    prompt_type="$1"
+    shift
+    prompt_data="$*"
+
+    model="unsloth/GLM-4.7-Flash"
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        if [[ $prompt_type == "file" ]]; then 
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            cat $prompt_data | claude --dangerously-skip-permissions --model=$model
+        elif [[ $prompt_type == "message" ]]; then 
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
+        else
+            echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
+        fi
+    fi
+}
+
+
+sglang_unsloth_glm_start(){
+    which_file="$1"
+    if [[ -z $which_file ]]; then
+        which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+    fi
+
+    # --model-path "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash/${which_file}" \
+
     python3 -m sglang.launch_server \
-        --model-path "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash" \
+        --model-path "zai-org/GLM-4.7-Flash"
         --tp-size 4 \
         --tool-call-parser glm47  \
         --reasoning-parser glm45 \
@@ -29,6 +148,7 @@ unsloth_glm_start(){
         --host 0.0.0.0 \
         --port 8000
 }
+
 
 glm_start(){
     python3 -m sglang.launch_server \
@@ -91,15 +211,8 @@ ollama_start(){
     fi
 }
 
-reset_claude_environment_variables(){
-    unset ANTHROPIC_AUTH_TOKEN
-    unset ANTHROPIC_BASE_URL
-    unset ANTHROPIC_MODEL
-    unset ANTHROPIC_SMALL_FAST_MODEL
-    unset CLAUDE_CODE_MAX_OUTPUT_TOKENS
-}
 
-claude_llama_start() {
+claude_ollama_start() {
     reset_claude_environment_variables .
 
     export ANTHROPIC_AUTH_TOKEN="ollama"
