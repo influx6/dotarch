@@ -18,22 +18,339 @@ reset_claude_environment_variables(){
     unset CLAUDE_CODE_MAX_OUTPUT_TOKENS
 }
 
-llamacpp_glm_start(){
+hf_download(){
+    repo="$1"
+    hf download --local-dir="$HOME/Boxxed/@dev/models/$repo" $repo
+}
+
+
+llamacpp_qwen3_thinking_start(){
+    model_file="$1"
+    if [[ -z $model_file ]]; then
+        # model_file="Qwen3-4B-Instruct-2507-UD-Q8_K_XL.gguf"
+        model_file="Qwen3-4B-Thinking-2507-F16.gguf"
+    fi
+
+    which_temp="$2"
+    if [[ -z $which_file ]]; then
+        which_temp="0.6"
+    fi
+
+    model_dir="unsloth/Qwen3-4B-Thinking-2507-GGUF"
+    model_alias="Qwen3-4B"
+
+    # For general use-case:  --temp 1.0 --top-p 0.95
+    # For tool-calling:  --temp 0.7 --top-p 1.0
+    # Default ctx: --ctx-size 16384 \
+    # Other arguments you can use:
+    #
+    # --ctx-size 202752 \
+    # --n-gpu-layers 99 \
+    #
+    # context size =   202752
+    # output tokens =  128000
+    # output tokens =  64000
+    # recomended was = 16384
+    #
+    #
+    # Offloading
+    #
+    #If you have more VRAM, you can try offloading more MoE layers, or offloading whole layers themselves.
+    #
+    # Normally, -ot ".ffn_.*_exps.=CPU" offloads all MoE layers to the CPU! This effectively allows you 
+    # to fit all non MoE layers on 1 GPU, improving generation speeds. You can customize the regex expression 
+    # to fit more layers if you have more GPU capacity.
+    #
+    # If you have a bit more GPU memory, try -ot ".ffn_(up|down)_exps.=CPU" This offloads up and down projection MoE layers.
+    #
+    # Try -ot ".ffn_(up)_exps.=CPU" if you have even more GPU memory. This offloads only up projection MoE layers.
+    #
+    # You can also customize the regex, for example -ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU" 
+    # means to offload gate, up and down MoE layers but only from the 6th layer onwards.
+    #
+
+    llama-server \
+    --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
+    --alias "$model_alias" \
+    --fit on \
+    --n-gpu-layers 99 \
+    --threads -1 \
+    --seed 3407 \
+    --temp $which_temp \
+    --top-p 0.95 \
+    --top-k 20 \
+    --min-p 0.00 \
+    --repeat-penalty 1.0 \
+    --sleep-idle-seconds 600 \
+    --ctx-size 128000 \
+    --port 8001 \
+    --jinja
+    # --jinja -ot ".ffn_.*_exps.=CPU"
+}
+
+llamacpp_qwen3_instruct_start(){
+    model_file="$1"
+    if [[ -z $model_file ]]; then
+        # model_file="Qwen3-4B-Instruct-2507-UD-Q8_K_XL.gguf"
+        model_file="Qwen3-4B-Instruct-2507-F16.gguf"
+    fi
+
+    which_temp="$2"
+    if [[ -z $which_file ]]; then
+        which_temp="0.7"
+    fi
+
+    model_dir="unsloth/Qwen3-4B-Instruct-2507-GGUF"
+    model_alias="Qwen3-4B"
+
+    # For general use-case:  --temp 1.0 --top-p 0.95
+    # For tool-calling:  --temp 0.7 --top-p 1.0
+    # Default ctx: --ctx-size 16384 \
+    # Other arguments you can use:
+    #
+    # --ctx-size 202752 \
+    # --n-gpu-layers 99 \
+    #
+    # context size =   202752
+    # output tokens =  128000
+    # output tokens =  64000
+    # recomended was = 16384
+    #
+    # Supports up to: 262,144
+    # We are using: 128,000
+    #
+    #
+    # Offloading
+    #
+    #If you have more VRAM, you can try offloading more MoE layers, or offloading whole layers themselves.
+    #
+    # Normally, -ot ".ffn_.*_exps.=CPU" offloads all MoE layers to the CPU! This effectively allows you 
+    # to fit all non MoE layers on 1 GPU, improving generation speeds. You can customize the regex expression 
+    # to fit more layers if you have more GPU capacity.
+    #
+    # If you have a bit more GPU memory, try -ot ".ffn_(up|down)_exps.=CPU" This offloads up and down projection MoE layers.
+    #
+    # Try -ot ".ffn_(up)_exps.=CPU" if you have even more GPU memory. This offloads only up projection MoE layers.
+    #
+    # You can also customize the regex, for example -ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU" 
+    # means to offload gate, up and down MoE layers but only from the 6th layer onwards.
+    #
+
+    llama-server \
+    --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
+    --alias "$model_alias" \
+    --fit on \
+    --n-gpu-layers 99 \
+    --threads -1 \
+    --seed 3407 \
+    --temp $which_temp \
+    --top-p 0.8 \
+    --top-k 20 \
+    --min-p 0.00 \
+    --repeat-penalty 1.0 \
+    --sleep-idle-seconds 600 \
+    --ctx-size 128000 \
+    --port 8001 \
+    --jinja
+    # --jinja -ot ".ffn_.*_exps.=CPU"
+}
+
+claude_qwen3_start() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="llamacpp"
+    export ANTHROPIC_BASE_URL="http://localhost:8001"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+
+    model="$1"
+    if [[ -z $model ]]; then 
+        model="Qwen3-4B"
+    fi
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        claude --model "$model"
+    fi
+}
+
+claude_qwen3_ralph() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="llamacpp"
+    export ANTHROPIC_BASE_URL="http://localhost:8001"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+    # context size =   202752
+    # output tokens =  64000
+    # recomended was = 16384
+
+    prompt_type="$1"
+    shift
+    prompt_data="$*"
+
+    model="Qwen3-4B"
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        if [[ $prompt_type == "file" ]]; then 
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            cat $prompt_data | claude --dangerously-skip-permissions --model=$model
+        elif [[ $prompt_type == "message" ]]; then 
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
+        else
+            echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
+        fi
+    fi
+}
+
+llamacpp_qwen3_coder_start(){
+    model_file="$1"
+    if [[ -z $model_file ]]; then
+        # model_file="Qwen3-Coder-30B-A3B-Instruct-1M-UD-Q3_K_XL.gguf"
+        # model_file="Qwen3-Coder-30B-A3B-Instruct-1M-Q3_K_M.gguf"
+        # model_file="Qwen3-Coder-30B-A3B-Instruct-1M-Q3_K_S.gguf"
+        model_file="Qwen3-Coder-30B-A3B-Instruct-1M-IQ4_XS.gguf"
+    fi
+
+    which_temp="$2"
+    if [[ -z $which_file ]]; then
+        which_temp="0.7"
+    fi
+
+    model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-1M-GGUF"
+    model_alias="Qwen3-Coder-30B"
+
+    # For general use-case:  --temp 1.0 --top-p 0.95
+    # For tool-calling:  --temp 0.7 --top-p 1.0
+    # Default ctx: --ctx-size 16384 \
+    # Other arguments you can use:
+    #
+    # --ctx-size 202752 \
+    # --n-gpu-layers 99 \
+    #
+    # context size =   202752
+    # output tokens =  128000
+    # output tokens =  64000
+    # recomended was = 16384
+    #
+    #
+    # Offloading
+    #
+    #If you have more VRAM, you can try offloading more MoE layers, or offloading whole layers themselves.
+    #
+    # Normally, -ot ".ffn_.*_exps.=CPU" offloads all MoE layers to the CPU! This effectively allows you 
+    # to fit all non MoE layers on 1 GPU, improving generation speeds. You can customize the regex expression 
+    # to fit more layers if you have more GPU capacity.
+    #
+    # If you have a bit more GPU memory, try -ot ".ffn_(up|down)_exps.=CPU" This offloads up and down projection MoE layers.
+    #
+    # Try -ot ".ffn_(up)_exps.=CPU" if you have even more GPU memory. This offloads only up projection MoE layers.
+    #
+    # You can also customize the regex, for example -ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU" 
+    # means to offload gate, up and down MoE layers but only from the 6th layer onwards.
+    #
+
+    llama-server \
+    --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
+    --alias "$model_alias" \
+    --fit on \
+    -ngl 99 \
+    --threads -1 \
+    --seed 3407 \
+    --temp $which_temp \
+    --top-p 0.8 \
+    --top-k 20 \
+    --min-p 0.01 \
+    --repeat-penalty 1.05 \
+    -ot ".ffn_.*_exps.=CPU" \
+    --sleep-idle-seconds 600 \
+    --ctx-size 128000 \
+    --port 8001 \
+    --jinja
+}
+
+
+claude_qwen3_coder_start() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="llamacpp"
+    export ANTHROPIC_BASE_URL="http://localhost:8001"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+
+    model="$1"
+    if [[ -z $model ]]; then 
+        model="Qwen3-Coder-30B"
+    fi
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        claude --model "$model"
+    fi
+}
+
+claude_qwen3_coder_ralph() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="llamacpp"
+    export ANTHROPIC_BASE_URL="http://localhost:8001"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+    # context size =   202752
+    # output tokens =  64000
+    # recomended was = 16384
+
+    prompt_type="$1"
+    shift
+    prompt_data="$*"
+
+    model="Qwen3-Coder-30B"
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        if [[ $prompt_type == "file" ]]; then 
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            cat $prompt_data | claude --dangerously-skip-permissions --model=$model
+        elif [[ $prompt_type == "message" ]]; then 
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
+        else
+            echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
+        fi
+    fi
+}
+
+llamacpp_glm_thinking_start(){
     which_file="$1"
     if [[ -z $which_file ]]; then
-        # Too big: 
-        #
-        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
-        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
-        # which_file="GLM-4.7-Flash-Q4_K_S.gguf"
-        # which_file="GLM-4.7-Flash-Q3_K_M.gguf"
-        #
-        # Smaller models with good precision
-        # which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
-        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
-        # which_file="GLM-4.7-Flash-UD-Q2_K_XL.gguf"
-        which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
-        # which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+        which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+    fi
+
+    which_temp="$2"
+    if [[ -z $which_file ]]; then
+        which_temp="0.7"
     fi
 
     # For general use-case:  --temp 1.0 --top-p 0.95
@@ -53,10 +370,12 @@ llamacpp_glm_start(){
     --model "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash-GGUF/${which_file}" \
     --alias "unsloth/GLM-4.7-Flash" \
     --flash-attn auto \
+    -ot ".ffn_.*_exps.=CPU" \
+    -ngl 99 \
     --threads -1 \
     --seed 3407 \
-    --temp 0.6 \
-    --top-p 1.0 \
+    --temp $which_temp \
+    --top-p 0.95 \
     --min-p 0.01 \
     --fit on \
     --sleep-idle-seconds 600 \
@@ -67,7 +386,157 @@ llamacpp_glm_start(){
 }
 
 
-claude_llamacpp_start() {
+llamacpp_glm_coding_start(){
+    which_file="$1"
+    if [[ -z $which_file ]]; then
+        # Too big: 
+        #
+        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # which_file="GLM-4.7-Flash-Q4_K_S.gguf"
+        # which_file="GLM-4.7-Flash-Q3_K_M.gguf"
+        #
+        # Smaller models with good precision
+        # which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        # which_file="GLM-4.7-Flash-UD-Q2_K_XL.gguf"
+        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+    fi
+
+    which_temp="$2"
+    if [[ -z $which_file ]]; then
+        which_temp="0.25"
+    fi
+
+    # For general use-case:  --temp 1.0 --top-p 0.95
+    # For tool-calling:  --temp 0.7 --top-p 1.0
+    # Default ctx: --ctx-size 16384 \
+    # Other arguments you can use:
+    #
+    # --ctx-size 202752 \
+    # --n-gpu-layers 99 \
+    #
+    # context size =   202752
+    # output tokens =  128000
+    # output tokens =  64000
+    # recomended was = 16384
+    #
+    #
+    # Thinking can be turned off with either:
+    #
+    # --chat-template-kwargs '{"thinking": false}'
+    #
+    # OR 
+    #
+    # --reasoning-budget 0
+    #
+    #
+    # Recommendations:
+    # Yes, for coding tasks with GLM-4.7-Flash, you should lower the temperature below 0.5, with recommended settings 
+    # often falling between 0.2 and 0.3 for maximum accuracy and code generation precision. 
+    # While some general-purpose configurations suggest 0.7–1.0 for speed, reducing the temperature to 0.2 
+    # makes the model's output more deterministic and reliable, preventing unnecessary creative deviations in code structure. 
+    # Recommended Settings for GLM-4.7-Flash Coding 
+    # Temperature: 0.2 (0.1–0.3 range)
+    # Top-P: 0.9 or 0.95 (Maintains high probability tokens while allowing slight variation for better syntax)
+    # Top-K: 50 (often recommended to limit the token pool for better accuracy)
+    # Use Case: If the code is for production, stick to 0.2. If it is for quick experimentation/prompting, 0.6–0.7 may be acceptable, but 0.2–0.3 reduces bugs. 
+    # Key Considerations
+    # Low Temp = Less Errors: For programming, you want the model to be deterministic and follow best practices. 
+    # A temperature below 0.5 prevents "hallucinating" unnecessary loops or using deprecated syntax.
+    # Reasoning Mode Behavior: If you are using GLM-4.7 Flash with "thinking mode" enabled, it may take longer to process, 
+    # but low temperatures help keep the reasoning focused.
+    # What if it's too rigid? If the code feels too repetitive or simple, slightly increase the temperature to 0.4 or 0.5, 
+    # but rarely higher than that for coding. 
+    # Disclaimer: Based on research from January 2026, including local deployment guides using tools like llama.cpp 
+    # and API documentation for GLM-4.7-Flash.
+
+    llama-server \
+    --model "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash-GGUF/${which_file}" \
+    --alias "unsloth/GLM-4.7-Flash" \
+    --reasoning-budget 0 \
+    --flash-attn auto \
+    -ngl 99 \
+    --threads -1 \
+    --seed 3407 \
+    --temp $which_temp \
+    --top-p 0.95 \
+    --min-p 0.01 \
+    --fit on \
+    --sleep-idle-seconds 600 \
+    --repeat-penalty 1.05 \
+    --ctx-size 128000 \
+    --port 8001 \
+    --jinja
+}
+
+llamacpp_glm_start(){
+    which_file="$1"
+    if [[ -z $which_file ]]; then
+        # Too big: 
+        #
+        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # which_file="GLM-4.7-Flash-Q4_K_S.gguf"
+        # which_file="GLM-4.7-Flash-Q3_K_M.gguf"
+        #
+        # Smaller models with good precision
+        # which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        # which_file="GLM-4.7-Flash-UD-Q2_K_XL.gguf"
+        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+    fi
+
+    which_temp="$2"
+    if [[ -z $which_file ]]; then
+        which_temp="0.7"
+    fi
+
+    # For general use-case:  --temp 1.0 --top-p 0.95
+    # For tool-calling:  --temp 0.7 --top-p 1.0
+    # Default ctx: --ctx-size 16384 \
+    # Other arguments you can use:
+    #
+    # --ctx-size 202752 \
+    # --n-gpu-layers 99 \
+    #
+    # context size =   202752
+    # output tokens =  128000
+    # output tokens =  64000
+    # recomended was = 16384
+    #
+    #
+    # Thinking can be turned off with either:
+    #
+    # --chat-template-kwargs '{"thinking": false}'
+    #
+    # OR 
+    #
+    # --reasoning-budget 0
+
+    llama-server \
+    --model "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash-GGUF/${which_file}" \
+    --alias "unsloth/GLM-4.7-Flash" \
+    --reasoning-budget 0 \
+    --flash-attn auto \
+    -ngl 99 \
+    --threads -1 \
+    --seed 3407 \
+    --temp $which_temp \
+    --top-p 0.95 \
+    --min-p 0.01 \
+    --fit on \
+    --sleep-idle-seconds 600 \
+    --repeat-penalty 1.05 \
+    --ctx-size 128000 \
+    --port 8001 \
+    --jinja
+}
+
+
+claude_glm_start() {
     reset_claude_environment_variables .
 
     export ANTHROPIC_AUTH_TOKEN="llamacpp"
@@ -86,11 +555,12 @@ claude_llamacpp_start() {
             echo "Unable to install claude via npm, please setup"
         fi
     else
+        rm -rf ~/.claude/settings.json
         claude --model "$model"
     fi
 }
 
-claude_llamacpp_ralph() {
+claude_glm_ralph() {
     reset_claude_environment_variables .
 
     export ANTHROPIC_AUTH_TOKEN="llamacpp"
@@ -113,6 +583,7 @@ claude_llamacpp_ralph() {
             echo "Unable to install claude via npm, please setup"
         fi
     else
+        rm -rf ~/.claude/settings.json
         if [[ $prompt_type == "file" ]]; then 
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             cat $prompt_data | claude --dangerously-skip-permissions --model=$model
@@ -231,6 +702,7 @@ claude_ollama_start() {
             echo "Unable to install claude via npm, please setup"
         fi
     else
+        rm -rf ~/.claude/settings.json
         claude --model "$model"
     fi
 }
@@ -329,6 +801,7 @@ claude_ralph() {
             echo "Unable to install claude via npm, please setup"
         fi
     else
+        rm -rf ~/.claude/settings.json
         if [[ $prompt_type == "file" ]]; then 
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             cat $prompt_data | claude --dangerously-skip-permissions
@@ -354,6 +827,7 @@ claude_start() {
             echo "Unable to install claude via npm, please setup"
         fi
     else
+        rm -rf ~/.claude/settings.json
         claude
     fi
 }
