@@ -385,8 +385,7 @@ llamacpp_glm_thinking_start(){
     --jinja
 }
 
-
-llamacpp_glm_coding_start(){
+llamacpp_glm_start(){
     which_file="$1"
     if [[ -z $which_file ]]; then
         # Too big: 
@@ -406,7 +405,7 @@ llamacpp_glm_coding_start(){
 
     which_temp="$2"
     if [[ -z $which_file ]]; then
-        which_temp="0.25"
+        which_temp="0.7"
     fi
 
     # For general use-case:  --temp 1.0 --top-p 0.95
@@ -471,7 +470,7 @@ llamacpp_glm_coding_start(){
     --jinja
 }
 
-llamacpp_glm_start(){
+llamacpp_glm_creative_coding_start(){
     which_file="$1"
     if [[ -z $which_file ]]; then
         # Too big: 
@@ -491,48 +490,36 @@ llamacpp_glm_start(){
 
     which_temp="$2"
     if [[ -z $which_file ]]; then
-        which_temp="0.7"
+        which_temp="0.45"
     fi
 
-    # For general use-case:  --temp 1.0 --top-p 0.95
-    # For tool-calling:  --temp 0.7 --top-p 1.0
-    # Default ctx: --ctx-size 16384 \
-    # Other arguments you can use:
-    #
-    # --ctx-size 202752 \
-    # --n-gpu-layers 99 \
-    #
-    # context size =   202752
-    # output tokens =  128000
-    # output tokens =  64000
-    # recomended was = 16384
-    #
-    #
-    # Thinking can be turned off with either:
-    #
-    # --chat-template-kwargs '{"thinking": false}'
-    #
-    # OR 
-    #
-    # --reasoning-budget 0
+    llamacpp_glm_start "$which_file" "$which_temp"
+}
 
-    llama-server \
-    --model "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash-GGUF/${which_file}" \
-    --alias "unsloth/GLM-4.7-Flash" \
-    --reasoning-budget 0 \
-    --flash-attn auto \
-    -ngl 99 \
-    --threads -1 \
-    --seed 3407 \
-    --temp $which_temp \
-    --top-p 0.95 \
-    --min-p 0.01 \
-    --fit on \
-    --sleep-idle-seconds 600 \
-    --repeat-penalty 1.05 \
-    --ctx-size 128000 \
-    --port 8001 \
-    --jinja
+llamacpp_glm_coding_start(){
+    which_file="$1"
+    if [[ -z $which_file ]]; then
+        # Too big: 
+        #
+        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # which_file="GLM-4.7-Flash-Q4_K_S.gguf"
+        # which_file="GLM-4.7-Flash-Q3_K_M.gguf"
+        #
+        # Smaller models with good precision
+        # which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        # which_file="GLM-4.7-Flash-UD-Q2_K_XL.gguf"
+        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+    fi
+
+    which_temp="$2"
+    if [[ -z $which_file ]]; then
+        which_temp="0.25"
+    fi
+
+    llamacpp_glm_start "$which_file" "$which_temp"
 }
 
 
