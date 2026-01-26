@@ -32,7 +32,7 @@ llamacpp_qwen3_thinking_start(){
     fi
 
     which_temp="$2"
-    if [[ -z $which_file ]]; then
+    if [[ -z $which_temp ]]; then
         which_temp="0.6"
     fi
 
@@ -96,7 +96,7 @@ llamacpp_qwen3_instruct_start(){
     fi
 
     which_temp="$2"
-    if [[ -z $which_file ]]; then
+    if [[ -z $which_temp ]]; then
         which_temp="0.7"
     fi
 
@@ -225,7 +225,7 @@ llamacpp_qwen3_coder_start(){
     fi
 
     which_temp="$2"
-    if [[ -z $which_file ]]; then
+    if [[ -z $which_temp ]]; then
         which_temp="0.7"
     fi
 
@@ -349,7 +349,7 @@ llamacpp_glm_thinking_start(){
     fi
 
     which_temp="$2"
-    if [[ -z $which_file ]]; then
+    if [[ -z $which_temp ]]; then
         which_temp="0.7"
     fi
 
@@ -404,7 +404,7 @@ llamacpp_glm_start(){
     fi
 
     which_temp="$2"
-    if [[ -z $which_file ]]; then
+    if [[ -z $which_temp ]]; then
         which_temp="0.7"
     fi
 
