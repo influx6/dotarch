@@ -82,7 +82,7 @@ llamacpp_qwen3_thinking_start(){
     --min-p 0.00 \
     --repeat-penalty 1.0 \
     --sleep-idle-seconds 600 \
-    --ctx-size 128000 \
+    --ctx-size 262144 \
     --port 8001 \
     --jinja
     # --jinja -ot ".ffn_.*_exps.=CPU"
@@ -149,7 +149,7 @@ llamacpp_qwen3_instruct_start(){
     --min-p 0.00 \
     --repeat-penalty 1.0 \
     --sleep-idle-seconds 600 \
-    --ctx-size 128000 \
+    --ctx-size 262144 \
     --port 8001 \
     --jinja
     # --jinja -ot ".ffn_.*_exps.=CPU"
@@ -276,7 +276,7 @@ llamacpp_qwen3_coder_start(){
     --repeat-penalty 1.05 \
     -ot ".ffn_.*_exps.=CPU" \
     --sleep-idle-seconds 600 \
-    --ctx-size 128000 \
+    --ctx-size 262144 \
     --port 8001 \
     --jinja
 }
@@ -380,7 +380,7 @@ llamacpp_glm_thinking_start(){
     --fit on \
     --sleep-idle-seconds 600 \
     --repeat-penalty 1.0 \
-    --ctx-size 128000 \
+    --ctx-size 202752 \
     --port 8001 \
     --jinja
 }
@@ -465,7 +465,7 @@ llamacpp_glm_start(){
     --fit on \
     --sleep-idle-seconds 600 \
     --repeat-penalty 1.05 \
-    --ctx-size 128000 \
+    --ctx-size 202752 \
     --port 8001 \
     --jinja
 }

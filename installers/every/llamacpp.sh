@@ -12,7 +12,14 @@ yay -Sy --noconfirm --needed rocm-hip-sdk rocm-hip-libraries rocm-hip-runtime
 
 mkdir $HOME/apps
 cd $HOME/apps
-git clone https://github.com/ggml-org/llama.cpp 
+
+if [[ ! -d $HOME/apps/llama.cpp ]]; then
+    git clone https://github.com/ggml-org/llama.cpp 
+else
+    cd $HOME/apps/llama.cpp
+    git pull origin master
+    cd -
+fi
 
 cmake llama.cpp -B llama.cpp/build \
     -DBUILD_SHARED_LIBS=OFF  \
