@@ -73,7 +73,6 @@ llamacpp_qwen3_thinking_start(){
     --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
     --alias "$model_alias" \
     --fit on \
-    --n-gpu-layers 99 \
     --threads -1 \
     --seed 3407 \
     --temp $which_temp \
@@ -92,6 +91,8 @@ llamacpp_qwen3_instruct_start(){
     model_file="$1"
     if [[ -z $model_file ]]; then
         # model_file="Qwen3-4B-Instruct-2507-UD-Q8_K_XL.gguf"
+        # model_file="Qwen3-4B-Instruct-2507-UD-Q6_K_XL.gguf"
+        # model_file="Qwen3-4B-Instruct-2507-UD-Q4_K_XL.gguf"
         model_file="Qwen3-4B-Instruct-2507-F16.gguf"
     fi
 
@@ -116,8 +117,8 @@ llamacpp_qwen3_instruct_start(){
     # output tokens =  64000
     # recomended was = 16384
     #
-    # Supports up to: 262,144
-    # We are using: 128,000
+    # Supports up to: 262144
+    # We are using: 128000
     #
     #
     # Offloading
@@ -140,7 +141,7 @@ llamacpp_qwen3_instruct_start(){
     --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
     --alias "$model_alias" \
     --fit on \
-    --n-gpu-layers 99 \
+    -ngl 99 \
     --threads -1 \
     --seed 3407 \
     --temp $which_temp \
@@ -149,7 +150,7 @@ llamacpp_qwen3_instruct_start(){
     --min-p 0.00 \
     --repeat-penalty 1.0 \
     --sleep-idle-seconds 600 \
-    --ctx-size 262144 \
+    --ctx-size 150000 \
     --port 8001 \
     --jinja
     # --jinja -ot ".ffn_.*_exps.=CPU"
@@ -276,7 +277,7 @@ llamacpp_qwen3_coder_start(){
     --repeat-penalty 1.05 \
     -ot ".ffn_.*_exps.=CPU" \
     --sleep-idle-seconds 600 \
-    --ctx-size 262144 \
+    --ctx-size 251144 \
     --port 8001 \
     --jinja
 }
