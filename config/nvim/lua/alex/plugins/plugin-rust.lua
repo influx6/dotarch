@@ -437,7 +437,7 @@ return {
     lazy = false,
     version = vim.fn.has("nvim-0.10.0") == 0 and "^4" or false,
     -- root = { "Cargo.toml", "rust-project.json" },
-    -- ft = { "rust" },
+    ft = { "rust" },
     ensure_installed = { "bacon-ls", "bacon", "codelldb" },
     dependencies = {
       "mason.nvim",
