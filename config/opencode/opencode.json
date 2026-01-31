@@ -1,35 +1,35 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
-    "llama.cpp": {
+    "llamacpp": {
       "npm": "@ai-sdk/openai-compatible",
-      "name": "llama-server (local)",
+      "name": "llamacpp",
       "options": {
         "baseURL": "http://127.0.0.1:8001/v1"
       },
       "models": {
-        "qwen3-4b": {
-          "name": "Qwen3-4B",
+        "unsloth/Qwen3-4B": {
+          "name": "unsloth/Qwen3-4B",
           "limit": {
             "context": 128000,
             "output": 65536
           }
         },
-        "qwen3-30b": {
+        "unsloth/Qwen3-30B": {
           "name": "unsloth/Qwen3-30B",
           "limit": {
             "context": 128000,
             "output": 65536
           }
         },
-        "qwen3-coder-30b": {
+        "unsloth/Qwen3-Coder-30B": {
           "name": "Qwen3-Coder-30B",
           "limit": {
             "context": 128000,
             "output": 65536
           }
         },
-        "glm-4.7-flash": {
+        "unsloth/GLM-4.7-Flash": {
           "name": "unsloth/GLM-4.7-Flash",
           "limit": {
             "context": 128000,
