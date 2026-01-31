@@ -8,28 +8,28 @@
         "baseURL": "http://127.0.0.1:8001/v1"
       },
       "models": {
-        "unsloth/Qwen3-4B": {
+        "qwen3-4b": {
           "name": "Qwen3-4B",
           "limit": {
             "context": 128000,
             "output": 65536
           }
         },
-        "unsloth/Qwen3-30B": {
+        "qwen3-30b": {
           "name": "unsloth/Qwen3-30B",
           "limit": {
             "context": 128000,
             "output": 65536
           }
         },
-        "unsloth/Qwen3-Coder-30B": {
+        "qwen3-coder-30b": {
           "name": "Qwen3-Coder-30B",
           "limit": {
             "context": 128000,
             "output": 65536
           }
         },
-        "unsloth/GLM-4.7-Flash": {
+        "glm-4.7-flash": {
           "name": "unsloth/GLM-4.7-Flash",
           "limit": {
             "context": 128000,
