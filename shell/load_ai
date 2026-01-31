@@ -52,7 +52,7 @@ opencode_start(){
 
     model="$1"
     if [[ -z $model ]]; then 
-        model="llamacpp/unsloth/Qwen3-Coder:30b"
+        model="llamacpp/unsloth/Qwen3-Coder-30B"
     fi
 
     if no_command "opencode"; then
@@ -76,7 +76,7 @@ opencode_ralph(){
 
     model="$1"
     if [[ -z $model ]]; then 
-        model="llamacpp/unsloth/Qwen3-Coder:30b"
+        model="llamacpp/unsloth/Qwen3-Coder-30B"
     fi
 
     shift
@@ -97,6 +97,22 @@ opencode_ralph(){
             echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
         fi
     fi
+}
+
+opencode_ralph_glm47_flash(){
+    opencode_ralph "llamacpp/unsloth/GLM-4.7-Flash" $*
+}
+
+opencode_ralph_qwen3_coder(){
+    opencode_ralph "llamacpp/unsloth/Qwen3-Coder-30B" $*
+}
+
+opencode_ralph_qwen3_4b(){
+    opencode_ralph "llamacpp/unsloth/Qwen3-4B" $*
+}
+
+opencode_ralph_qwen3_30b(){
+    opencode_ralph "llamacpp/unsloth/Qwen3-30B" $*
 }
 
 ######################################
