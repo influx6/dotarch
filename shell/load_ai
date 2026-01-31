@@ -5,6 +5,8 @@ LITELLM_SALT_KEY=litellm-3efab3d2-e033-46fe-976f-f2f05115ef98
 ENABLE_NETWORK_MONITOR=true
 LOG_LEVEL=DEBUG
 
+BASE_LLM_CONTEXT=132000
+
 export LLAMA_CPP_BIN="$HOME/apps/llama.cpp/build/bin/"
 export PATH="$LLAMA_CPP_BIN:$PATH"
 
@@ -20,7 +22,16 @@ reset_claude_environment_variables(){
 
 hf_download(){
     repo="$1"
-    hf download --local-dir="$HOME/Boxxed/@dev/models/$repo" $repo
+    shift
+
+    file_name="$1"
+    if [[ ! -z $file_name ]]; then 
+        shift
+        hf download --local-dir="$HOME/Boxxed/@dev/models/$repo" $repo $file_name $*
+    else
+        hf download --local-dir="$HOME/Boxxed/@dev/models/$repo" $repo $*
+    fi
+
 }
 
 
@@ -81,7 +92,7 @@ llamacpp_qwen3_thinking_start(){
     --min-p 0.00 \
     --repeat-penalty 1.0 \
     --sleep-idle-seconds 600 \
-    --ctx-size 262144 \
+    --ctx-size $BASE_LLM_CONTEXT \
     --port 8001 \
     --jinja
     # --jinja -ot ".ffn_.*_exps.=CPU"
@@ -150,7 +161,7 @@ llamacpp_qwen3_instruct_start(){
     --min-p 0.00 \
     --repeat-penalty 1.0 \
     --sleep-idle-seconds 600 \
-    --ctx-size 150000 \
+    --ctx-size $BASE_LLM_CONTEXT \
     --port 8001 \
     --jinja
     # --jinja -ot ".ffn_.*_exps.=CPU"
@@ -277,7 +288,7 @@ llamacpp_qwen3_coder_start(){
     --repeat-penalty 1.05 \
     -ot ".ffn_.*_exps.=CPU" \
     --sleep-idle-seconds 600 \
-    --ctx-size 251144 \
+    --ctx-size $BASE_LLM_CONTEXT \
     --port 8001 \
     --jinja
 }
@@ -381,7 +392,7 @@ llamacpp_glm_thinking_start(){
     --fit on \
     --sleep-idle-seconds 600 \
     --repeat-penalty 1.0 \
-    --ctx-size 202752 \
+    --ctx-size $BASE_LLM_CONTEXT \
     --port 8001 \
     --jinja
 }
@@ -466,7 +477,7 @@ llamacpp_glm_start(){
     --fit on \
     --sleep-idle-seconds 600 \
     --repeat-penalty 1.05 \
-    --ctx-size 202752 \
+    --ctx-size $BASE_LLM_CONTEXT \
     --port 8001 \
     --jinja
 }
