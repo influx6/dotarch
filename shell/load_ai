@@ -99,6 +99,22 @@ opencode_ralph(){
     fi
 }
 
+opencode_glm47_flash(){
+    opencode_start "llamacpp/unsloth/GLM-4.7-Flash" $*
+}
+
+opencode_qwen3_coder(){
+    opencode_start "llamacpp/unsloth/Qwen3-Coder-30B" $*
+}
+
+opencode_qwen3_4b(){
+    opencode_start "llamacpp/unsloth/Qwen3-4B" $*
+}
+
+opencode_qwen3_30b(){
+    opencode_start "llamacpp/unsloth/Qwen3-30B" $*
+}
+
 opencode_ralph_glm47_flash(){
     opencode_ralph "llamacpp/unsloth/GLM-4.7-Flash" $*
 }
