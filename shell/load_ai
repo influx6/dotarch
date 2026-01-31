@@ -119,7 +119,7 @@ opencode_ralph_glm47_flash(){
     opencode_ralph "llamacpp/unsloth/GLM-4.7-Flash" $*
 }
 
-opencode_ralph_qwen3_coder(){
+opencode_ralph_qwen3_coder_30b(){
     opencode_ralph "llamacpp/unsloth/Qwen3-Coder-30B" $*
 }
 
