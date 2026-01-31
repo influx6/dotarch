@@ -8,21 +8,21 @@
         "baseURL": "http://127.0.0.1:8001/v1"
       },
       "models": {
-        "Qwen3-4B": {
+        "unsloth/Qwen3-4B": {
           "name": "Qwen3-4B",
           "limit": {
             "context": 128000,
             "output": 65536
           }
         },
-        "unsloth/GLM-4.7-Flash": {
+        "unsloth/Qwen3-30B": {
           "name": "unsloth/Qwen3-30B",
           "limit": {
             "context": 128000,
             "output": 65536
           }
         },
-        "Qwen3-Coder-30B": {
+        "unsloth/Qwen3-Coder-30B": {
           "name": "Qwen3-Coder-30B",
           "limit": {
             "context": 128000,
