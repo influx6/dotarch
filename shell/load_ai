@@ -35,138 +35,6 @@ hf_download(){
 }
 
 
-llamacpp_qwen3_thinking_start(){
-    model_file="$1"
-    if [[ -z $model_file ]]; then
-        # model_file="Qwen3-4B-Instruct-2507-UD-Q8_K_XL.gguf"
-        model_file="Qwen3-4B-Thinking-2507-F16.gguf"
-    fi
-
-    which_temp="$2"
-    if [[ -z $which_temp ]]; then
-        which_temp="0.6"
-    fi
-
-    model_dir="unsloth/Qwen3-4B-Thinking-2507-GGUF"
-    model_alias="Qwen3-4B"
-
-    # For general use-case:  --temp 1.0 --top-p 0.95
-    # For tool-calling:  --temp 0.7 --top-p 1.0
-    # Default ctx: --ctx-size 16384 \
-    # Other arguments you can use:
-    #
-    # --ctx-size 202752 \
-    # --n-gpu-layers 99 \
-    #
-    # context size =   202752
-    # output tokens =  128000
-    # output tokens =  64000
-    # recomended was = 16384
-    #
-    #
-    # Offloading
-    #
-    #If you have more VRAM, you can try offloading more MoE layers, or offloading whole layers themselves.
-    #
-    # Normally, -ot ".ffn_.*_exps.=CPU" offloads all MoE layers to the CPU! This effectively allows you 
-    # to fit all non MoE layers on 1 GPU, improving generation speeds. You can customize the regex expression 
-    # to fit more layers if you have more GPU capacity.
-    #
-    # If you have a bit more GPU memory, try -ot ".ffn_(up|down)_exps.=CPU" This offloads up and down projection MoE layers.
-    #
-    # Try -ot ".ffn_(up)_exps.=CPU" if you have even more GPU memory. This offloads only up projection MoE layers.
-    #
-    # You can also customize the regex, for example -ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU" 
-    # means to offload gate, up and down MoE layers but only from the 6th layer onwards.
-    #
-
-    llama-server \
-    --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
-    --alias "$model_alias" \
-    --fit on \
-    --threads -1 \
-    --seed 3407 \
-    --temp $which_temp \
-    --top-p 0.95 \
-    --top-k 20 \
-    --min-p 0.00 \
-    --repeat-penalty 1.0 \
-    --sleep-idle-seconds 600 \
-    --ctx-size $BASE_LLM_CONTEXT \
-    --port 8001 \
-    --jinja
-    # --jinja -ot ".ffn_.*_exps.=CPU"
-}
-
-llamacpp_qwen3_instruct_start(){
-    model_file="$1"
-    if [[ -z $model_file ]]; then
-        # model_file="Qwen3-4B-Instruct-2507-UD-Q8_K_XL.gguf"
-        # model_file="Qwen3-4B-Instruct-2507-UD-Q6_K_XL.gguf"
-        # model_file="Qwen3-4B-Instruct-2507-UD-Q4_K_XL.gguf"
-        model_file="Qwen3-4B-Instruct-2507-F16.gguf"
-    fi
-
-    which_temp="$2"
-    if [[ -z $which_temp ]]; then
-        which_temp="0.7"
-    fi
-
-    model_dir="unsloth/Qwen3-4B-Instruct-2507-GGUF"
-    model_alias="Qwen3-4B"
-
-    # For general use-case:  --temp 1.0 --top-p 0.95
-    # For tool-calling:  --temp 0.7 --top-p 1.0
-    # Default ctx: --ctx-size 16384 \
-    # Other arguments you can use:
-    #
-    # --ctx-size 202752 \
-    # --n-gpu-layers 99 \
-    #
-    # context size =   202752
-    # output tokens =  128000
-    # output tokens =  64000
-    # recomended was = 16384
-    #
-    # Supports up to: 262144
-    # We are using: 128000
-    #
-    #
-    # Offloading
-    #
-    #If you have more VRAM, you can try offloading more MoE layers, or offloading whole layers themselves.
-    #
-    # Normally, -ot ".ffn_.*_exps.=CPU" offloads all MoE layers to the CPU! This effectively allows you 
-    # to fit all non MoE layers on 1 GPU, improving generation speeds. You can customize the regex expression 
-    # to fit more layers if you have more GPU capacity.
-    #
-    # If you have a bit more GPU memory, try -ot ".ffn_(up|down)_exps.=CPU" This offloads up and down projection MoE layers.
-    #
-    # Try -ot ".ffn_(up)_exps.=CPU" if you have even more GPU memory. This offloads only up projection MoE layers.
-    #
-    # You can also customize the regex, for example -ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU" 
-    # means to offload gate, up and down MoE layers but only from the 6th layer onwards.
-    #
-
-    llama-server \
-    --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
-    --alias "$model_alias" \
-    --fit on \
-    -ngl 99 \
-    --threads -1 \
-    --seed 3407 \
-    --temp $which_temp \
-    --top-p 0.8 \
-    --top-k 20 \
-    --min-p 0.00 \
-    --repeat-penalty 1.0 \
-    --sleep-idle-seconds 600 \
-    --ctx-size $BASE_LLM_CONTEXT \
-    --port 8001 \
-    --jinja
-    # --jinja -ot ".ffn_.*_exps.=CPU"
-}
-
 claude_qwen3_start() {
     reset_claude_environment_variables .
 
@@ -227,22 +95,16 @@ claude_qwen3_ralph() {
     fi
 }
 
-llamacpp_qwen3_coder_start(){
-    model_file="$1"
-    if [[ -z $model_file ]]; then
-        # model_file="Qwen3-Coder-30B-A3B-Instruct-1M-UD-Q3_K_XL.gguf"
-        # model_file="Qwen3-Coder-30B-A3B-Instruct-1M-Q3_K_M.gguf"
-        # model_file="Qwen3-Coder-30B-A3B-Instruct-1M-Q3_K_S.gguf"
-        model_file="Qwen3-Coder-30B-A3B-Instruct-1M-IQ4_XS.gguf"
-    fi
+llamacpp_no_offload_start(){
+    model_dir="$1"
+    model_file="$2"
+    model_alias="$3"
 
-    which_temp="$2"
+    which_temp="$4"
     if [[ -z $which_temp ]]; then
-        which_temp="0.7"
+        which_temp="0.5"
     fi
 
-    model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-1M-GGUF"
-    model_alias="Qwen3-Coder-30B"
 
     # For general use-case:  --temp 1.0 --top-p 0.95
     # For tool-calling:  --temp 0.7 --top-p 1.0
@@ -285,12 +147,298 @@ llamacpp_qwen3_coder_start(){
     --top-p 0.8 \
     --top-k 20 \
     --min-p 0.01 \
-    --repeat-penalty 1.05 \
+    --repeat-penalty 1.0 \
+    --sleep-idle-seconds 600 \
+    --ctx-size $BASE_LLM_CONTEXT \
+    --port 8001 \
+    --jinja
+}
+
+llamacpp_moe_offload_start(){
+    model_dir="$1"
+    model_file="$2"
+    model_alias="$3"
+
+    which_temp="$4"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.5"
+    fi
+
+
+    # For general use-case:  --temp 1.0 --top-p 0.95
+    # For tool-calling:  --temp 0.7 --top-p 1.0
+    # Default ctx: --ctx-size 16384 \
+    # Other arguments you can use:
+    #
+    # --ctx-size 202752 \
+    # --n-gpu-layers 99 \
+    #
+    # context size =   202752
+    # output tokens =  128000
+    # output tokens =  64000
+    # recomended was = 16384
+    #
+    #
+    # Offloading
+    #
+    #If you have more VRAM, you can try offloading more MoE layers, or offloading whole layers themselves.
+    #
+    # Normally, -ot ".ffn_.*_exps.=CPU" offloads all MoE layers to the CPU! This effectively allows you 
+    # to fit all non MoE layers on 1 GPU, improving generation speeds. You can customize the regex expression 
+    # to fit more layers if you have more GPU capacity.
+    #
+    # If you have a bit more GPU memory, try -ot ".ffn_(up|down)_exps.=CPU" This offloads up and down projection MoE layers.
+    #
+    # Try -ot ".ffn_(up)_exps.=CPU" if you have even more GPU memory. This offloads only up projection MoE layers.
+    #
+    # You can also customize the regex, for example -ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU" 
+    # means to offload gate, up and down MoE layers but only from the 6th layer onwards.
+    #
+
+    llama-server \
+    --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
+    --alias "$model_alias" \
+    --fit on \
+    -ngl 99 \
+    --threads -1 \
+    --seed 3407 \
+    --temp $which_temp \
+    --top-p 0.8 \
+    --top-k 20 \
+    --min-p 0.01 \
+    --repeat-penalty 1.0 \
     -ot ".ffn_.*_exps.=CPU" \
     --sleep-idle-seconds 600 \
     --ctx-size $BASE_LLM_CONTEXT \
     --port 8001 \
     --jinja
+}
+
+llamacpp_qwen3_coder_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    # model_file="Qwen3-Coder-30B-A3B-Instruct-1M-UD-Q3_K_XL.gguf"
+    # model_file="Qwen3-Coder-30B-A3B-Instruct-1M-Q3_K_M.gguf"
+    # model_file="Qwen3-Coder-30B-A3B-Instruct-1M-Q3_K_S.gguf"
+    model_file="Qwen3-Coder-30B-A3B-Instruct-1M-IQ4_XS.gguf"
+    model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-1M-GGUF"
+    model_alias="Qwen3-Coder-30B"
+
+    llamacpp_moe_offload_start $model_dir $model_file $model_alias $which_temp
+}
+
+llamacpp_glm_thinking_start(){
+    which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+    
+    llamacpp_no_offload_start "unsloth/GLM-4.7-Flash-GGUF" $which_file "unsloth/GLM-4.7-Flash" $which_temp
+}
+
+
+llamacpp_qwen3_thinking_start(){
+    # model_file="Qwen3-4B-Instruct-2507-UD-Q8_K_XL.gguf"
+    model_file="Qwen3-4B-Thinking-2507-F16.gguf"
+
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_dir="unsloth/Qwen3-4B-Thinking-2507-GGUF"
+    model_alias="Qwen3-4B"
+
+    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+######################################
+#   Qwen3 Coder 30B
+######################################
+
+llamacpp_qwen3_coder_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_file="Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf"
+    model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
+    model_alias="Qwen3-Coder-30B"
+
+    llamacpp_moe_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+llamacpp_qwen3_coder_3kxl_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_file="Qwen3-Coder-30B-A3B-Instruct-UD-Q3_K_XL.gguf"
+    model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
+    model_alias="Qwen3-Coder-30B"
+
+    llamacpp_moe_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+llamacpp_qwen3_coder_4ixs_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_file="Qwen3-Coder-30B-A3B-Instruct-IQ4_XS.gguf"
+    model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
+    model_alias="Qwen3-Coder-30B"
+
+    llamacpp_moe_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+llamacpp_qwen3_coder_3km_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_file="Qwen3-Coder-30B-A3B-Instruct-Q3_K_M.gguf"
+    model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
+    model_alias="Qwen3-Coder-30B"
+
+    llamacpp_moe_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+llamacpp_qwen3_coder_4km_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_file="Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf"
+    model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
+    model_alias="Qwen3-Coder-30B"
+
+    llamacpp_moe_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+llamacpp_qwen3_coder_41_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_file="Qwen3-Coder-30B-A3B-Instruct-Q4_1.gguf"
+    model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
+    model_alias="Qwen3-Coder-30B"
+
+    llamacpp_moe_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+######################################
+#   Qwen3-30B
+######################################
+
+llamacpp_qwen3_30b_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+    model_file="Qwen3-30B-A3B-Instruct-2507-Q4_K_M.gguf"
+    model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
+    model_alias="Qwen3-30B"
+
+    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+llamacpp_qwen3_30b_4ks_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_file="Qwen3-30B-A3B-Instruct-2507-Q4_K_S.gguf"
+    model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
+    model_alias="Qwen3-30B"
+
+    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+llamacpp_qwen3_30b_4xs_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_file="Qwen3-30B-A3B-Instruct-2507-IQ4_XS.gguf"
+    model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
+    model_alias="Qwen3-30B"
+
+    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+llamacpp_qwen3_30b_40_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+    model_file="Qwen3-30B-A3B-Instruct-2507-Q4_0.gguf"
+    model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
+    model_alias="Qwen3-30B"
+
+    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+llamacpp_qwen3_30b_ud4xl_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+    model_file="Qwen3-30B-A3B-Instruct-2507-UD-Q4_K_XL.gguf"
+    model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
+    model_alias="Qwen3-30B"
+
+    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+llamacpp_qwen3_30b_3ks_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+    model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
+    model_file="Qwen3-30B-A3B-Instruct-2507-Q3_K_S.gguf"
+    model_alias="Qwen3-30B"
+
+    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+llamacpp_qwen3_30b_3km_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+    model_file="Qwen3-30B-A3B-Instruct-2507-Q3_K_M.gguf"
+    model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
+    model_alias="Qwen3-30B"
+
+    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+}
+
+llamacpp_qwen3_30b_3kxl_instruct_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+    model_file="Qwen3-30B-A3B-Instruct-2507-UD-Q3_K_XL.gguf"
+    model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
+    model_alias="Qwen3-30B"
+
+    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
 }
 
 
@@ -354,48 +502,6 @@ claude_qwen3_coder_ralph() {
     fi
 }
 
-llamacpp_glm_thinking_start(){
-    which_file="$1"
-    if [[ -z $which_file ]]; then
-        which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
-    fi
-
-    which_temp="$2"
-    if [[ -z $which_temp ]]; then
-        which_temp="0.7"
-    fi
-
-    # For general use-case:  --temp 1.0 --top-p 0.95
-    # For tool-calling:  --temp 0.7 --top-p 1.0
-    # Default ctx: --ctx-size 16384 \
-    # Other arguments you can use:
-    #
-    # --ctx-size 202752 \
-    # --n-gpu-layers 99 \
-    #
-    # context size =   202752
-    # output tokens =  128000
-    # output tokens =  64000
-    # recomended was = 16384
-
-    llama-server \
-    --model "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash-GGUF/${which_file}" \
-    --alias "unsloth/GLM-4.7-Flash" \
-    --flash-attn auto \
-    -ot ".ffn_.*_exps.=CPU" \
-    -ngl 99 \
-    --threads -1 \
-    --seed 3407 \
-    --temp $which_temp \
-    --top-p 0.95 \
-    --min-p 0.01 \
-    --fit on \
-    --sleep-idle-seconds 600 \
-    --repeat-penalty 1.0 \
-    --ctx-size $BASE_LLM_CONTEXT \
-    --port 8001 \
-    --jinja
-}
 
 llamacpp_glm_start(){
     which_file="$1"
