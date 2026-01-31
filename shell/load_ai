@@ -89,15 +89,19 @@ opencode_ralph(){
     else
         if [[ $prompt_type == "file" ]]; then 
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            cat $prompt_data | opencode run --model "$model" 
+            prompt_data_content=$(cat $prompt_data)
+            echo "Executing: opencode --model \"$model\" --prompt \"#(cat $prompt_data)\""
+            opencode --model "$model" --prompt "$prompt_data_content"
         elif [[ $prompt_type == "message" ]]; then 
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            echo "$prompt_data" | opencode run --model "$model"
+            echo "Executing: opencode --model \"$model\" --prompt \"$prompt_data\""
+            opencode --model "$model" --prompt "$prompt_data"
         else
             echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
         fi
     fi
 }
+
 
 opencode_glm47_flash(){
     opencode_start "llamacpp/unsloth/GLM-4.7-Flash" $*
@@ -363,6 +367,30 @@ llamacpp_qwen3_thinking_start(){
 #   Qwen3 Coder 30B
 ######################################
 
+claude_qwen3_30b_coder_start() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="llamacpp"
+    export ANTHROPIC_BASE_URL="http://localhost:8001"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+
+    model="$1"
+    if [[ -z $model ]]; then 
+        model="Qwen3-Coder-30B"
+    fi
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        claude --model "$model"
+    fi
+}
+
 llamacpp_qwen3_coder_instruct_start(){
     which_temp="$1"
     if [[ -z $which_temp ]]; then
@@ -444,6 +472,30 @@ llamacpp_qwen3_coder_41_instruct_start(){
 ######################################
 #   Qwen3-30B
 ######################################
+
+claude_qwen3_30b_coder_start() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="llamacpp"
+    export ANTHROPIC_BASE_URL="http://localhost:8001"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+
+    model="$1"
+    if [[ -z $model ]]; then 
+        model="Qwen3-30B"
+    fi
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        claude --model "$model"
+    fi
+}
 
 llamacpp_qwen3_30b_instruct_start(){
     which_temp="$1"
