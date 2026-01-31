@@ -34,6 +34,71 @@ hf_download(){
 
 }
 
+######################################
+#  OpenCode 
+######################################
+
+opencode_start(){
+    reset_claude_environment_variables
+
+    if has_command "curl"; then
+        if no_command "opencode"; then
+            echo "Installing opencode"
+            curl -fsSL https://opencode.ai/install | bash
+        fi
+    else
+        echo "Unable to install opencode with curl, please setup"
+    fi
+
+    model="$1"
+    if [[ -z $model ]]; then 
+        # model="gpt-oss:20b"
+        model="qwen3-coder:30b"
+    fi
+
+    if no_command "opencode"; then
+        echo "No opencode for me to run with"
+    else
+        opencode --model=$model
+    fi
+}
+
+opencode_ralph(){
+    reset_claude_environment_variables
+
+    if has_command "curl"; then
+        if no_command "opencode"; then
+            echo "Installing opencode"
+            curl -fsSL https://opencode.ai/install | bash
+        fi
+    else
+        echo "Unable to install opencode with curl, please setup"
+    fi
+
+    model="$1"
+    shift
+    prompt_type="$1"
+    shift
+    prompt_data="$*"
+
+    if no_command "opencode"; then
+        echo "No opencode for me to run with"
+    else
+        if [[ $prompt_type == "file" ]]; then 
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            cat $prompt_data | opencode run --model "$model" 
+        elif [[ $prompt_type == "message" ]]; then 
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            echo "$prompt_data" | opencode run --model "$model"
+        else
+            echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
+        fi
+    fi
+}
+
+######################################
+#  ClaudeCode 
+######################################
 
 claude_qwen3_start() {
     reset_claude_environment_variables .
@@ -135,6 +200,7 @@ llamacpp_no_offload_start(){
     # You can also customize the regex, for example -ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU" 
     # means to offload gate, up and down MoE layers but only from the 6th layer onwards.
     #
+    echo "Starting llama-server with: \"$MODEL_LOCATIONS/$model_dir/${model_file}\""
 
     llama-server \
     --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
@@ -194,6 +260,7 @@ llamacpp_moe_offload_start(){
     # You can also customize the regex, for example -ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU" 
     # means to offload gate, up and down MoE layers but only from the 6th layer onwards.
     #
+    echo "Starting llama-server with: \"$MODEL_LOCATIONS/$model_dir/${model_file}\""
 
     llama-server \
     --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
@@ -231,14 +298,14 @@ llamacpp_qwen3_coder_start(){
 }
 
 llamacpp_glm_thinking_start(){
-    which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+    model_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
 
     which_temp="$1"
     if [[ -z $which_temp ]]; then
         which_temp="0.25"
     fi
     
-    llamacpp_no_offload_start "unsloth/GLM-4.7-Flash-GGUF" $which_file "unsloth/GLM-4.7-Flash" $which_temp
+    llamacpp_no_offload_start "unsloth/GLM-4.7-Flash-GGUF" $model_file "unsloth/GLM-4.7-Flash" $which_temp
 }
 
 
@@ -254,7 +321,7 @@ llamacpp_qwen3_thinking_start(){
     model_dir="unsloth/Qwen3-4B-Thinking-2507-GGUF"
     model_alias="Qwen3-4B"
 
-    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_no_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 ######################################
@@ -271,7 +338,7 @@ llamacpp_qwen3_coder_instruct_start(){
     model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
     model_alias="Qwen3-Coder-30B"
 
-    llamacpp_moe_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_moe_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 llamacpp_qwen3_coder_3kxl_instruct_start(){
@@ -284,7 +351,7 @@ llamacpp_qwen3_coder_3kxl_instruct_start(){
     model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
     model_alias="Qwen3-Coder-30B"
 
-    llamacpp_moe_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_moe_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 llamacpp_qwen3_coder_4ixs_instruct_start(){
@@ -297,7 +364,7 @@ llamacpp_qwen3_coder_4ixs_instruct_start(){
     model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
     model_alias="Qwen3-Coder-30B"
 
-    llamacpp_moe_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_moe_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 llamacpp_qwen3_coder_3km_instruct_start(){
@@ -310,7 +377,7 @@ llamacpp_qwen3_coder_3km_instruct_start(){
     model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
     model_alias="Qwen3-Coder-30B"
 
-    llamacpp_moe_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_moe_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 llamacpp_qwen3_coder_4km_instruct_start(){
@@ -323,7 +390,7 @@ llamacpp_qwen3_coder_4km_instruct_start(){
     model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
     model_alias="Qwen3-Coder-30B"
 
-    llamacpp_moe_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_moe_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 llamacpp_qwen3_coder_41_instruct_start(){
@@ -336,7 +403,7 @@ llamacpp_qwen3_coder_41_instruct_start(){
     model_dir="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"
     model_alias="Qwen3-Coder-30B"
 
-    llamacpp_moe_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_moe_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 ######################################
@@ -352,7 +419,7 @@ llamacpp_qwen3_30b_instruct_start(){
     model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
     model_alias="Qwen3-30B"
 
-    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_no_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 llamacpp_qwen3_30b_4ks_instruct_start(){
@@ -365,7 +432,7 @@ llamacpp_qwen3_30b_4ks_instruct_start(){
     model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
     model_alias="Qwen3-30B"
 
-    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_no_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 llamacpp_qwen3_30b_4xs_instruct_start(){
@@ -378,7 +445,7 @@ llamacpp_qwen3_30b_4xs_instruct_start(){
     model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
     model_alias="Qwen3-30B"
 
-    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_no_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 llamacpp_qwen3_30b_40_instruct_start(){
@@ -390,7 +457,7 @@ llamacpp_qwen3_30b_40_instruct_start(){
     model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
     model_alias="Qwen3-30B"
 
-    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_no_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 llamacpp_qwen3_30b_ud4xl_instruct_start(){
@@ -402,7 +469,7 @@ llamacpp_qwen3_30b_ud4xl_instruct_start(){
     model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
     model_alias="Qwen3-30B"
 
-    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_no_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 llamacpp_qwen3_30b_3ks_instruct_start(){
@@ -414,7 +481,7 @@ llamacpp_qwen3_30b_3ks_instruct_start(){
     model_file="Qwen3-30B-A3B-Instruct-2507-Q3_K_S.gguf"
     model_alias="Qwen3-30B"
 
-    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_no_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 llamacpp_qwen3_30b_3km_instruct_start(){
@@ -426,7 +493,7 @@ llamacpp_qwen3_30b_3km_instruct_start(){
     model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
     model_alias="Qwen3-30B"
 
-    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_no_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 llamacpp_qwen3_30b_3kxl_instruct_start(){
@@ -438,7 +505,7 @@ llamacpp_qwen3_30b_3kxl_instruct_start(){
     model_dir="unsloth/Qwen3-30B-A3B-Instruct-2507-GGUF"
     model_alias="Qwen3-30B"
 
-    llamacpp_no_offload_start $model_dir $which_file $model_alias $which_temp
+    llamacpp_no_offload_start $model_dir $model_file $model_alias $which_temp
 }
 
 
@@ -504,21 +571,21 @@ claude_qwen3_coder_ralph() {
 
 
 llamacpp_glm_start(){
-    which_file="$1"
-    if [[ -z $which_file ]]; then
+    model_file="$1"
+    if [[ -z $model_file ]]; then
         # Too big: 
         #
-        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
-        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
-        # which_file="GLM-4.7-Flash-Q4_K_S.gguf"
-        # which_file="GLM-4.7-Flash-Q3_K_M.gguf"
+        # model_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # model_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # model_file="GLM-4.7-Flash-Q4_K_S.gguf"
+        # model_file="GLM-4.7-Flash-Q3_K_M.gguf"
         #
         # Smaller models with good precision
-        # which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
-        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
-        # which_file="GLM-4.7-Flash-UD-Q2_K_XL.gguf"
-        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
-        which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+        # model_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+        # model_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        # model_file="GLM-4.7-Flash-UD-Q2_K_XL.gguf"
+        # model_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        model_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
     fi
 
     which_temp="$2"
@@ -570,7 +637,7 @@ llamacpp_glm_start(){
     # and API documentation for GLM-4.7-Flash.
 
     llama-server \
-    --model "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash-GGUF/${which_file}" \
+    --model "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash-GGUF/${model_file}" \
     --alias "unsloth/GLM-4.7-Flash" \
     --reasoning-budget 0 \
     --flash-attn auto \
@@ -589,55 +656,55 @@ llamacpp_glm_start(){
 }
 
 llamacpp_glm_creative_coding_start(){
-    which_file="$1"
-    if [[ -z $which_file ]]; then
+    model_file="$1"
+    if [[ -z $model_file ]]; then
         # Too big: 
         #
-        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
-        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
-        # which_file="GLM-4.7-Flash-Q4_K_S.gguf"
-        # which_file="GLM-4.7-Flash-Q3_K_M.gguf"
+        # model_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # model_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # model_file="GLM-4.7-Flash-Q4_K_S.gguf"
+        # model_file="GLM-4.7-Flash-Q3_K_M.gguf"
         #
         # Smaller models with good precision
-        # which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
-        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
-        # which_file="GLM-4.7-Flash-UD-Q2_K_XL.gguf"
-        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
-        which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+        # model_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+        # model_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        # model_file="GLM-4.7-Flash-UD-Q2_K_XL.gguf"
+        # model_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        model_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
     fi
 
     which_temp="$2"
-    if [[ -z $which_file ]]; then
+    if [[ -z $model_file ]]; then
         which_temp="0.45"
     fi
 
-    llamacpp_glm_start "$which_file" "$which_temp"
+    llamacpp_glm_start "$model_file" "$which_temp"
 }
 
 llamacpp_glm_coding_start(){
-    which_file="$1"
-    if [[ -z $which_file ]]; then
+    model_file="$1"
+    if [[ -z $model_file ]]; then
         # Too big: 
         #
-        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
-        # which_file="GLM-4.7-Flash-Q4_K_M.gguf"
-        # which_file="GLM-4.7-Flash-Q4_K_S.gguf"
-        # which_file="GLM-4.7-Flash-Q3_K_M.gguf"
+        # model_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # model_file="GLM-4.7-Flash-Q4_K_M.gguf"
+        # model_file="GLM-4.7-Flash-Q4_K_S.gguf"
+        # model_file="GLM-4.7-Flash-Q3_K_M.gguf"
         #
         # Smaller models with good precision
-        # which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
-        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
-        # which_file="GLM-4.7-Flash-UD-Q2_K_XL.gguf"
-        # which_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
-        which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+        # model_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+        # model_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        # model_file="GLM-4.7-Flash-UD-Q2_K_XL.gguf"
+        # model_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
+        model_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
     fi
 
     which_temp="$2"
-    if [[ -z $which_file ]]; then
+    if [[ -z $model_file ]]; then
         which_temp="0.25"
     fi
 
-    llamacpp_glm_start "$which_file" "$which_temp"
+    llamacpp_glm_start "$model_file" "$which_temp"
 }
 
 
@@ -703,12 +770,12 @@ claude_glm_ralph() {
 
 
 sglang_unsloth_glm_start(){
-    which_file="$1"
-    if [[ -z $which_file ]]; then
-        which_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+    model_file="$1"
+    if [[ -z $model_file ]]; then
+        model_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
     fi
 
-    # --model-path "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash/${which_file}" \
+    # --model-path "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash/${model_file}" \
 
     python3 -m sglang.launch_server \
         --model-path "zai-org/GLM-4.7-Flash"
@@ -812,63 +879,6 @@ claude_ollama_start() {
     fi
 }
 
-opencode_start(){
-    reset_claude_environment_variables
-
-    if has_command "curl"; then
-        if no_command "opencode"; then
-            echo "Installing opencode"
-            curl -fsSL https://opencode.ai/install | bash
-        fi
-    else
-        echo "Unable to install opencode with curl, please setup"
-    fi
-
-    model="$1"
-    if [[ -z $model ]]; then 
-        # model="gpt-oss:20b"
-        model="qwen3-coder:30b"
-    fi
-
-    if no_command "opencode"; then
-        echo "No opencode for me to run with"
-    else
-        opencode --model=$model
-    fi
-}
-
-opencode_ralph(){
-    reset_claude_environment_variables
-
-    if has_command "curl"; then
-        if no_command "opencode"; then
-            echo "Installing opencode"
-            curl -fsSL https://opencode.ai/install | bash
-        fi
-    else
-        echo "Unable to install opencode with curl, please setup"
-    fi
-
-    model="$1"
-    shift
-    prompt_type="$1"
-    shift
-    prompt_data="$*"
-
-    if no_command "opencode"; then
-        echo "No opencode for me to run with"
-    else
-        if [[ $prompt_type == "file" ]]; then 
-            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            cat $prompt_data | opencode run --model "$model" 
-        elif [[ $prompt_type == "message" ]]; then 
-            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            echo "$prompt_data" | opencode run --model "$model"
-        else
-            echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
-        fi
-    fi
-}
 
 test_llama_claude() {
     curl --location 'http://localhost:11434/v1/chat/completions' \
