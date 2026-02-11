@@ -91,7 +91,7 @@ opencode_ralph(){
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             prompt_data_content=$(cat $prompt_data)
             echo "Executing: opencode --model \"$model\" --prompt \"#(cat $prompt_data)\""
-            opencode --model "$model" --prompt "$prompt_data_content"
+            opencode --model "$model" "Start work on: @$prompt_data"
         elif [[ $prompt_type == "message" ]]; then 
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             echo "Executing: opencode --model \"$model\" --prompt \"$prompt_data\""
