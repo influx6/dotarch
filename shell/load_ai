@@ -880,19 +880,36 @@ llamacpp_glm_creative_coding_start(){
 llamacpp_glm_coding_start(){
     model_file="$1"
     if [[ -z $model_file ]]; then
-        # Too big: 
-        #
-        # model_file="GLM-4.7-Flash-Q4_K_M.gguf"
-        # model_file="GLM-4.7-Flash-Q4_K_M.gguf"
-        # model_file="GLM-4.7-Flash-Q4_K_S.gguf"
-        # model_file="GLM-4.7-Flash-Q3_K_M.gguf"
-        #
-        # Smaller models with good precision
-        # model_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
-        # model_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
-        # model_file="GLM-4.7-Flash-UD-Q2_K_XL.gguf"
-        # model_file="GLM-4.7-Flash-UD-Q3_K_XL.gguf"
         model_file="GLM-4.7-Flash-UD-Q4_K_XL.gguf"
+    fi
+
+    which_temp="$2"
+    if [[ -z $model_file ]]; then
+        which_temp="0.25"
+    fi
+
+    llamacpp_glm_start "$model_file" "$which_temp"
+}
+
+llamacpp_glm_q6_coding_start(){
+    model_file="$1"
+    if [[ -z $model_file ]]; then
+        model_file="GLM-4.7-Flash-UD-Q6_K_XL.gguf"
+    fi
+
+    which_temp="$2"
+    if [[ -z $model_file ]]; then
+        which_temp="0.25"
+    fi
+
+    llamacpp_glm_start "$model_file" "$which_temp"
+}
+
+
+llamacpp_glm_q5_coding_start(){
+    model_file="$1"
+    if [[ -z $model_file ]]; then
+        model_file="GLM-4.7-Flash-UD-Q5_K_XL.gguf"
     fi
 
     which_temp="$2"
