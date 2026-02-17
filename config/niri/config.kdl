@@ -273,7 +273,7 @@ layout {
 // This line starts waybar, a commonly used bar for Wayland compositors.
 // spawn-at-startup "swaybg" "-m" "fill" "-i" "/path/to/wallpaper.jpg"
 // spawn-at-startup "waybar"
-spawn-at-startup "ashell"
+// spawn-at-startup "ashell"
 spawn-at-startup "wpaperd"
 spawn-at-startup "mako"
 spawn-at-startup "udiskie"

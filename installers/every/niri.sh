@@ -88,6 +88,6 @@ yay -S --noconfirm freetype2 harfbuzz cairo pango wayland libxkbcommon anyrun ro
 
 
 # Uncomment this if you want dms-shell instead
-#
-# yay -S --noconfirm dms-shell-bin
-# systemctl --user add-wants niri.service dms
+
+yay -S --noconfirm dms-shell-bin
+systemctl --user add-wants niri.service dms

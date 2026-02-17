@@ -28,6 +28,7 @@
       // "cmd-shift-right": ["editor::SelectToEndOfLine", { "stop_at_soft_wraps": true }],
       // "ctrl-shift-e": ["editor::SelectToEndOfLine", { "stop_at_soft_wraps": true }],
       "tab /": "editor::ToggleCodeActions",
+      "tab ?": "assistant::InlineAssist",
       "tab r": "editor::Rename",
       "escape": "editor::Cancel",
       "backspace": "editor::Backspace",
@@ -157,6 +158,8 @@
     "context": "Workspace",
     "bindings": {
       // "shift shift": "file_finder::Toggle"
+      "tab |": "agent::ToggleFocus",
+      "tab ?": "assistant::InlineAssist",
       "tab t": "project_symbols::Toggle",
       "tab w": "workspace::CloseAllDocks",
       "tab f": "file_finder::Toggle",
@@ -171,7 +174,6 @@
       "tab x": "zed::Extensions",
       "alt-t": "task::Rerun",
       "alt-shift-t": "task::Spawn",
-      "tab ?": "agent::ToggleFocus",
       "ctrl-alt-s": "workspace::SaveAll",
       "tab m": "diagnostics::Deploy",
       "tab h": "workspace::ActivatePaneLeft",
@@ -258,7 +260,7 @@
       "ctrl-shift-l": "terminal::Clear",
       "ctrl-shift-w": "pane::CloseActiveItem",
       "shift-insert": "terminal::Paste",
-      "ctrl-enter": "assistant::InlineAssist",
+      "tab ?": "assistant::InlineAssist",
       "alt-tab": ["terminal::SendText", "\t"],
       "ctrl-w": ["terminal::SendKeystroke", "ctrl-w"],
       "ctrl-e": ["terminal::SendKeystroke", "ctrl-e"],

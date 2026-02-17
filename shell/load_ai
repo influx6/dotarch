@@ -837,7 +837,6 @@ llamacpp_glm_start(){
     --alias "unsloth/GLM-4.7-Flash" \
     --reasoning-budget 0 \
     --flash-attn auto \
-    -ngl 99 \
     --threads -1 \
     --seed 3407 \
     --temp $which_temp \
@@ -902,7 +901,7 @@ llamacpp_glm_q6_coding_start(){
         which_temp="0.25"
     fi
 
-    llamacpp_glm_start "$model_file" "$which_temp"
+    BASE_LLM_CONTEXT="98000" llamacpp_glm_start "$model_file" "$which_temp"
 }
 
 
@@ -917,7 +916,7 @@ llamacpp_glm_q5_coding_start(){
         which_temp="0.25"
     fi
 
-    llamacpp_glm_start "$model_file" "$which_temp"
+    BASE_LLM_CONTEXT="98000" llamacpp_glm_start "$model_file" "$which_temp"
 }
 
 
