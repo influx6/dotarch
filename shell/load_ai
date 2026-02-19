@@ -3,9 +3,17 @@
 LITELLM_MASTER_KEY=litellm-647e8dd5-7197-4639-899f-463408b3fb44
 LITELLM_SALT_KEY=litellm-3efab3d2-e033-46fe-976f-f2f05115ef98
 ENABLE_NETWORK_MONITOR=true
+
 LOG_LEVEL=DEBUG
 
+BASE_LLM_DRAFT_MODEL="lmstudio-community/zeta-GGUF"
+BASE_LLM_DRAFT_MODEL_GGUF="$BASE_LLM_DRAFT_MODEL/zeta-Q4_K_M.gguf"
+
+BASE_LLM_DRAFT_MODEL="unsloth/gemma-3-1b-it-GGUF"
+BASE_LLM_DRAFT_MODEL_GGUF="$BASE_LLM_DRAFT_MODEL/gemma-3-1b-it-Q4_K_M.gguf"
+
 BASE_LLM_CONTEXT=132000
+DRAFT_MODEL_CONTEXT_SIZE=16384
 
 export LLAMA_CPP_BIN="$HOME/apps/llama.cpp/build/bin/"
 export PATH="$LLAMA_CPP_BIN:$PATH"
@@ -243,6 +251,7 @@ llamacpp_no_offload_start(){
 
     llama-server \
     --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
+    --model-draft "$MODEL_LOCATIONS/$BASE_LLM_DRAFT_MODEL_GGUF" \
     --alias "$model_alias" \
     --fit on \
     -ngl 99 \
@@ -303,6 +312,7 @@ llamacpp_moe_offload_start(){
 
     llama-server \
     --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
+    --model-draft "$MODEL_LOCATIONS/$BASE_LLM_DRAFT_MODEL_GGUF" \
     --alias "$model_alias" \
     --fit on \
     -ngl 99 \
@@ -832,6 +842,10 @@ llamacpp_glm_start(){
     # Disclaimer: Based on research from January 2026, including local deployment guides using tools like llama.cpp 
     # and API documentation for GLM-4.7-Flash.
 
+    # --model-draft "$MODEL_LOCATIONS/$BASE_LLM_DRAFT_MODEL_GGUF" \
+    #
+    # --model-draft "$MODEL_LOCATIONS/$BASE_LLM_DRAFT_MODEL_GGUF" \
+
     llama-server \
     --model "$MODEL_LOCATIONS/unsloth/GLM-4.7-Flash-GGUF/${model_file}" \
     --alias "unsloth/GLM-4.7-Flash" \
@@ -873,7 +887,7 @@ llamacpp_glm_creative_coding_start(){
         which_temp="0.45"
     fi
 
-    llamacpp_glm_start "$model_file" "$which_temp"
+    BASE_LLM_CONTEXT="190000" llamacpp_glm_start "$model_file" "$which_temp"
 }
 
 llamacpp_glm_coding_start(){
@@ -887,7 +901,7 @@ llamacpp_glm_coding_start(){
         which_temp="0.25"
     fi
 
-    llamacpp_glm_start "$model_file" "$which_temp"
+    BASE_LLM_CONTEXT="202752" llamacpp_glm_start "$model_file" "$which_temp"
 }
 
 llamacpp_glm_q6_coding_start(){
@@ -901,7 +915,7 @@ llamacpp_glm_q6_coding_start(){
         which_temp="0.25"
     fi
 
-    BASE_LLM_CONTEXT="98000" llamacpp_glm_start "$model_file" "$which_temp"
+    BASE_LLM_CONTEXT="190000" llamacpp_glm_start "$model_file" "$which_temp"
 }
 
 
@@ -916,7 +930,7 @@ llamacpp_glm_q5_coding_start(){
         which_temp="0.25"
     fi
 
-    BASE_LLM_CONTEXT="98000" llamacpp_glm_start "$model_file" "$which_temp"
+    BASE_LLM_CONTEXT="190000" llamacpp_glm_start "$model_file" "$which_temp"
 }
 
 
