@@ -67,8 +67,8 @@
       },
     },
     "default_model": {
-      "provider": "copilot_chat",
-      "model": "gpt-5-mini",
+      "provider": "llama_server",
+      "model": "GLM 4.7-Flash",
     },
   },
   "language_models": {

@@ -158,17 +158,17 @@
   {
     "context": "Editor && edit_prediction",
     "bindings": {
-      "tab p": "editor::AcceptEditPrediction",
-      "tab shift-p": "editor::AcceptNextWordEditPrediction",
-      "tab shift-l": "editor::AcceptNextLineEditPrediction",
+      "alt-l": "editor::AcceptEditPrediction",
+      "alt-shift-l": "editor::AcceptNextLineEditPrediction",
+      "alt-shift-k": "editor::AcceptNextWordEditPrediction",
     },
   },
   {
     "context": "Editor && edit_prediction_conflict",
     "bindings": {
-      "tab p": "editor::AcceptEditPrediction",
-      "tab shift-p": "editor::AcceptNextWordEditPrediction",
-      "tab shift-l": "editor::AcceptNextLineEditPrediction",
+      "alt-l": "editor::AcceptEditPrediction",
+      "alt-shift-l": "editor::AcceptNextLineEditPrediction",
+      "alt-shift-k": "editor::AcceptNextWordEditPrediction",
     },
   },
   {
