@@ -8,11 +8,21 @@
 // command palette
 {
   "context_servers": {
-    "mcp-server-playwright": {
+    "mcp-server-context7": {
       "enabled": false,
       "remote": false,
       "settings": {}
-    }
+    },
+    "mcp-server-exa-search": {
+      "enabled": false,
+      "remote": false,
+      "settings": {}
+    },
+    "mcp-server-playwright": {
+      "enabled": true,
+      "remote": false,
+      "settings": {},
+    },
   },
   "vim": {
     "toggle_relative_line_numbers": true,
@@ -34,7 +44,7 @@
   "agent": {
     "inline_assistant_model": {
       "provider": "copilot_chat",
-      "model": "gpt-5-mini"
+      "model": "gpt-5-mini",
     },
     "default_profile": "write",
     "use_modifier_to_send": true,
@@ -181,6 +191,9 @@
   "lsp": {
     "rust-analyzer": {
       "enable_lsp_tasks": true,
+      "initialization_options": {
+        // "checkOnSave": false,
+      },
     },
   },
 }

@@ -22,9 +22,11 @@ model_list:
           "Editor-Version": "vscode/1.85.1",
           "Copilot-Integration-Id": "vscode-chat",
         }
-  - model_name: gpt-4
+  - model_name: gpt-5-mini
     litellm_params:
-      model: github_copilot/gpt-4
+      model: github_copilot/gpt-5-mini
+      model_info:
+        mode: responses
       default_fallbacks:
         - gpt-4
       extra_headers:
@@ -32,6 +34,40 @@ model_list:
           "Editor-Version": "vscode/1.85.1",
           "Copilot-Integration-Id": "vscode-chat",
         }
+  - model_name: gpt-4o
+    litellm_params:
+      model: github_copilot/gpt-4o
+      model_info:
+        mode: responses
+      default_fallbacks:
+        - gpt-4
+      # extra_headers:
+      #   {
+      #     "Editor-Version": "vscode/1.85.1",
+      #     "Copilot-Integration-Id": "vscode-chat",
+      #   }
+  - model_name: gpt-4.1
+    litellm_params:
+      model: github_copilot/gpt-4.1
+      # model_info:
+      #   mode: responses
+      default_fallbacks:
+        - gpt-4
+      extra_headers:
+        {
+          "Editor-Version": "vscode/1.85.1",
+          "Copilot-Integration-Id": "vscode-chat",
+        }
+  - model_name: gpt-4
+    litellm_params:
+      model: github_copilot/gpt-4
+      default_fallbacks:
+        - gpt-4
+      # extra_headers:
+      #   {
+      #     "Editor-Version": "vscode/1.85.1",
+      #     "Copilot-Integration-Id": "vscode-chat",
+      #   }
   - model_name: claude-haiku-4.5
     litellm_params:
       model: github_copilot/claude-haiku-4.5
