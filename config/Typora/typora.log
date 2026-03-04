@@ -1,0 +1,61 @@
+INFO 3/1/2026, 6:41:40 PM  23  launch with argv [/usr/share/typora/Typora, --enable-wayland-ime, /home/darkvoid/.cache/.fr-gy9GLy/sun_mar_01_2026_sliding_window_optimization_in_python.md]
+INFO 3/1/2026, 6:41:40 PM  62  ------------------start------------------
+DEBUG 3/1/2026, 6:41:40 PM  69  before setting 
+DEBUG 3/1/2026, 6:41:40 PM  82  prepDatabase /home/darkvoid/.config/Typora/profile.data
+DEBUG 3/1/2026, 6:41:40 PM  84  prepDatabase /home/darkvoid/.config/Typora/history.data
+INFO 3/1/2026, 6:41:40 PM  85  OS is linux 6.18.13-arch1-1
+INFO 3/1/2026, 6:41:40 PM  85  launchFromDiffVersion, pre version is undefined
+INFO 3/1/2026, 6:41:40 PM  85  start LM in devVersion=false
+INFO 3/1/2026, 6:41:40 PM  90  overwriteThemeFolder
+DEBUG 3/1/2026, 6:41:40 PM  92  after setting 
+INFO 3/1/2026, 6:41:40 PM  92  typora version: 1.12.4
+DEBUG 3/1/2026, 6:41:40 PM  92  app.openFile
+INFO 3/1/2026, 6:41:40 PM  92  addRecentDocument
+DEBUG 3/1/2026, 6:41:40 PM  117  added recovery 1 /home/darkvoid/.cache/.fr-gy9GLy/sun_mar_01_2026_sliding_window_optimization_in_python.md  (0)
+INFO 3/1/2026, 6:41:40 PM  118  [watch L]
+DEBUG 3/1/2026, 6:41:40 PM  118  prepDatabase /home/darkvoid/.config/Typora/0Rskm92aZ7
+INFO 3/1/2026, 6:41:40 PM  120  no info
+INFO 3/1/2026, 6:41:40 PM  120  ls put SLicense
+DEBUG 3/1/2026, 6:41:40 PM  120  onUnfillLicense
+DEBUG 3/1/2026, 6:41:40 PM  120  trailRemains is 15
+INFO 3/1/2026, 6:41:40 PM  120  [L] installDate is 3/1/2026, trail remains: 15 days
+DEBUG 3/1/2026, 6:41:40 PM  120  onUnfillLicense
+INFO 3/1/2026, 6:41:40 PM  120  [watch L] hasL: false
+INFO 3/1/2026, 6:41:40 PM  170  updateTheme
+INFO 3/1/2026, 6:41:40 PM  173  [focus] 1
+DEBUG 3/1/2026, 6:41:40 PM  204  putAccelerator File -> &File
+DEBUG 3/1/2026, 6:41:40 PM  204  putAccelerator Edit -> &Edit
+DEBUG 3/1/2026, 6:41:40 PM  204  putAccelerator Paragraph -> &Paragraph
+DEBUG 3/1/2026, 6:41:40 PM  204  putAccelerator Format -> F&ormat
+DEBUG 3/1/2026, 6:41:40 PM  204  putAccelerator View -> &View
+DEBUG 3/1/2026, 6:41:40 PM  204  putAccelerator Themes -> &Themes
+DEBUG 3/1/2026, 6:41:40 PM  204  putAccelerator Help -> &Help
+INFO 3/1/2026, 6:41:40 PM  212  synced recovery
+user-dict.json not found
+DEBUG 3/1/2026, 6:41:40 PM  492  onUnfillLicense
+ERROR 3/1/2026, 6:41:40 PM  497  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/1/2026, 6:41:40 PM  498  handle document.loadData
+DEBUG 3/1/2026, 6:41:40 PM  498  document.loadData 0
+ERROR 3/1/2026, 6:41:40 PM  499  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/1/2026, 6:41:40 PM  525  [RenderProcess 1][Log] [UndoManager] reset commandStack
+INFO 3/1/2026, 6:41:40 PM  526  [RenderProcess 1][Log] reset NodeMap
+INFO 3/1/2026, 6:41:40 PM  526  [RenderProcess 1][Log] readContentFrom /home/darkvoid/.cache/.fr-gy9GLy/sun_mar_01_2026_sliding_window_optimization_in_python.md
+DEBUG 3/1/2026, 6:41:40 PM  633  added recovery 1 /home/darkvoid/.cache/.fr-gy9GLy/sun_mar_01_2026_sliding_window_optimization_in_python.md  (0)
+INFO 3/1/2026, 6:41:40 PM  634  synced recovery
+INFO 3/1/2026, 6:41:40 PM  656  [RenderProcess 1][Log] onBecomeActive
+INFO 3/1/2026, 6:41:40 PM  656  [RenderProcess 1][Log] File.activeWindow = true
+ERROR 3/1/2026, 6:41:40 PM  656  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/1/2026, 6:41:40 PM  656  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/1/2026, 6:41:44 PM  4746  synced recovery
+INFO 3/1/2026, 6:41:44 PM  4746  ----------------before-quit-----------------
+INFO 3/1/2026, 6:41:44 PM  4746  ------------------will-quit------------------
+INFO 3/1/2026, 6:41:44 PM  4747  -----------------quit------------------
+INFO 3/1/2026, 6:41:44 PM  4747  closeLogging

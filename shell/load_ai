@@ -33,7 +33,7 @@ hf_download(){
     shift
 
     file_name="$1"
-    if [[ ! -z $file_name ]]; then 
+    if [[ ! -z $file_name ]]; then
         shift
         hf download --local-dir="$HOME/Boxxed/@dev/models/$repo" $repo $file_name $*
     else
@@ -43,7 +43,7 @@ hf_download(){
 }
 
 ######################################
-#  OpenCode 
+#  OpenCode
 ######################################
 
 opencode_start(){
@@ -59,7 +59,7 @@ opencode_start(){
     fi
 
     model="$1"
-    if [[ -z $model ]]; then 
+    if [[ -z $model ]]; then
         model="llamacpp/unsloth/Qwen3-Coder-30B"
     fi
 
@@ -83,7 +83,7 @@ opencode_ralph(){
     fi
 
     model="$1"
-    if [[ -z $model ]]; then 
+    if [[ -z $model ]]; then
         model="llamacpp/unsloth/Qwen3-Coder-30B"
     fi
 
@@ -95,12 +95,12 @@ opencode_ralph(){
     if no_command "opencode"; then
         echo "No opencode for me to run with"
     else
-        if [[ $prompt_type == "file" ]]; then 
+        if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             prompt_data_content=$(cat $prompt_data)
             echo "Executing: opencode --model \"$model\" --prompt \"#(cat $prompt_data)\""
             opencode --model "$model" "Start work on: @$prompt_data"
-        elif [[ $prompt_type == "message" ]]; then 
+        elif [[ $prompt_type == "message" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             echo "Executing: opencode --model \"$model\" --prompt \"$prompt_data\""
             opencode --model "$model" --prompt "$prompt_data"
@@ -143,8 +143,12 @@ opencode_ralph_qwen3_30b(){
     opencode_ralph "llamacpp/unsloth/Qwen3-30B" $*
 }
 
+opencode_ralph_qwen35(){
+    opencode_ralph "llamacpp/unsloth/Qwen3.5-35B-A3B-GGUF" $*
+}
+
 ######################################
-#  ClaudeCode 
+#  ClaudeCode
 ######################################
 
 claude_qwen3_start() {
@@ -155,7 +159,7 @@ claude_qwen3_start() {
     export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
 
     model="$1"
-    if [[ -z $model ]]; then 
+    if [[ -z $model ]]; then
         model="Qwen3-4B"
     fi
 
@@ -195,10 +199,10 @@ claude_qwen3_ralph() {
         fi
     else
         rm -rf ~/.claude/settings.json
-        if [[ $prompt_type == "file" ]]; then 
+        if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             cat $prompt_data | claude --dangerously-skip-permissions --model=$model
-        elif [[ $prompt_type == "message" ]]; then 
+        elif [[ $prompt_type == "message" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
         else
@@ -217,65 +221,9 @@ llamacpp_no_offload_start(){
         which_temp="0.5"
     fi
 
-
-    # For general use-case:  --temp 1.0 --top-p 0.95
-    # For tool-calling:  --temp 0.7 --top-p 1.0
-    # Default ctx: --ctx-size 16384 \
-    # Other arguments you can use:
-    #
-    # --ctx-size 202752 \
-    # --n-gpu-layers 99 \
-    #
-    # context size =   202752
-    # output tokens =  128000
-    # output tokens =  64000
-    # recomended was = 16384
-    #
-    #
-    # Offloading
-    #
-    #If you have more VRAM, you can try offloading more MoE layers, or offloading whole layers themselves.
-    #
-    # Normally, -ot ".ffn_.*_exps.=CPU" offloads all MoE layers to the CPU! This effectively allows you 
-    # to fit all non MoE layers on 1 GPU, improving generation speeds. You can customize the regex expression 
-    # to fit more layers if you have more GPU capacity.
-    #
-    # If you have a bit more GPU memory, try -ot ".ffn_(up|down)_exps.=CPU" This offloads up and down projection MoE layers.
-    #
-    # Try -ot ".ffn_(up)_exps.=CPU" if you have even more GPU memory. This offloads only up projection MoE layers.
-    #
-    # You can also customize the regex, for example -ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU" 
-    # means to offload gate, up and down MoE layers but only from the 6th layer onwards.
-    #
-    echo "Starting llama-server with: \"$MODEL_LOCATIONS/$model_dir/${model_file}\""
-
-    llama-server \
-    --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
-    --model-draft "$MODEL_LOCATIONS/$BASE_LLM_DRAFT_MODEL_GGUF" \
-    --alias "$model_alias" \
-    --fit on \
-    -ngl 99 \
-    --threads -1 \
-    --seed 3407 \
-    --temp $which_temp \
-    --top-p 0.8 \
-    --top-k 20 \
-    --min-p 0.01 \
-    --repeat-penalty 1.0 \
-    --sleep-idle-seconds 600 \
-    --ctx-size $BASE_LLM_CONTEXT \
-    --port 8001 \
-    --jinja
-}
-
-llamacpp_moe_offload_start(){
-    model_dir="$1"
-    model_file="$2"
-    model_alias="$3"
-
-    which_temp="$4"
-    if [[ -z $which_temp ]]; then
-        which_temp="0.5"
+    sleep_cycle=$5
+    if [[ -z $sleep_cycle ]]; then
+        sleep_cycle=-1
     fi
 
 
@@ -297,18 +245,85 @@ llamacpp_moe_offload_start(){
     #
     #If you have more VRAM, you can try offloading more MoE layers, or offloading whole layers themselves.
     #
-    # Normally, -ot ".ffn_.*_exps.=CPU" offloads all MoE layers to the CPU! This effectively allows you 
-    # to fit all non MoE layers on 1 GPU, improving generation speeds. You can customize the regex expression 
+    # Normally, -ot ".ffn_.*_exps.=CPU" offloads all MoE layers to the CPU! This effectively allows you
+    # to fit all non MoE layers on 1 GPU, improving generation speeds. You can customize the regex expression
     # to fit more layers if you have more GPU capacity.
     #
     # If you have a bit more GPU memory, try -ot ".ffn_(up|down)_exps.=CPU" This offloads up and down projection MoE layers.
     #
     # Try -ot ".ffn_(up)_exps.=CPU" if you have even more GPU memory. This offloads only up projection MoE layers.
     #
-    # You can also customize the regex, for example -ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU" 
+    # You can also customize the regex, for example -ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU"
     # means to offload gate, up and down MoE layers but only from the 6th layer onwards.
     #
     echo "Starting llama-server with: \"$MODEL_LOCATIONS/$model_dir/${model_file}\""
+    echo "Using sleep cycle: $sleep_cycle"
+
+    llama-server \
+    --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
+    --model-draft "$MODEL_LOCATIONS/$BASE_LLM_DRAFT_MODEL_GGUF" \
+    --alias "$model_alias" \
+    --fit on \
+    -ngl 99 \
+    --threads -1 \
+    --seed 3407 \
+    --temp $which_temp \
+    --top-p 0.8 \
+    --top-k 20 \
+    --min-p 0.01 \
+    --sleep-idle-seconds $sleep_cycle \
+    --repeat-penalty 1.0 \
+    --ctx-size $BASE_LLM_CONTEXT \
+    --port 8001 \
+    --jinja
+}
+
+llamacpp_moe_offload_start(){
+    model_dir="$1"
+    model_file="$2"
+    model_alias="$3"
+
+    which_temp="$4"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.5"
+    fi
+
+    sleep_cycle=$5
+    if [[ -z $sleep_cycle ]]; then
+        sleep_cycle=-1
+    fi
+
+    # For general use-case:  --temp 1.0 --top-p 0.95
+    # For tool-calling:  --temp 0.7 --top-p 1.0
+    # Default ctx: --ctx-size 16384 \
+    # Other arguments you can use:
+    #
+    # --ctx-size 202752 \
+    # --n-gpu-layers 99 \
+    #
+    # context size =   202752
+    # output tokens =  128000
+    # output tokens =  64000
+    # recomended was = 16384
+    #
+    #
+    # Offloading
+    #
+    #If you have more VRAM, you can try offloading more MoE layers, or offloading whole layers themselves.
+    #
+    # Normally, -ot ".ffn_.*_exps.=CPU" offloads all MoE layers to the CPU! This effectively allows you
+    # to fit all non MoE layers on 1 GPU, improving generation speeds. You can customize the regex expression
+    # to fit more layers if you have more GPU capacity.
+    #
+    # If you have a bit more GPU memory, try -ot ".ffn_(up|down)_exps.=CPU" This offloads up and down projection MoE layers.
+    #
+    # Try -ot ".ffn_(up)_exps.=CPU" if you have even more GPU memory. This offloads only up projection MoE layers.
+    #
+    # You can also customize the regex, for example -ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU"
+    # means to offload gate, up and down MoE layers but only from the 6th layer onwards.
+    #
+    echo "Starting llama-server with: \"$MODEL_LOCATIONS/$model_dir/${model_file}\""
+    echo "Using sleep cycle: $sleep_cycle"
 
     llama-server \
     --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
@@ -323,8 +338,8 @@ llamacpp_moe_offload_start(){
     --top-k 20 \
     --min-p 0.01 \
     --repeat-penalty 1.0 \
+    --sleep-idle-seconds $sleep_cycle \
     -ot ".ffn_.*_exps.=CPU" \
-    --sleep-idle-seconds 600 \
     --ctx-size $BASE_LLM_CONTEXT \
     --port 8001 \
     --jinja
@@ -354,10 +369,10 @@ claude_qwen3_30b_coder_ralph() {
         fi
     else
         rm -rf ~/.claude/settings.json
-        if [[ $prompt_type == "file" ]]; then 
+        if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             cat $prompt_data | claude --dangerously-skip-permissions --model=$model
-        elif [[ $prompt_type == "message" ]]; then 
+        elif [[ $prompt_type == "message" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
         else
@@ -390,7 +405,7 @@ llamacpp_glm_thinking_start(){
     if [[ -z $which_temp ]]; then
         which_temp="0.25"
     fi
-    
+
     llamacpp_no_offload_start "unsloth/GLM-4.7-Flash-GGUF" $model_file "unsloth/GLM-4.7-Flash" $which_temp
 }
 
@@ -411,6 +426,201 @@ llamacpp_qwen3_thinking_start(){
 }
 
 ######################################
+#   Qwen3.5 30B
+######################################
+
+llamacpp_qwen35_5XL_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_file="Qwen3.5-35B-A3B-UD-Q5_K_XL.gguf"
+    model_dir="unsloth/Qwen3.5-35B-A3B-GGUF"
+    model_alias="Qwen3-3.5-5XL-35B"
+    sleep_cycle=-1
+
+    llamacpp_no_offload_start $model_dir $model_file $model_alias $which_temp $sleep_cycle
+}
+
+llamacpp_qwen35_5XL_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_file="Qwen3.5-35B-A3B-UD-Q5_K_XL.gguf"
+    model_dir="unsloth/Qwen3.5-35B-A3B-GGUF"
+    model_alias="Qwen3-3.5-35B-5XL"
+
+    llamacpp_no_offload_start $model_dir $model_file $model_alias $which_temp
+}
+
+
+llamacpp_qwen35_5XL_offload_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_file="Qwen3.5-35B-A3B-UD-Q5_K_XL.gguf"
+    model_dir="unsloth/Qwen3.5-35B-A3B-GGUF"
+    model_alias="Qwen3-3.5-35B-5XL"
+
+    llamacpp_moe_offload_start $model_dir $model_file $model_alias $which_temp
+}
+
+claude_qwen35_5XL_coder_start() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="llamacpp"
+    export ANTHROPIC_BASE_URL="http://localhost:8001"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+
+    model="$1"
+    if [[ -z $model ]]; then
+        model_alias="Qwen3-3.5-35B-5XL"
+    fi
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        claude --model "$model"
+    fi
+}
+
+claude_qwen35_5XL_coder_ralph() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="llamacpp"
+    export ANTHROPIC_BASE_URL="http://localhost:8001"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+    # context size =   202752
+    # output tokens =  64000
+    # recomended was = 16384
+
+    prompt_type="$1"
+    shift
+    prompt_data="$*"
+
+    model="Qwen3-3.5-35B-5XL"
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        if [[ $prompt_type == "file" ]]; then
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            cat $prompt_data | claude --dangerously-skip-permissions --model=$model
+        elif [[ $prompt_type == "message" ]]; then
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
+        else
+            echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
+        fi
+    fi
+}
+
+
+llamacpp_qwen35_4XL_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_file="Qwen3.5-35B-A3B-UD-Q4_K_XL.gguf"
+    model_dir="unsloth/Qwen3.5-35B-A3B-GGUF"
+    model_alias="Qwen3-3.5-35B-4XL"
+
+    llamacpp_no_offload_start $model_dir $model_file $model_alias $which_temp
+}
+
+
+llamacpp_qwen35_4XL_offload_start(){
+    which_temp="$1"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.25"
+    fi
+
+    model_file="Qwen3.5-35B-A3B-UD-Q4_K_XL.gguf"
+    model_dir="unsloth/Qwen3.5-35B-A3B-GGUF"
+    model_alias="Qwen3-3.5-35B-4XL"
+
+    llamacpp_moe_offload_start $model_dir $model_file $model_alias $which_temp
+}
+
+claude_qwen35_4XL_coder_start() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="llamacpp"
+    export ANTHROPIC_BASE_URL="http://localhost:8001"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+
+    model="$1"
+    if [[ -z $model ]]; then
+        model_alias="Qwen3-3.5-35B-4XL"
+    fi
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        claude --model "$model"
+    fi
+}
+
+
+claude_qwen35_4XL_coder_ralph() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="llamacpp"
+    export ANTHROPIC_BASE_URL="http://localhost:8001"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+    # context size =   202752
+    # output tokens =  64000
+    # recomended was = 16384
+
+    prompt_type="$1"
+    shift
+    prompt_data="$*"
+
+    model="Qwen3-3.5-35B-4XL"
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        if [[ $prompt_type == "file" ]]; then
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            cat $prompt_data | claude --dangerously-skip-permissions --model=$model
+        elif [[ $prompt_type == "message" ]]; then
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
+        else
+            echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
+        fi
+    fi
+}
+
+
+######################################
 #   Qwen3 Coder 30B
 ######################################
 
@@ -422,7 +632,7 @@ claude_qwen3_30b_coder_start() {
     export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
 
     model="$1"
-    if [[ -z $model ]]; then 
+    if [[ -z $model ]]; then
         model="Qwen3-Coder-30B"
     fi
 
@@ -462,10 +672,10 @@ claude_qwen3_30b_coder_ralph() {
         fi
     else
         rm -rf ~/.claude/settings.json
-        if [[ $prompt_type == "file" ]]; then 
+        if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             cat $prompt_data | claude --dangerously-skip-permissions --model=$model
-        elif [[ $prompt_type == "message" ]]; then 
+        elif [[ $prompt_type == "message" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
         else
@@ -564,7 +774,7 @@ claude_qwen3_30b_start() {
     export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
 
     model="$1"
-    if [[ -z $model ]]; then 
+    if [[ -z $model ]]; then
         model="Qwen3-30B"
     fi
 
@@ -604,10 +814,10 @@ claude_qwen3_30b_ralph() {
         fi
     else
         rm -rf ~/.claude/settings.json
-        if [[ $prompt_type == "file" ]]; then 
+        if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             cat $prompt_data | claude --dangerously-skip-permissions --model=$model
-        elif [[ $prompt_type == "message" ]]; then 
+        elif [[ $prompt_type == "message" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
         else
@@ -723,7 +933,7 @@ claude_qwen3_coder_start() {
     export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
 
     model="$1"
-    if [[ -z $model ]]; then 
+    if [[ -z $model ]]; then
         model="Qwen3-Coder-30B"
     fi
 
@@ -763,10 +973,10 @@ claude_qwen3_coder_ralph() {
         fi
     else
         rm -rf ~/.claude/settings.json
-        if [[ $prompt_type == "file" ]]; then 
+        if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             cat $prompt_data | claude --dangerously-skip-permissions --model=$model
-        elif [[ $prompt_type == "message" ]]; then 
+        elif [[ $prompt_type == "message" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
         else
@@ -779,7 +989,7 @@ claude_qwen3_coder_ralph() {
 llamacpp_glm_start(){
     model_file="$1"
     if [[ -z $model_file ]]; then
-        # Too big: 
+        # Too big:
         #
         # model_file="GLM-4.7-Flash-Q4_K_M.gguf"
         # model_file="GLM-4.7-Flash-Q4_K_M.gguf"
@@ -817,29 +1027,29 @@ llamacpp_glm_start(){
     #
     # --chat-template-kwargs '{"thinking": false}'
     #
-    # OR 
+    # OR
     #
     # --reasoning-budget 0
     #
     #
     # Recommendations:
-    # Yes, for coding tasks with GLM-4.7-Flash, you should lower the temperature below 0.5, with recommended settings 
-    # often falling between 0.2 and 0.3 for maximum accuracy and code generation precision. 
-    # While some general-purpose configurations suggest 0.7–1.0 for speed, reducing the temperature to 0.2 
-    # makes the model's output more deterministic and reliable, preventing unnecessary creative deviations in code structure. 
-    # Recommended Settings for GLM-4.7-Flash Coding 
+    # Yes, for coding tasks with GLM-4.7-Flash, you should lower the temperature below 0.5, with recommended settings
+    # often falling between 0.2 and 0.3 for maximum accuracy and code generation precision.
+    # While some general-purpose configurations suggest 0.7–1.0 for speed, reducing the temperature to 0.2
+    # makes the model's output more deterministic and reliable, preventing unnecessary creative deviations in code structure.
+    # Recommended Settings for GLM-4.7-Flash Coding
     # Temperature: 0.2 (0.1–0.3 range)
     # Top-P: 0.9 or 0.95 (Maintains high probability tokens while allowing slight variation for better syntax)
     # Top-K: 50 (often recommended to limit the token pool for better accuracy)
-    # Use Case: If the code is for production, stick to 0.2. If it is for quick experimentation/prompting, 0.6–0.7 may be acceptable, but 0.2–0.3 reduces bugs. 
+    # Use Case: If the code is for production, stick to 0.2. If it is for quick experimentation/prompting, 0.6–0.7 may be acceptable, but 0.2–0.3 reduces bugs.
     # Key Considerations
-    # Low Temp = Less Errors: For programming, you want the model to be deterministic and follow best practices. 
+    # Low Temp = Less Errors: For programming, you want the model to be deterministic and follow best practices.
     # A temperature below 0.5 prevents "hallucinating" unnecessary loops or using deprecated syntax.
-    # Reasoning Mode Behavior: If you are using GLM-4.7 Flash with "thinking mode" enabled, it may take longer to process, 
+    # Reasoning Mode Behavior: If you are using GLM-4.7 Flash with "thinking mode" enabled, it may take longer to process,
     # but low temperatures help keep the reasoning focused.
-    # What if it's too rigid? If the code feels too repetitive or simple, slightly increase the temperature to 0.4 or 0.5, 
-    # but rarely higher than that for coding. 
-    # Disclaimer: Based on research from January 2026, including local deployment guides using tools like llama.cpp 
+    # What if it's too rigid? If the code feels too repetitive or simple, slightly increase the temperature to 0.4 or 0.5,
+    # but rarely higher than that for coding.
+    # Disclaimer: Based on research from January 2026, including local deployment guides using tools like llama.cpp
     # and API documentation for GLM-4.7-Flash.
 
     # --model-draft "$MODEL_LOCATIONS/$BASE_LLM_DRAFT_MODEL_GGUF" \
@@ -867,7 +1077,7 @@ llamacpp_glm_start(){
 llamacpp_glm_creative_coding_start(){
     model_file="$1"
     if [[ -z $model_file ]]; then
-        # Too big: 
+        # Too big:
         #
         # model_file="GLM-4.7-Flash-Q4_K_M.gguf"
         # model_file="GLM-4.7-Flash-Q4_K_M.gguf"
@@ -942,7 +1152,7 @@ claude_glm_start() {
     export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
 
     model="$1"
-    if [[ -z $model ]]; then 
+    if [[ -z $model ]]; then
         model="unsloth/GLM-4.7-Flash"
     fi
 
@@ -982,10 +1192,10 @@ claude_glm_ralph() {
         fi
     else
         rm -rf ~/.claude/settings.json
-        if [[ $prompt_type == "file" ]]; then 
+        if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             cat $prompt_data | claude --dangerously-skip-permissions --model=$model
-        elif [[ $prompt_type == "message" ]]; then 
+        elif [[ $prompt_type == "message" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
         else
@@ -1057,7 +1267,7 @@ ollama_start(){
     if has_command "brew"; then
         if no_command "ollama"; then
             echo "Installing ollama"
-            sudo pacman -S --noconfirm ollama-cuda cuda nvtop 
+            sudo pacman -S --noconfirm ollama-cuda cuda nvtop
         fi
     else
         echo "Unable to install ollama with brew, please setup"
@@ -1088,7 +1298,7 @@ claude_ollama_start() {
     export ANTHROPIC_BASE_URL="http://localhost:11434"
 
     model="$1"
-    if [[ -z $model ]]; then 
+    if [[ -z $model ]]; then
         model="gpt-oss:20b"
         # model="qwen3-coder:30b"
     fi
@@ -1145,11 +1355,11 @@ claude_ralph_litellm() {
         fi
     else
         rm -rf ~/.claude/settings.json
-        if [[ $prompt_type == "file" ]]; then 
+        if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             echo "Cating file $prompt_data to claude"
             cat $prompt_data | claude --dangerously-skip-permissions
-        elif [[ $prompt_type == "message" ]]; then 
+        elif [[ $prompt_type == "message" ]]; then
             echo "Cating prompt $prompt_data to claude"
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
             echo "$prompt_data" | claude --dangerously-skip-permissions
@@ -1255,7 +1465,7 @@ test_claude_sonnet() {
             }
         ]
         }'
-    
+
 }
 
 test_claude_sonnet45() {
@@ -1292,5 +1502,5 @@ test_gpt4() {
 test_models() {
     curl --location 'http://0.0.0.0:4000/v1/models' \
         --header 'Content-Type: application/json' \
-        --header 'Editor-Version: CommandLine/1.0' 
+        --header 'Editor-Version: CommandLine/1.0'
 }
