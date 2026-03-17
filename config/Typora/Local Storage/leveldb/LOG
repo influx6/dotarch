@@ -1,2 +1,3 @@
-2026/03/01-18:41:40.098 10657 Creating DB /home/darkvoid/.config/Typora/Local Storage/leveldb since it was missing.
-2026/03/01-18:41:40.102 10657 Reusing MANIFEST /home/darkvoid/.config/Typora/Local Storage/leveldb/MANIFEST-000001
+2026/03/17-22:48:52.378 2675a0 Reusing MANIFEST /home/darkvoid/.config/Typora/Local Storage/leveldb/MANIFEST-000001
+2026/03/17-22:48:52.380 2675a0 Recovering log #3
+2026/03/17-22:48:52.380 2675a0 Reusing old log /home/darkvoid/.config/Typora/Local Storage/leveldb/000003.log 

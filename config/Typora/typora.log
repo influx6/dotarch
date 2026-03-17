@@ -59,3 +59,229 @@ INFO 3/1/2026, 6:41:44 PM  4746  ----------------before-quit-----------------
 INFO 3/1/2026, 6:41:44 PM  4746  ------------------will-quit------------------
 INFO 3/1/2026, 6:41:44 PM  4747  -----------------quit------------------
 INFO 3/1/2026, 6:41:44 PM  4747  closeLogging
+INFO 3/17/2026, 8:16:32 PM  23  launch with argv [/usr/share/typora/Typora, --enable-wayland-ime, /home/darkvoid/Boxxed/@formulas/src.rivet-dev/engine/README.md]
+INFO 3/17/2026, 8:16:32 PM  104  ------------------start------------------
+DEBUG 3/17/2026, 8:16:32 PM  112  before setting 
+DEBUG 3/17/2026, 8:16:32 PM  125  prepDatabase /home/darkvoid/.config/Typora/profile.data
+DEBUG 3/17/2026, 8:16:32 PM  127  prepDatabase /home/darkvoid/.config/Typora/history.data
+INFO 3/17/2026, 8:16:32 PM  128  OS is linux 6.19.6-arch1-1
+INFO 3/17/2026, 8:16:32 PM  128  start LM in devVersion=false
+DEBUG 3/17/2026, 8:16:32 PM  136  after setting 
+INFO 3/17/2026, 8:16:32 PM  136  typora version: 1.12.4
+DEBUG 3/17/2026, 8:16:32 PM  136  app.openFile
+INFO 3/17/2026, 8:16:32 PM  136  addRecentDocument
+DEBUG 3/17/2026, 8:16:32 PM  183  added recovery 1 /home/darkvoid/Boxxed/@formulas/src.rivet-dev/engine/README.md  (0)
+INFO 3/17/2026, 8:16:32 PM  185  [watch L]
+DEBUG 3/17/2026, 8:16:32 PM  185  prepDatabase /home/darkvoid/.config/Typora/0Rskm92aZ7
+INFO 3/17/2026, 8:16:32 PM  187  no info
+INFO 3/17/2026, 8:16:32 PM  187  ls put SLicense
+DEBUG 3/17/2026, 8:16:32 PM  187  onUnfillLicense
+DEBUG 3/17/2026, 8:16:32 PM  188  trailRemains is 0
+INFO 3/17/2026, 8:16:32 PM  188  [L] installDate is 3/1/2026, trail remains: 0 days
+DEBUG 3/17/2026, 8:16:32 PM  188  onUnfillLicense
+INFO 3/17/2026, 8:16:32 PM  188  [watch L] hasL: false
+user-dict.json not found
+INFO 3/17/2026, 8:16:32 PM  212  [focus] 1
+DEBUG 3/17/2026, 8:16:32 PM  252  putAccelerator File -> &File
+DEBUG 3/17/2026, 8:16:32 PM  253  putAccelerator Edit -> &Edit
+DEBUG 3/17/2026, 8:16:32 PM  253  putAccelerator Paragraph -> &Paragraph
+DEBUG 3/17/2026, 8:16:32 PM  253  putAccelerator Format -> F&ormat
+DEBUG 3/17/2026, 8:16:32 PM  253  putAccelerator View -> &View
+DEBUG 3/17/2026, 8:16:32 PM  253  putAccelerator Themes -> &Themes
+DEBUG 3/17/2026, 8:16:32 PM  253  putAccelerator Help -> &Help
+INFO 3/17/2026, 8:16:32 PM  271  synced recovery
+INFO 3/17/2026, 8:16:32 PM  379  [blur] 1
+INFO 3/17/2026, 8:16:32 PM  379  [win] blur
+INFO 3/17/2026, 8:16:32 PM  379  [focus] 2
+DEBUG 3/17/2026, 8:16:33 PM  546  onUnfillLicense
+ERROR 3/17/2026, 8:16:33 PM  553  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/17/2026, 8:16:33 PM  554  handle document.loadData
+DEBUG 3/17/2026, 8:16:33 PM  554  document.loadData 0
+ERROR 3/17/2026, 8:16:33 PM  554  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/17/2026, 8:16:33 PM  579  [RenderProcess 1][Log] [UndoManager] reset commandStack
+INFO 3/17/2026, 8:16:33 PM  579  [RenderProcess 1][Log] reset NodeMap
+INFO 3/17/2026, 8:16:33 PM  579  [RenderProcess 1][Log] readContentFrom /home/darkvoid/Boxxed/@formulas/src.rivet-dev/engine/README.md
+INFO 3/17/2026, 8:16:33 PM  645  [blur] 2
+INFO 3/17/2026, 8:16:33 PM  645  [focus] 1
+INFO 3/17/2026, 8:16:33 PM  646  [RenderProcess 1][Log] onBecomeActive
+INFO 3/17/2026, 8:16:33 PM  646  [RenderProcess 1][Log] File.activeWindow = true
+DEBUG 3/17/2026, 8:16:33 PM  689  added recovery 1 /home/darkvoid/Boxxed/@formulas/src.rivet-dev/engine/README.md  (0)
+INFO 3/17/2026, 8:16:33 PM  690  synced recovery
+INFO 3/17/2026, 8:16:33 PM  1012  [blur] 1
+INFO 3/17/2026, 8:16:33 PM  1012  [win] blur
+INFO 3/17/2026, 8:16:33 PM  1012  [focus] 2
+INFO 3/17/2026, 8:16:40 PM  8136  [blur] 2
+INFO 3/17/2026, 8:16:40 PM  8136  [focus] 1
+INFO 3/17/2026, 8:16:40 PM  8346  [blur] 1
+INFO 3/17/2026, 8:16:40 PM  8346  [win] blur
+INFO 3/17/2026, 8:16:41 PM  8504  [focus] 2
+INFO 3/17/2026, 8:16:42 PM  10386  [focus] 1
+INFO 3/17/2026, 8:16:44 PM  12276  synced recovery
+INFO 3/17/2026, 8:16:44 PM  12276  ----------------before-quit-----------------
+INFO 3/17/2026, 8:16:44 PM  12276  ------------------will-quit------------------
+INFO 3/17/2026, 8:16:44 PM  12277  -----------------quit------------------
+INFO 3/17/2026, 8:16:44 PM  12277  closeLogging
+INFO 3/17/2026, 10:47:29 PM  21  launch with argv [/usr/share/typora/Typora, --enable-wayland-ime, /home/darkvoid/Boxxed/@formulas/src.UIFrameworks/src.reactivity/r3/README.md]
+INFO 3/17/2026, 10:47:29 PM  56  ------------------start------------------
+DEBUG 3/17/2026, 10:47:29 PM  61  before setting 
+DEBUG 3/17/2026, 10:47:29 PM  70  prepDatabase /home/darkvoid/.config/Typora/profile.data
+DEBUG 3/17/2026, 10:47:29 PM  72  prepDatabase /home/darkvoid/.config/Typora/history.data
+INFO 3/17/2026, 10:47:29 PM  73  OS is linux 6.19.6-arch1-1
+INFO 3/17/2026, 10:47:29 PM  73  start LM in devVersion=false
+DEBUG 3/17/2026, 10:47:29 PM  79  after setting 
+INFO 3/17/2026, 10:47:29 PM  79  typora version: 1.12.4
+DEBUG 3/17/2026, 10:47:29 PM  79  app.openFile
+INFO 3/17/2026, 10:47:29 PM  79  addRecentDocument
+INFO 3/17/2026, 10:47:29 PM  83  [watch L]
+DEBUG 3/17/2026, 10:47:29 PM  83  prepDatabase /home/darkvoid/.config/Typora/0Rskm92aZ7
+INFO 3/17/2026, 10:47:29 PM  84  no info
+INFO 3/17/2026, 10:47:29 PM  84  ls put SLicense
+DEBUG 3/17/2026, 10:47:29 PM  84  onUnfillLicense
+DEBUG 3/17/2026, 10:47:29 PM  85  trailRemains is 0
+INFO 3/17/2026, 10:47:29 PM  85  [L] installDate is 3/1/2026, trail remains: 0 days
+DEBUG 3/17/2026, 10:47:29 PM  85  onUnfillLicense
+INFO 3/17/2026, 10:47:29 PM  85  [watch L] hasL: false
+user-dict.json not found
+DEBUG 3/17/2026, 10:47:29 PM  133  added recovery 1 /home/darkvoid/Boxxed/@formulas/src.UIFrameworks/src.reactivity/r3/README.md  (0)
+INFO 3/17/2026, 10:47:29 PM  142  [focus] 1
+DEBUG 3/17/2026, 10:47:29 PM  143  putAccelerator File -> &File
+DEBUG 3/17/2026, 10:47:29 PM  144  putAccelerator Edit -> &Edit
+DEBUG 3/17/2026, 10:47:29 PM  144  putAccelerator Paragraph -> &Paragraph
+DEBUG 3/17/2026, 10:47:29 PM  144  putAccelerator Format -> F&ormat
+DEBUG 3/17/2026, 10:47:29 PM  144  putAccelerator View -> &View
+DEBUG 3/17/2026, 10:47:29 PM  144  putAccelerator Themes -> &Themes
+DEBUG 3/17/2026, 10:47:29 PM  144  putAccelerator Help -> &Help
+INFO 3/17/2026, 10:47:29 PM  193  synced recovery
+INFO 3/17/2026, 10:47:29 PM  280  [blur] 1
+INFO 3/17/2026, 10:47:29 PM  280  [win] blur
+INFO 3/17/2026, 10:47:29 PM  280  [focus] 2
+DEBUG 3/17/2026, 10:47:29 PM  481  onUnfillLicense
+ERROR 3/17/2026, 10:47:29 PM  485  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/17/2026, 10:47:29 PM  486  handle document.loadData
+DEBUG 3/17/2026, 10:47:29 PM  486  document.loadData 0
+ERROR 3/17/2026, 10:47:29 PM  487  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/17/2026, 10:47:29 PM  511  [RenderProcess 1][Log] [UndoManager] reset commandStack
+INFO 3/17/2026, 10:47:29 PM  511  [RenderProcess 1][Log] reset NodeMap
+INFO 3/17/2026, 10:47:29 PM  512  [RenderProcess 1][Log] readContentFrom /home/darkvoid/Boxxed/@formulas/src.UIFrameworks/src.reactivity/r3/README.md
+DEBUG 3/17/2026, 10:47:29 PM  579  added recovery 1 /home/darkvoid/Boxxed/@formulas/src.UIFrameworks/src.reactivity/r3/README.md  (0)
+INFO 3/17/2026, 10:47:29 PM  580  synced recovery
+INFO 3/17/2026, 10:47:30 PM  604  [blur] 2
+INFO 3/17/2026, 10:47:30 PM  621  [RenderProcess 1][Log] onBecomeActive
+INFO 3/17/2026, 10:47:30 PM  621  [RenderProcess 1][Log] File.activeWindow = true
+INFO 3/17/2026, 10:47:30 PM  806  [focus] 1
+INFO 3/17/2026, 10:47:30 PM  911  [blur] 1
+INFO 3/17/2026, 10:47:30 PM  911  [win] blur
+INFO 3/17/2026, 10:47:30 PM  911  [focus] 2
+INFO 3/17/2026, 10:47:30 PM  1076  [blur] 2
+INFO 3/17/2026, 10:47:30 PM  1076  [focus] 1
+INFO 3/17/2026, 10:47:30 PM  1391  [blur] 1
+INFO 3/17/2026, 10:47:30 PM  1391  [win] blur
+INFO 3/17/2026, 10:47:30 PM  1391  [focus] 2
+INFO 3/17/2026, 10:47:32 PM  3179  [focus] 1
+DEBUG 3/17/2026, 10:47:40 PM  10694  execForAll
+INFO 3/17/2026, 10:47:40 PM  10694  File.option.noHintForOpenLink=true;
+ERROR 3/17/2026, 10:47:56 PM  27496  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/17/2026, 10:47:56 PM  27497  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/17/2026, 10:47:58 PM  29498  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/17/2026, 10:47:58 PM  29498  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/17/2026, 10:48:01 PM  31981  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/17/2026, 10:48:01 PM  31982  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/17/2026, 10:48:02 PM  33481  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/17/2026, 10:48:02 PM  33482  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/17/2026, 10:48:04 PM  34815  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/17/2026, 10:48:04 PM  34815  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/17/2026, 10:48:06 PM  36954  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/17/2026, 10:48:06 PM  36954  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/17/2026, 10:48:07 PM  38221  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/17/2026, 10:48:07 PM  38222  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/17/2026, 10:48:10 PM  40605  synced recovery
+INFO 3/17/2026, 10:48:10 PM  40605  ----------------before-quit-----------------
+INFO 3/17/2026, 10:48:10 PM  40605  ------------------will-quit------------------
+INFO 3/17/2026, 10:48:10 PM  40606  -----------------quit------------------
+INFO 3/17/2026, 10:48:10 PM  40606  closeLogging
+INFO 3/17/2026, 10:48:52 PM  21  launch with argv [/usr/share/typora/Typora, --enable-wayland-ime, /home/darkvoid/Boxxed/@formulas/src.UIFrameworks/src.reactivity/r3/README.md]
+INFO 3/17/2026, 10:48:52 PM  58  ------------------start------------------
+DEBUG 3/17/2026, 10:48:52 PM  62  before setting 
+DEBUG 3/17/2026, 10:48:52 PM  72  prepDatabase /home/darkvoid/.config/Typora/profile.data
+DEBUG 3/17/2026, 10:48:52 PM  74  prepDatabase /home/darkvoid/.config/Typora/history.data
+INFO 3/17/2026, 10:48:52 PM  75  OS is linux 6.19.6-arch1-1
+INFO 3/17/2026, 10:48:52 PM  75  start LM in devVersion=false
+DEBUG 3/17/2026, 10:48:52 PM  82  after setting 
+INFO 3/17/2026, 10:48:52 PM  82  typora version: 1.12.4
+DEBUG 3/17/2026, 10:48:52 PM  82  app.openFile
+INFO 3/17/2026, 10:48:52 PM  82  addRecentDocument
+INFO 3/17/2026, 10:48:52 PM  104  [watch L]
+DEBUG 3/17/2026, 10:48:52 PM  104  prepDatabase /home/darkvoid/.config/Typora/0Rskm92aZ7
+INFO 3/17/2026, 10:48:52 PM  105  no info
+INFO 3/17/2026, 10:48:52 PM  105  ls put SLicense
+DEBUG 3/17/2026, 10:48:52 PM  105  onUnfillLicense
+DEBUG 3/17/2026, 10:48:52 PM  105  trailRemains is 0
+INFO 3/17/2026, 10:48:52 PM  106  [L] installDate is 3/1/2026, trail remains: 0 days
+DEBUG 3/17/2026, 10:48:52 PM  106  onUnfillLicense
+INFO 3/17/2026, 10:48:52 PM  106  [watch L] hasL: false
+INFO 3/17/2026, 10:48:52 PM  106  updateTheme
+user-dict.json not found
+DEBUG 3/17/2026, 10:48:52 PM  131  added recovery 1 /home/darkvoid/Boxxed/@formulas/src.UIFrameworks/src.reactivity/r3/README.md  (0)
+INFO 3/17/2026, 10:48:52 PM  135  [focus] 1
+DEBUG 3/17/2026, 10:48:52 PM  136  putAccelerator File -> &File
+DEBUG 3/17/2026, 10:48:52 PM  136  putAccelerator Edit -> &Edit
+DEBUG 3/17/2026, 10:48:52 PM  136  putAccelerator Paragraph -> &Paragraph
+DEBUG 3/17/2026, 10:48:52 PM  136  putAccelerator Format -> F&ormat
+DEBUG 3/17/2026, 10:48:52 PM  136  putAccelerator View -> &View
+DEBUG 3/17/2026, 10:48:52 PM  136  putAccelerator Themes -> &Themes
+DEBUG 3/17/2026, 10:48:52 PM  136  putAccelerator Help -> &Help
+INFO 3/17/2026, 10:48:52 PM  175  synced recovery
+DEBUG 3/17/2026, 10:48:52 PM  435  onUnfillLicense
+ERROR 3/17/2026, 10:48:52 PM  440  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/17/2026, 10:48:52 PM  441  handle document.loadData
+DEBUG 3/17/2026, 10:48:52 PM  441  document.loadData 0
+ERROR 3/17/2026, 10:48:52 PM  441  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/17/2026, 10:48:52 PM  479  [RenderProcess 1][Log] [UndoManager] reset commandStack
+INFO 3/17/2026, 10:48:52 PM  479  [RenderProcess 1][Log] reset NodeMap
+INFO 3/17/2026, 10:48:52 PM  479  [RenderProcess 1][Log] readContentFrom /home/darkvoid/Boxxed/@formulas/src.UIFrameworks/src.reactivity/r3/README.md
+DEBUG 3/17/2026, 10:48:52 PM  553  added recovery 1 /home/darkvoid/Boxxed/@formulas/src.UIFrameworks/src.reactivity/r3/README.md  (0)
+INFO 3/17/2026, 10:48:52 PM  554  synced recovery
+INFO 3/17/2026, 10:48:52 PM  570  [RenderProcess 1][Log] onBecomeActive
+INFO 3/17/2026, 10:48:52 PM  570  [RenderProcess 1][Log] File.activeWindow = true
+INFO 3/17/2026, 10:49:02 PM  10215  [blur] 1
+INFO 3/17/2026, 10:49:02 PM  10215  [win] blur

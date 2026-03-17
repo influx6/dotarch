@@ -147,6 +147,61 @@ opencode_ralph_qwen35(){
     opencode_ralph "llamacpp/unsloth/Qwen3.5-35B-A3B-GGUF" $*
 }
 
+
+######################################
+#  Anthropic Coding
+######################################
+
+claude_start() {
+    reset_claude_environment_variables .
+
+    model="$1"
+    if [[ -z $model ]]; then
+        model="claude-opus-4-6"
+    fi
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        claude --dangerously-skip-permissions --model "$model"
+    fi
+}
+
+
+claude_ralph() {
+    reset_claude_environment_variables .
+
+    prompt_type="$1"
+    shift
+    prompt_data="$*"
+
+    model="claude-opus-4-6"
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        if [[ $prompt_type == "file" ]]; then
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            cat $prompt_data | claude --dangerously-skip-permissions --model=$model
+        elif [[ $prompt_type == "message" ]]; then
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
+        else
+            echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
+        fi
+    fi
+}
+
 ######################################
 #  Alibaba Coding
 ######################################
@@ -171,8 +226,12 @@ claude_alibaba_start() {
         fi
     else
         rm -rf ~/.claude/settings.json
-        claude --model "$model"
+        claude --dangerously-skip-permissions --model "$model"
     fi
+}
+
+claude_alibaba_glm5_start() {
+    claude_alibaba_start "glm-5"
 }
 
 
@@ -188,6 +247,39 @@ claude_alibaba_ralph() {
     prompt_data="$*"
 
     model="qwen3.5-plus"
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        if [[ $prompt_type == "file" ]]; then
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            cat $prompt_data | claude --dangerously-skip-permissions --model=$model
+        elif [[ $prompt_type == "message" ]]; then
+            # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
+            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
+        else
+            echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
+        fi
+    fi
+}
+
+claude_alibaba_glm5_ralph() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="$ALIBABA_CODE_API_KEY"
+    export ANTHROPIC_BASE_URL="https://coding-intl.dashscope.aliyuncs.com/apps/anthropic"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+
+    prompt_type="$1"
+    shift
+    prompt_data="$*"
+
+    model="glm-5"
 
     if no_command "claude"; then
         if has_command "npm"; then
@@ -233,7 +325,7 @@ claude_qwen3_start() {
         fi
     else
         rm -rf ~/.claude/settings.json
-        claude --model "$model"
+        claude --dangerously-skip-permissions --model "$model"
     fi
 }
 
