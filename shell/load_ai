@@ -380,6 +380,66 @@ llamacpp_no_offload_start(){
         sleep_cycle=-1
     fi
 
+    # For general use-case:  --temp 1.0 --top-p 0.95
+    # For tool-calling:  --temp 0.7 --top-p 1.0
+    # Default ctx: --ctx-size 16384 \
+    # Other arguments you can use:
+    #
+    # --ctx-size 202752 \
+    # --n-gpu-layers 99 \
+    #
+    # context size =   202752
+    # output tokens =  128000
+    # output tokens =  64000
+    # recomended was = 16384
+    #
+    #
+    # Offloading
+    #
+    #If you have more VRAM, you can try offloading more MoE layers, or offloading whole layers themselves.
+    #
+    # Normally, -ot ".ffn_.*_exps.=CPU" offloads all MoE layers to the CPU! This effectively allows you
+    # to fit all non MoE layers on 1 GPU, improving generation speeds. You can customize the regex expression
+    # to fit more layers if you have more GPU capacity.
+    #
+    # If you have a bit more GPU memory, try -ot ".ffn_(up|down)_exps.=CPU" This offloads up and down projection MoE layers.
+    #
+    # Try -ot ".ffn_(up)_exps.=CPU" if you have even more GPU memory. This offloads only up projection MoE layers.
+    #
+    # You can also customize the regex, for example -ot "\.(6|7|8|9|[0-9][0-9]|[0-9][0-9][0-9])\.ffn_(gate|up|down)_exps.=CPU"
+    # means to offload gate, up and down MoE layers but only from the 6th layer onwards.
+    #
+    echo "Starting llama-server with: \"$MODEL_LOCATIONS/$model_dir/${model_file}\""
+
+    llama-server \
+    --model "$MODEL_LOCATIONS/$model_dir/${model_file}" \
+    --model-draft "$MODEL_LOCATIONS/$BASE_LLM_DRAFT_MODEL_GGUF" \
+    --alias "$model_alias" \
+    --fit on \
+    -ngl 99 \
+    --threads -1 \
+    --seed 3407 \
+    --temp $which_temp \
+    --top-p 0.8 \
+    --top-k 20 \
+    --min-p 0.01 \
+    --repeat-penalty 1.0 \
+    --sleep-idle-seconds 600 \
+    --ctx-size $BASE_LLM_CONTEXT \
+    --port 8001 \
+    --jinja
+}
+
+llamacpp_moe_offload_start(){
+    model_dir="$1"
+    model_file="$2"
+    model_alias="$3"
+
+    which_temp="$4"
+    if [[ -z $which_temp ]]; then
+        which_temp="0.5"
+    fi
+
 
     # For general use-case:  --temp 1.0 --top-p 0.95
     # For tool-calling:  --temp 0.7 --top-p 1.0
@@ -1520,6 +1580,21 @@ claude_ralph_litellm() {
         else
             echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
         fi
+    fi
+}
+
+claude_bear() {
+    reset_claude_environment_variables
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        claude
     fi
 }
 
