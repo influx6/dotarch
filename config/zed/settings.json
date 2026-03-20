@@ -8,7 +8,7 @@
 // command palette
 {
   "inlay_hints": {
-    "show_background": false
+    "show_background": false,
   },
   "soft_wrap": "editor_width",
   "indent_guides": {
@@ -22,7 +22,6 @@
       "remote": false,
       "settings": {},
     },
-<<<<<<< HEAD
     "mcp-server-exa-search": {
       "enabled": false,
       "remote": false,
@@ -33,8 +32,6 @@
       "remote": false,
       "settings": {},
     },
-=======
->>>>>>> e0723e3 (FIX: git ignore)
   },
   "vim": {
     "toggle_relative_line_numbers": true,
@@ -59,19 +56,15 @@
         "terminal": {
           "always_allow": [
             {
-              "pattern": "^wc\\b"
-            }
-          ]
-        }
-      }
+              "pattern": "^wc\\b",
+            },
+          ],
+        },
+      },
     },
     "inline_assistant_model": {
-      "provider": "copilot_chat",
-<<<<<<< HEAD
-      "model": "gpt-4.1",
-=======
-      "model": "gpt-5-mini",
->>>>>>> e0723e3 (FIX: git ignore)
+      "provider": "Clover Claude (liteLLM)",
+      "model": "claude-sonnet-4-5",
     },
     "default_profile": "write",
     "use_modifier_to_send": true,
@@ -103,18 +96,12 @@
       },
     },
     "default_model": {
-<<<<<<< HEAD
-      "provider": "Alibaba",
-      "model": "qwen3.5-plus",
-=======
-      "provider": "ollama",
-      "model": "qwen2.5-coder:3b",
->>>>>>> e0723e3 (FIX: git ignore)
+      "provider": "Claude Code - LiteLLm (Clover)",
+      "model": "claude-sonnet-4-5",
     },
   },
   "language_models": {
     "openai_compatible": {
-<<<<<<< HEAD
       "Alibaba - GLM 5": {
         "api_url": "https://coding-intl.dashscope.aliyuncs.com/v1",
         "available_models": [
@@ -122,43 +109,17 @@
             "name": "glm-5",
             "max_tokens": 200000,
             "max_output_tokens": 32000,
-=======
-      "Clover Claude (liteLLM)": {
-        "api_url": "https://stg.litellm-proxy.cloverhealth.com",
-        "available_models": [
-          {
-            "name": "claude-sonnet-4-5",
-            "max_tokens": 200000,
-            "max_output_tokens": 64000,
->>>>>>> e0723e3 (FIX: git ignore)
             "max_completion_tokens": 200000,
             "capabilities": {
               "tools": true,
               "images": false,
-<<<<<<< HEAD
               "parallel_tool_calls": true,
-=======
-              "parallel_tool_calls": false,
->>>>>>> e0723e3 (FIX: git ignore)
               "prompt_cache_key": false,
-              "chat_completions": true
-            }
-          }
-        ]
+              "chat_completions": true,
+            },
+          },
+        ],
       },
-<<<<<<< HEAD
-      "Alibaba": {
-        "api_url": "https://coding-intl.dashscope.aliyuncs.com/v1",
-        "available_models": [
-          {
-            "name": "qwen3.5-plus",
-            "max_tokens": 200000,
-            "max_output_tokens": 32000,
-            "max_completion_tokens": 200000,
-            "capabilities": {
-              "tools": true,
-              "images": true,
-=======
       "Claude Code - LiteLLm (Clover)": {
         "api_url": "https://stg.litellm-proxy.cloverhealth.com",
         "available_models": [
@@ -170,13 +131,12 @@
             "capabilities": {
               "tools": true,
               "images": false,
->>>>>>> e0723e3 (FIX: git ignore)
               "parallel_tool_calls": true,
               "prompt_cache_key": true,
-              "chat_completions": true
-            }
-          }
-        ]
+              "chat_completions": true,
+            },
+          },
+        ],
       },
       "llama_server": {
         "api_url": "http://localhost:8001",
@@ -253,7 +213,7 @@
   "theme": {
     "mode": "system",
     "light": "Ayu Light",
-    "dark": "Ayu Dark",
+    "dark": "Tokyo Night",
   },
   "languages": {
     "Markdown": {

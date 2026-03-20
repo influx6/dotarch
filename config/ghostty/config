@@ -44,3 +44,4 @@ keybind = ctrl+shift+c=text:\x03
 keybind = ctrl+l=clear_screen
 keybind = ctrl+r=reset
 keybind = shift+enter=text:\x1b\r
+auto-update = off

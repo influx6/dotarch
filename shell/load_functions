@@ -97,12 +97,22 @@ is_system() {
 }
 
 is_release() {
-    release_content=`cat /etc/*-release`
-    system_name_check=$(echo $release_content | grep -i "$1")
-    if [ -n "$system_name_check" ]; then
-        return 0
-    else
-        return -1
+    if [ -f /etc/os-release ]; then
+        release_content=`cat /etc/os-release`
+        system_name_check=$(echo $release_content | grep -i "$1")
+        if [ -n "$system_name_check" ]; then
+            return 0
+        else
+            return -1
+        fi
+    elif [ -f /usr/bin/sw_vers ]; then
+        release_content=`/usr/bin/sw_vers -productVersion`
+        system_name_check=$(echo $release_content | grep -i "$1")
+        if [ -n "$system_name_check" ]; then
+            return 0
+        else
+            return -1
+        fi
     fi
 }
 
@@ -115,7 +125,7 @@ ask_os() {
 }
 
 is_mac() {
-    if is_system "Darwin" || is_release "Darwin"; then
+    if is_system "Darwin" || is_release "Darwin" || is_release "macOS"; then
         return 0
     else
         return -1

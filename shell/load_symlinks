@@ -30,7 +30,8 @@ safe_symlink "$DOTFILES/config/ashell" "$HOME/.config/ashell"
 safe_symlink "$DOTFILES/config/bacon" "$HOME/.config/bacon"
 safe_symlink "$DOTFILES/config/ghostty" "$HOME/.config/ghostty"
 safe_symlink "$DOTFILES/config/codex/config.toml" "$HOME/.codex/config.toml"
-safe_symlink "$DOTFILES/config/claude/settings.json" "$HOME/.claude/settings.json"
+# safe_symlink "$DOTFILES/config/claude/settings.json" "$HOME/.claude/settings.json"
+>>>>>>> bc46b71 (ADD: quiter setup)
 safe_symlink "$DOTFILES/applications" "$HOME/.local/share/applications"
 safe_symlink "$DOTFILES/config/walker" "$HOME/.config/walker"
 safe_symlink "$DOTFILES/config/elephant" "$HOME/.config/elephant"
@@ -55,7 +56,7 @@ safe_symlink "$DOTFILES/config/xournalpp" "$HOME/.config/xournalpp"
 safe_symlink "$DOTFILES/config/wpaperd" "$HOME/.config/wpaperd"
 
 # Special case: systemd needs to copy files, not symlink
-if [[ ! -h $HOME/.config/systemd ]]; then
-  mkdir -p $HOME/.config/systemd
-  \cp -u -r -f $DOTFILES/config/systemd/user $HOME/.config/systemd/user
-fi
+# if [[ ! -h $HOME/.config/systemd ]]; then
+#   mkdir -p $HOME/.config/systemd
+#   \cp -u -r -f $DOTFILES/config/systemd/user $HOME/.config/systemd/user
+# fi
