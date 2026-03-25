@@ -1,5 +1,9 @@
 #!/bin/env bash
 
+clone_website(){
+  wget -r -k $*
+}
+
 nodekill() {
   killall -9 node
 }
