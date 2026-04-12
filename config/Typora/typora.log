@@ -1888,3 +1888,251 @@ INFO 3/22/2026, 4:55:14 PM  8441  ----------------before-quit-----------------
 INFO 3/22/2026, 4:55:14 PM  8441  ------------------will-quit------------------
 INFO 3/22/2026, 4:55:14 PM  8442  -----------------quit------------------
 INFO 3/22/2026, 4:55:14 PM  8442  closeLogging
+INFO 3/27/2026, 6:14:37 PM  23  launch with argv [/usr/share/typora/Typora, --enable-wayland-ime, /home/darkvoid/Boxxed/@formulas/src.rust/src.CodingIDE/fresh/README.md]
+INFO 3/27/2026, 6:14:37 PM  105  ------------------start------------------
+DEBUG 3/27/2026, 6:14:37 PM  109  before setting 
+DEBUG 3/27/2026, 6:14:37 PM  122  prepDatabase /home/darkvoid/.config/Typora/profile.data
+DEBUG 3/27/2026, 6:14:37 PM  123  prepDatabase /home/darkvoid/.config/Typora/history.data
+INFO 3/27/2026, 6:14:37 PM  125  OS is linux 6.19.6-arch1-1
+INFO 3/27/2026, 6:14:37 PM  125  start LM in devVersion=false
+DEBUG 3/27/2026, 6:14:37 PM  132  after setting 
+INFO 3/27/2026, 6:14:37 PM  132  typora version: 1.12.4
+DEBUG 3/27/2026, 6:14:37 PM  132  app.openFile
+INFO 3/27/2026, 6:14:37 PM  132  addRecentDocument
+INFO 3/27/2026, 6:14:37 PM  152  [watch L]
+DEBUG 3/27/2026, 6:14:37 PM  152  prepDatabase /home/darkvoid/.config/Typora/0Rskm92aZ7
+INFO 3/27/2026, 6:14:37 PM  154  no info
+INFO 3/27/2026, 6:14:37 PM  154  ls put SLicense
+DEBUG 3/27/2026, 6:14:37 PM  154  onUnfillLicense
+DEBUG 3/27/2026, 6:14:37 PM  154  trailRemains is 0
+INFO 3/27/2026, 6:14:37 PM  155  [L] installDate is 3/1/2026, trail remains: 0 days
+DEBUG 3/27/2026, 6:14:37 PM  155  onUnfillLicense
+INFO 3/27/2026, 6:14:37 PM  155  [watch L] hasL: false
+INFO 3/27/2026, 6:14:37 PM  156  updateTheme
+user-dict.json not found
+DEBUG 3/27/2026, 6:14:37 PM  181  added recovery 1 /home/darkvoid/Boxxed/@formulas/src.rust/src.CodingIDE/fresh/README.md  (0)
+INFO 3/27/2026, 6:14:37 PM  188  [focus] 1
+DEBUG 3/27/2026, 6:14:37 PM  188  putAccelerator File -> &File
+DEBUG 3/27/2026, 6:14:37 PM  189  putAccelerator Edit -> &Edit
+DEBUG 3/27/2026, 6:14:37 PM  189  putAccelerator Paragraph -> &Paragraph
+DEBUG 3/27/2026, 6:14:37 PM  189  putAccelerator Format -> F&ormat
+DEBUG 3/27/2026, 6:14:37 PM  189  putAccelerator View -> &View
+DEBUG 3/27/2026, 6:14:37 PM  189  putAccelerator Themes -> &Themes
+DEBUG 3/27/2026, 6:14:37 PM  189  putAccelerator Help -> &Help
+INFO 3/27/2026, 6:14:37 PM  223  synced recovery
+DEBUG 3/27/2026, 6:14:37 PM  502  onUnfillLicense
+ERROR 3/27/2026, 6:14:37 PM  509  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/27/2026, 6:14:37 PM  510  handle document.loadData
+DEBUG 3/27/2026, 6:14:37 PM  510  document.loadData 0
+ERROR 3/27/2026, 6:14:37 PM  510  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/27/2026, 6:14:37 PM  548  [RenderProcess 1][Log] [UndoManager] reset commandStack
+INFO 3/27/2026, 6:14:37 PM  548  [RenderProcess 1][Log] reset NodeMap
+INFO 3/27/2026, 6:14:37 PM  549  [RenderProcess 1][Log] readContentFrom /home/darkvoid/Boxxed/@formulas/src.rust/src.CodingIDE/fresh/README.md
+DEBUG 3/27/2026, 6:14:37 PM  626  added recovery 1 /home/darkvoid/Boxxed/@formulas/src.rust/src.CodingIDE/fresh/README.md  (0)
+INFO 3/27/2026, 6:14:37 PM  627  synced recovery
+INFO 3/27/2026, 6:14:38 PM  734  [RenderProcess 1][Log] onBecomeActive
+INFO 3/27/2026, 6:14:38 PM  734  [RenderProcess 1][Log] File.activeWindow = true
+INFO 3/27/2026, 6:14:47 PM  9801  [blur] 1
+INFO 3/27/2026, 6:14:47 PM  9801  [win] blur
+INFO 3/27/2026, 6:14:50 PM  13039  got argv [/usr/share/typora/Typora, --enable-wayland-ime, --allow-file-access-from-files, --desktop-startup-id=S31E51mWLwtw1NlUSXgTGuVg4nedQKiy, /home/darkvoid/Boxxed/@formulas/src.rust/src.CodingIDE/radon-ide/README.md] from secondary instance
+DEBUG 3/27/2026, 6:14:50 PM  13039  app.openFile
+INFO 3/27/2026, 6:14:50 PM  13046  addRecentDocument
+DEBUG 3/27/2026, 6:14:50 PM  13059  added recovery 3 /home/darkvoid/Boxxed/@formulas/src.rust/src.CodingIDE/radon-ide/README.md  (0)
+INFO 3/27/2026, 6:14:50 PM  13062  [focus] 3
+INFO 3/27/2026, 6:14:50 PM  13064  synced recovery
+INFO 3/27/2026, 6:14:50 PM  43  secondary instance would exit
+INFO 3/27/2026, 6:14:50 PM  86  exit second instance
+INFO 3/27/2026, 6:14:50 PM  13196  [blur] 3
+INFO 3/27/2026, 6:14:50 PM  13196  [win] blur
+INFO 3/27/2026, 6:14:50 PM  13196  [focus] 2
+INFO 3/27/2026, 6:14:50 PM  13266  [blur] 2
+INFO 3/27/2026, 6:14:50 PM  13266  [focus] 3
+DEBUG 3/27/2026, 6:14:50 PM  13357  onUnfillLicense
+ERROR 3/27/2026, 6:14:50 PM  13363  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+ERROR 3/27/2026, 6:14:50 PM  13363  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/27/2026, 6:14:50 PM  13363  handle document.loadData
+DEBUG 3/27/2026, 6:14:50 PM  13364  document.loadData 1
+INFO 3/27/2026, 6:14:50 PM  13378  [RenderProcess 3][Log] [UndoManager] reset commandStack
+INFO 3/27/2026, 6:14:50 PM  13378  [RenderProcess 3][Log] reset NodeMap
+INFO 3/27/2026, 6:14:50 PM  13379  [RenderProcess 3][Log] readContentFrom /home/darkvoid/Boxxed/@formulas/src.rust/src.CodingIDE/radon-ide/README.md
+DEBUG 3/27/2026, 6:14:50 PM  13447  added recovery 3 /home/darkvoid/Boxxed/@formulas/src.rust/src.CodingIDE/radon-ide/README.md  (0)
+INFO 3/27/2026, 6:14:50 PM  13448  synced recovery
+INFO 3/27/2026, 6:14:51 PM  13776  [blur] 3
+INFO 3/27/2026, 6:14:51 PM  13776  [win] blur
+INFO 3/27/2026, 6:14:51 PM  13776  [focus] 2
+INFO 3/27/2026, 6:14:52 PM  15039  [focus] 3
+DEBUG 3/27/2026, 6:14:54 PM  17125  lastSync 2026-03-27T10:14:50.744Z, timestamp 1774606490764, mtime 1771158860964.4436
+INFO 3/27/2026, 6:14:54 PM  17130  [RenderProcess 3][Log] onBecomeActive
+INFO 3/27/2026, 6:14:54 PM  17130  [RenderProcess 3][Log] File.activeWindow = true
+INFO 3/27/2026, 6:15:03 PM  26579  [focus] 1
+INFO 3/27/2026, 6:15:05 PM  27756  synced recovery
+INFO 3/27/2026, 6:15:05 PM  27756  ----------------before-quit-----------------
+INFO 3/27/2026, 6:15:05 PM  27756  ------------------will-quit------------------
+INFO 3/27/2026, 6:15:05 PM  27757  -----------------quit------------------
+INFO 3/27/2026, 6:15:05 PM  27757  closeLogging
+INFO 3/27/2026, 6:16:19 PM  20  launch with argv [/usr/share/typora/Typora, --enable-wayland-ime, /home/darkvoid/Boxxed/@formulas/src.rust/src.CodingIDE/rockies/README.md]
+INFO 3/27/2026, 6:16:20 PM  55  ------------------start------------------
+DEBUG 3/27/2026, 6:16:20 PM  59  before setting 
+DEBUG 3/27/2026, 6:16:20 PM  69  prepDatabase /home/darkvoid/.config/Typora/profile.data
+DEBUG 3/27/2026, 6:16:20 PM  71  prepDatabase /home/darkvoid/.config/Typora/history.data
+INFO 3/27/2026, 6:16:20 PM  73  OS is linux 6.19.6-arch1-1
+INFO 3/27/2026, 6:16:20 PM  73  start LM in devVersion=false
+DEBUG 3/27/2026, 6:16:20 PM  79  after setting 
+INFO 3/27/2026, 6:16:20 PM  79  typora version: 1.12.4
+DEBUG 3/27/2026, 6:16:20 PM  79  app.openFile
+INFO 3/27/2026, 6:16:20 PM  80  addRecentDocument
+INFO 3/27/2026, 6:16:20 PM  84  [watch L]
+DEBUG 3/27/2026, 6:16:20 PM  84  prepDatabase /home/darkvoid/.config/Typora/0Rskm92aZ7
+INFO 3/27/2026, 6:16:20 PM  85  no info
+INFO 3/27/2026, 6:16:20 PM  85  ls put SLicense
+DEBUG 3/27/2026, 6:16:20 PM  85  onUnfillLicense
+DEBUG 3/27/2026, 6:16:20 PM  85  trailRemains is 0
+INFO 3/27/2026, 6:16:20 PM  85  [L] installDate is 3/1/2026, trail remains: 0 days
+DEBUG 3/27/2026, 6:16:20 PM  85  onUnfillLicense
+INFO 3/27/2026, 6:16:20 PM  85  [watch L] hasL: false
+INFO 3/27/2026, 6:16:20 PM  103  updateTheme
+user-dict.json not found
+DEBUG 3/27/2026, 6:16:20 PM  127  added recovery 1 /home/darkvoid/Boxxed/@formulas/src.rust/src.CodingIDE/rockies/README.md  (0)
+INFO 3/27/2026, 6:16:20 PM  132  [focus] 1
+DEBUG 3/27/2026, 6:16:20 PM  132  putAccelerator File -> &File
+DEBUG 3/27/2026, 6:16:20 PM  133  putAccelerator Edit -> &Edit
+DEBUG 3/27/2026, 6:16:20 PM  133  putAccelerator Paragraph -> &Paragraph
+DEBUG 3/27/2026, 6:16:20 PM  133  putAccelerator Format -> F&ormat
+DEBUG 3/27/2026, 6:16:20 PM  133  putAccelerator View -> &View
+DEBUG 3/27/2026, 6:16:20 PM  133  putAccelerator Themes -> &Themes
+DEBUG 3/27/2026, 6:16:20 PM  133  putAccelerator Help -> &Help
+INFO 3/27/2026, 6:16:20 PM  173  synced recovery
+DEBUG 3/27/2026, 6:16:20 PM  432  onUnfillLicense
+ERROR 3/27/2026, 6:16:20 PM  440  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/27/2026, 6:16:20 PM  441  handle document.loadData
+DEBUG 3/27/2026, 6:16:20 PM  441  document.loadData 0
+ERROR 3/27/2026, 6:16:20 PM  441  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/27/2026, 6:16:20 PM  480  [RenderProcess 1][Log] [UndoManager] reset commandStack
+INFO 3/27/2026, 6:16:20 PM  480  [RenderProcess 1][Log] reset NodeMap
+INFO 3/27/2026, 6:16:20 PM  481  [RenderProcess 1][Log] readContentFrom /home/darkvoid/Boxxed/@formulas/src.rust/src.CodingIDE/rockies/README.md
+DEBUG 3/27/2026, 6:16:20 PM  522  added recovery 1 /home/darkvoid/Boxxed/@formulas/src.rust/src.CodingIDE/rockies/README.md  (0)
+INFO 3/27/2026, 6:16:20 PM  522  synced recovery
+INFO 3/27/2026, 6:16:20 PM  560  [RenderProcess 1][Log] onBecomeActive
+INFO 3/27/2026, 6:16:20 PM  561  [RenderProcess 1][Log] File.activeWindow = true
+INFO 3/27/2026, 6:16:23 PM  3901  synced recovery
+INFO 3/27/2026, 6:16:23 PM  3901  ----------------before-quit-----------------
+INFO 3/27/2026, 6:16:23 PM  3901  ------------------will-quit------------------
+INFO 3/27/2026, 6:16:23 PM  3901  -----------------quit------------------
+INFO 3/27/2026, 6:16:23 PM  3901  closeLogging
+INFO 3/27/2026, 6:48:54 PM  21  launch with argv [/usr/share/typora/Typora, --enable-wayland-ime, /home/darkvoid/Boxxed/@formulas/src.rust/src.deployAnywhere/smithy/README.md]
+INFO 3/27/2026, 6:48:54 PM  56  ------------------start------------------
+DEBUG 3/27/2026, 6:48:54 PM  61  before setting 
+DEBUG 3/27/2026, 6:48:54 PM  71  prepDatabase /home/darkvoid/.config/Typora/profile.data
+DEBUG 3/27/2026, 6:48:54 PM  73  prepDatabase /home/darkvoid/.config/Typora/history.data
+INFO 3/27/2026, 6:48:54 PM  75  OS is linux 6.19.6-arch1-1
+INFO 3/27/2026, 6:48:54 PM  75  start LM in devVersion=false
+DEBUG 3/27/2026, 6:48:54 PM  82  after setting 
+INFO 3/27/2026, 6:48:54 PM  82  typora version: 1.12.4
+DEBUG 3/27/2026, 6:48:54 PM  82  app.openFile
+INFO 3/27/2026, 6:48:54 PM  82  addRecentDocument
+INFO 3/27/2026, 6:48:54 PM  86  [watch L]
+DEBUG 3/27/2026, 6:48:54 PM  86  prepDatabase /home/darkvoid/.config/Typora/0Rskm92aZ7
+INFO 3/27/2026, 6:48:54 PM  87  no info
+INFO 3/27/2026, 6:48:54 PM  87  ls put SLicense
+DEBUG 3/27/2026, 6:48:54 PM  87  onUnfillLicense
+DEBUG 3/27/2026, 6:48:54 PM  88  trailRemains is 0
+INFO 3/27/2026, 6:48:54 PM  88  [L] installDate is 3/1/2026, trail remains: 0 days
+DEBUG 3/27/2026, 6:48:54 PM  88  onUnfillLicense
+INFO 3/27/2026, 6:48:54 PM  88  [watch L] hasL: false
+INFO 3/27/2026, 6:48:54 PM  106  updateTheme
+user-dict.json not found
+DEBUG 3/27/2026, 6:48:54 PM  130  added recovery 1 /home/darkvoid/Boxxed/@formulas/src.rust/src.deployAnywhere/smithy/README.md  (0)
+INFO 3/27/2026, 6:48:54 PM  135  [focus] 1
+DEBUG 3/27/2026, 6:48:54 PM  135  putAccelerator File -> &File
+DEBUG 3/27/2026, 6:48:54 PM  136  putAccelerator Edit -> &Edit
+DEBUG 3/27/2026, 6:48:54 PM  136  putAccelerator Paragraph -> &Paragraph
+DEBUG 3/27/2026, 6:48:54 PM  136  putAccelerator Format -> F&ormat
+DEBUG 3/27/2026, 6:48:54 PM  136  putAccelerator View -> &View
+DEBUG 3/27/2026, 6:48:54 PM  136  putAccelerator Themes -> &Themes
+DEBUG 3/27/2026, 6:48:54 PM  136  putAccelerator Help -> &Help
+INFO 3/27/2026, 6:48:54 PM  178  synced recovery
+DEBUG 3/27/2026, 6:48:54 PM  449  onUnfillLicense
+ERROR 3/27/2026, 6:48:54 PM  454  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/27/2026, 6:48:54 PM  455  handle document.loadData
+DEBUG 3/27/2026, 6:48:54 PM  455  document.loadData 0
+ERROR 3/27/2026, 6:48:54 PM  455  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 3/27/2026, 6:48:54 PM  494  [RenderProcess 1][Log] [UndoManager] reset commandStack
+INFO 3/27/2026, 6:48:54 PM  494  [RenderProcess 1][Log] reset NodeMap
+INFO 3/27/2026, 6:48:54 PM  495  [RenderProcess 1][Log] readContentFrom /home/darkvoid/Boxxed/@formulas/src.rust/src.deployAnywhere/smithy/README.md
+DEBUG 3/27/2026, 6:48:54 PM  568  added recovery 1 /home/darkvoid/Boxxed/@formulas/src.rust/src.deployAnywhere/smithy/README.md  (0)
+INFO 3/27/2026, 6:48:54 PM  569  synced recovery
+INFO 3/27/2026, 6:48:55 PM  1492  [RenderProcess 1][Log] onBecomeActive
+INFO 3/27/2026, 6:48:55 PM  1493  [RenderProcess 1][Log] File.activeWindow = true
+INFO 3/27/2026, 6:49:00 PM  5819  synced recovery
+INFO 3/27/2026, 6:49:00 PM  5819  ----------------before-quit-----------------
+INFO 3/27/2026, 6:49:00 PM  5819  ------------------will-quit------------------
+INFO 3/27/2026, 6:49:00 PM  5819  -----------------quit------------------
+INFO 3/27/2026, 6:49:00 PM  5819  closeLogging
+INFO 4/11/2026, 5:28:50 PM  22  launch with argv [/usr/share/typora/Typora, --enable-wayland-ime, /home/darkvoid/Downloads/sat_apr_11_2026_sliding_window_technique_for_maximum_1_s.md]
+INFO 4/11/2026, 5:28:50 PM  64  ------------------start------------------
+DEBUG 4/11/2026, 5:28:50 PM  70  before setting 
+DEBUG 4/11/2026, 5:28:50 PM  83  prepDatabase /home/darkvoid/.config/Typora/profile.data
+DEBUG 4/11/2026, 5:28:50 PM  85  prepDatabase /home/darkvoid/.config/Typora/history.data
+INFO 4/11/2026, 5:28:50 PM  86  OS is linux 6.19.10-arch1-1
+INFO 4/11/2026, 5:28:50 PM  86  start LM in devVersion=false
+DEBUG 4/11/2026, 5:28:50 PM  92  after setting 
+INFO 4/11/2026, 5:28:50 PM  92  typora version: 1.12.4
+DEBUG 4/11/2026, 5:28:50 PM  92  app.openFile
+INFO 4/11/2026, 5:28:50 PM  92  addRecentDocument
+DEBUG 4/11/2026, 5:28:50 PM  137  added recovery 1 /home/darkvoid/Downloads/sat_apr_11_2026_sliding_window_technique_for_maximum_1_s.md  (0)
+INFO 4/11/2026, 5:28:50 PM  138  [watch L]
+DEBUG 4/11/2026, 5:28:50 PM  138  prepDatabase /home/darkvoid/.config/Typora/0Rskm92aZ7
+INFO 4/11/2026, 5:28:50 PM  140  no info
+INFO 4/11/2026, 5:28:50 PM  140  ls put SLicense
+DEBUG 4/11/2026, 5:28:50 PM  140  onUnfillLicense
+DEBUG 4/11/2026, 5:28:50 PM  140  trailRemains is 0
+INFO 4/11/2026, 5:28:50 PM  140  [L] installDate is 3/1/2026, trail remains: 0 days
+DEBUG 4/11/2026, 5:28:50 PM  140  onUnfillLicense
+INFO 4/11/2026, 5:28:50 PM  140  [watch L] hasL: false
+user-dict.json not found
+INFO 4/11/2026, 5:28:50 PM  148  [focus] 1
+DEBUG 4/11/2026, 5:28:50 PM  176  putAccelerator File -> &File
+DEBUG 4/11/2026, 5:28:50 PM  176  putAccelerator Edit -> &Edit
+DEBUG 4/11/2026, 5:28:50 PM  176  putAccelerator Paragraph -> &Paragraph
+DEBUG 4/11/2026, 5:28:50 PM  176  putAccelerator Format -> F&ormat
+DEBUG 4/11/2026, 5:28:50 PM  176  putAccelerator View -> &View
+DEBUG 4/11/2026, 5:28:50 PM  176  putAccelerator Themes -> &Themes
+DEBUG 4/11/2026, 5:28:50 PM  176  putAccelerator Help -> &Help
+INFO 4/11/2026, 5:28:50 PM  190  synced recovery
+DEBUG 4/11/2026, 5:28:50 PM  449  onUnfillLicense
+ERROR 4/11/2026, 5:28:50 PM  456  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 4/11/2026, 5:28:50 PM  458  handle document.loadData
+DEBUG 4/11/2026, 5:28:50 PM  458  document.loadData 0
+ERROR 4/11/2026, 5:28:50 PM  458  Error: net::ERR_FILE_NOT_FOUND
+    at SimpleURLLoaderWrapper.<anonymous> (node:electron/js2c/browser_init:2:123516)
+    at SimpleURLLoaderWrapper.emit (node:events:518:28)
+INFO 4/11/2026, 5:28:50 PM  472  [RenderProcess 1][Log] [UndoManager] reset commandStack
+INFO 4/11/2026, 5:28:50 PM  472  [RenderProcess 1][Log] reset NodeMap
+INFO 4/11/2026, 5:28:50 PM  472  [RenderProcess 1][Log] readContentFrom /home/darkvoid/Downloads/sat_apr_11_2026_sliding_window_technique_for_maximum_1_s.md
+DEBUG 4/11/2026, 5:28:50 PM  549  added recovery 1 /home/darkvoid/Downloads/sat_apr_11_2026_sliding_window_technique_for_maximum_1_s.md  (0)
+INFO 4/11/2026, 5:28:50 PM  550  synced recovery
+INFO 4/11/2026, 5:28:50 PM  592  [RenderProcess 1][Log] onBecomeActive
+INFO 4/11/2026, 5:28:50 PM  592  [RenderProcess 1][Log] File.activeWindow = true
+INFO 4/11/2026, 5:28:53 PM  3308  synced recovery
+INFO 4/11/2026, 5:28:53 PM  3308  ----------------before-quit-----------------
+INFO 4/11/2026, 5:28:53 PM  3308  ------------------will-quit------------------
+INFO 4/11/2026, 5:28:53 PM  3308  -----------------quit------------------
+INFO 4/11/2026, 5:28:53 PM  3308  closeLogging

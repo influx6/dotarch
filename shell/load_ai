@@ -168,7 +168,7 @@ claude_start() {
         fi
     else
         rm -rf ~/.claude/settings.json
-        claude --dangerously-skip-permissions --model "$model"
+        claude --dangerously-skip-permissions --model "$model" $@
     fi
 }
 
@@ -192,10 +192,10 @@ claude_ralph() {
         rm -rf ~/.claude/settings.json
         if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            cat $prompt_data | claude --dangerously-skip-permissions --model=$model
+            cat $prompt_data | claude --dangerously-skip-permissions --model=$model $@
         elif [[ $prompt_type == "message" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
+            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model $@
         else
             echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
         fi
@@ -226,7 +226,7 @@ claude_alibaba_start() {
         fi
     else
         rm -rf ~/.claude/settings.json
-        claude --dangerously-skip-permissions --model "$model"
+        claude --dangerously-skip-permissions --model "$model" $@
     fi
 }
 
@@ -265,10 +265,10 @@ claude_alibaba_ralph() {
         rm -rf ~/.claude/settings.json
         if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            cat $prompt_data | claude --dangerously-skip-permissions --model=$model
+            cat $prompt_data | claude --dangerously-skip-permissions --model=$model  $@
         elif [[ $prompt_type == "message" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
+            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model $@
         else
             echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
         fi
@@ -298,10 +298,10 @@ claude_alibaba_minimax25_ralph() {
         rm -rf ~/.claude/settings.json
         if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            cat $prompt_data | claude --dangerously-skip-permissions --model=$model
+            cat $prompt_data | claude --dangerously-skip-permissions --model=$model $@
         elif [[ $prompt_type == "message" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
+            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model $@
         else
             echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
         fi
@@ -332,10 +332,10 @@ claude_alibaba_kimik2_ralph() {
         rm -rf ~/.claude/settings.json
         if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            cat $prompt_data | claude --dangerously-skip-permissions --model=$model
+            cat $prompt_data | claude --dangerously-skip-permissions --model=$model $@
         elif [[ $prompt_type == "message" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
+            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model $@
         else
             echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
         fi
@@ -365,10 +365,10 @@ claude_alibaba_glm5_ralph() {
         rm -rf ~/.claude/settings.json
         if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            cat $prompt_data | claude --dangerously-skip-permissions --model=$model
+            cat $prompt_data | claude --dangerously-skip-permissions --model=$model $@
         elif [[ $prompt_type == "message" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
+            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model $@
         else
             echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
         fi
@@ -399,7 +399,7 @@ claude_qwen3_start() {
         fi
     else
         rm -rf ~/.claude/settings.json
-        claude --dangerously-skip-permissions --model "$model"
+        claude --dangerously-skip-permissions --model "$model" $@
     fi
 }
 
@@ -429,10 +429,10 @@ claude_qwen3_ralph() {
         rm -rf ~/.claude/settings.json
         if [[ $prompt_type == "file" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            cat $prompt_data | claude --dangerously-skip-permissions --model=$model
+            cat $prompt_data | claude --dangerously-skip-permissions --model=$model $@
         elif [[ $prompt_type == "message" ]]; then
             # while :; do cat $prompt_file | claude --dangerously-skip-permissions; done
-            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model
+            echo "$prompt_data" | claude --dangerously-skip-permissions --model=$model $@
         else
             echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
         fi

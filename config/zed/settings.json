@@ -115,10 +115,10 @@
               "images": false,
               "parallel_tool_calls": false,
               "prompt_cache_key": false,
-              "chat_completions": true
-            }
-          }
-        ]
+              "chat_completions": true,
+            },
+          },
+        ],
       },
       "Alibaba - GLM 5": {
         "api_url": "https://coding-intl.dashscope.aliyuncs.com/v1",
@@ -263,9 +263,9 @@
   },
   "lsp": {
     "rust-analyzer": {
-      "enable_lsp_tasks": true,
-      "initialization_options": {
-        // "checkOnSave": false,
+      "binary": {
+        "path": "rust-analyzer",
+        "arguments": [],
       },
     },
   },
