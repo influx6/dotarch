@@ -1,0 +1,13 @@
+[tools]
+fzf = "latest"
+node = "latest"
+python = "3.12.10"
+# ctags-lsp — used by Neovim (lua/alex/plugins/lsp/plugin-lspconfig.lua)
+# for Ruby/Python symbol navigation. Requires system `ctags` on PATH.
+"go:github.com/netmute/ctags-lsp" = "latest"
+
+[settings]
+idiomatic_version_file_enable_tools = ["ruby"]
+
+[settings.ruby]
+ruby_build_opts = "CC=gcc-14 CXX=g++-14"

@@ -1,0 +1,20 @@
+# Project-scoped mise config for this Neovim configuration.
+# Tools listed here are activated whenever your shell cd's into this
+# directory (or any descendant). Run `mise install` after changing.
+
+[tools]
+# netmute/ctags-lsp — tiny LSP that exposes universal-ctags indexes to
+# Neovim. Wired up in lua/alex/plugins/lsp/plugin-lspconfig.lua.
+"go:github.com/netmute/ctags-lsp" = "latest"
+
+# NOTE: ctags-lsp depends on `universal-ctags` being on PATH at runtime.
+# universal-ctags does not publish prebuilt binaries that mise / aqua /
+# ubi can pull, so install it from your system package manager:
+#
+#   Arch:   sudo pacman -S ctags
+#   Debian: sudo apt install universal-ctags
+#   macOS:  brew install universal-ctags
+#
+# The nvim config guards the LSP client with `executable("ctags-lsp")`,
+# so if either piece is missing nothing will error — the server just
+# won't attach.

@@ -25,7 +25,15 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "saghen/blink.cmp",
       "nvim-lua/plenary.nvim",
-      "netmute/ctags-lsp.nvim",
+      {
+        "netmute/ctags-lsp.nvim",
+        -- Only pull the plugin in if the ctags-lsp binary is actually
+        -- installed; otherwise it ships a broken LSP client that attaches
+        -- to every Ruby/Python buffer and errors on startup.
+        cond = function()
+          return vim.fn.executable("ctags-lsp") == 1
+        end,
+      },
       { "j-hui/fidget.nvim", opts = {} },
       { "antosha417/nvim-lsp-file-operations", config = true },
       { "folke/neodev.nvim", opts = {} },
@@ -334,12 +342,19 @@ return {
         },
       })
 
-      vim.lsp.config("ctags_lsp", {
-        cmd = { "ctags-lsp" },
-        filetypes = { "ruby", "python" },
-        root_dir = vim.uv.cwd(),
-      })
-      vim.lsp.enable("ctags_lsp")
+      -- ctags-lsp: only wire up if the binary is installed. Also note
+      -- root_dir must be a function — the previous `vim.uv.cwd()` was
+      -- evaluated once at config time and frozen to nvim's startup cwd.
+      if vim.fn.executable("ctags-lsp") == 1 then
+        vim.lsp.config("ctags_lsp", {
+          cmd = { "ctags-lsp" },
+          filetypes = { "ruby", "python" },
+          root_dir = function(bufnr, on_dir)
+            on_dir(vim.fs.root(bufnr, { ".git", "Gemfile", "pyproject.toml" }) or vim.uv.cwd())
+          end,
+        })
+        vim.lsp.enable("ctags_lsp")
+      end
     end,
   },
 }
