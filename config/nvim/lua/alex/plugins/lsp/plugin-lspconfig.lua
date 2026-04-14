@@ -25,7 +25,6 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "saghen/blink.cmp",
       "nvim-lua/plenary.nvim",
-      "milanglacier/minuet-ai.nvim",
       "netmute/ctags-lsp.nvim",
       { "j-hui/fidget.nvim", opts = {} },
       { "antosha417/nvim-lsp-file-operations", config = true },

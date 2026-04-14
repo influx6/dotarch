@@ -355,49 +355,15 @@ end
 -- })
 
 return {
-  {
-    "preservim/tagbar",
-  },
-  {
-    "folke/todo-comments.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
-  },
-  {
-    "phaazon/hop.nvim",
-    opts = {},
-  },
-  {
-    "TravonteD/luajob",
-  },
-  {
-    "puremourning/vimspector",
-  },
-  {
-    "folke/trouble.nvim",
-  },
-  {
-    "m-demare/hlargs.nvim",
-  },
-  {
-    "lukas-reineke/indent-blankline.nvim", -- to show and customize ident lines.
-  },
-  {
-    "windwp/nvim-autopairs", -- for smart pairing of brackets.
-  },
-  {
-    "tpope/vim-surround", -- to quickly add, remove or change brackets surrounding any text.
-  },
-  {
-    "RRethy/vim-illuminate", -- to highlight other uses of word under cursor.
-  },
-  {
-    "numToStr/Comment.nvim", -- to quickly comment / uncomment text.
-  },
+  -- NOTE: duplicates removed — autopairs, surround, illuminate, comment,
+  -- trouble, indent-blankline, todo-comments are declared with proper lazy
+  -- triggers in their own plugin files. The remaining specs below are
+  -- rust-adjacent or unused and are gated accordingly.
+  { "preservim/tagbar", cmd = "TagbarToggle" },
+  { "phaazon/hop.nvim", cmd = { "HopWord", "HopChar1", "HopLine" }, opts = {} },
+  { "TravonteD/luajob", lazy = true },
+  { "puremourning/vimspector", cmd = { "VimspectorLaunch", "VimspectorToggleBreakpoint" } },
+  { "m-demare/hlargs.nvim", event = "VeryLazy" },
 
   -- {
   --   "Canop/nvim-bacon",
@@ -434,7 +400,6 @@ return {
 
   {
     "mrcjkb/rustaceanvim",
-    lazy = false,
     version = vim.fn.has("nvim-0.10.0") == 0 and "^4" or false,
     -- root = { "Cargo.toml", "rust-project.json" },
     ft = { "rust" },
@@ -532,7 +497,10 @@ return {
         default_settings = {
           ["rust-analyzer"] = {
             cargo = {
-              allFeatures = true,
+              -- allFeatures was the biggest rust-analyzer perf offender for
+              -- large workspaces. Enable per-project via rust-analyzer.toml
+              -- when needed.
+              allFeatures = false,
               loadOutDirsFromCheck = true,
               -- linkedProjects = true,
               buildScripts = {
@@ -543,8 +511,12 @@ return {
               -- Sysroot will be set dynamically in config function
             },
 
-            -- Add clippy lints for Rust if using rust-analyzer
+            -- Run `cargo check` (not clippy) on save. Clippy is much heavier;
+            -- invoke it manually via `:RustLsp` when needed.
             checkOnSave = diagnostics == "rust-analyzer",
+            check = {
+              command = "check",
+            },
 
             -- Enable diagnostics if using rust-analyzer
             diagnostics = {
@@ -556,13 +528,10 @@ return {
               enable = true,
             },
 
-            -- Enable CodeLens and its various sub things
+            -- CodeLens disabled by default: it triggers repeated
+            -- reference-count queries that keep rust-analyzer busy.
             lens = {
-              enable = true,
-              references = true,
-              implementations = true,
-              enumVariantReferences = true,
-              methodReferences = true,
+              enable = false,
             },
 
             -- rust-analyzer language server configuration

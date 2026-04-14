@@ -102,35 +102,48 @@ return {
             -- Default list of enabled providers defined so that you can extend it
             -- elsewhere in your config, without redefining it, due to `opts_extend`
             sources = {
+                -- Minimal defaults for code files. Extras are scoped per
+                -- filetype below to avoid bombarding the menu on every
+                -- keystroke (see docs/performance-review.md).
                 default = {
                     "lsp",
                     "path",
                     "snippets",
                     "buffer",
                     "ripgrep",
-                    "spell",
-                    -- "minuet",
-                    -- "avante", -- only after I enable avante
-                    "references",
-                    "dictionary",
-                    "omni",
-                    "emoji",
-                    -- "env",
-                    "css_vars",
-                    "nerdfont",
-                    "digraphs",
-                    "git",
-                    "conventional_commits",
                 },
                 per_filetype = {
                     sql = { "snippets", "dadbod", "buffer" },
+                    gitcommit = {
+                        "git",
+                        "conventional_commits",
+                        "buffer",
+                        "path",
+                        "emoji",
+                        "dictionary",
+                        "spell",
+                    },
+                    markdown = {
+                        "lsp",
+                        "path",
+                        "snippets",
+                        "buffer",
+                        "ripgrep",
+                        "references",
+                        "dictionary",
+                        "spell",
+                        "emoji",
+                    },
+                    text = { "buffer", "path", "dictionary", "spell" },
+                    css = { "lsp", "path", "snippets", "buffer", "css_vars", "nerdfont" },
+                    scss = { "lsp", "path", "snippets", "buffer", "css_vars", "nerdfont" },
                 },
                 providers = {
                     lsp = {
                         name = "LSP",
                         module = "blink.cmp.sources.lsp",
                         enabled = true,     -- Whether or not to enable the provider
-                        async = false,      -- Whether we should show the completions before this provider returns, without waiting for it
+                        async = true,       -- Do not block the menu waiting on LSP; stream results in.
                         timeout_ms = 2000,  -- How long to wait for the provider to return before showing completions and treating it as asynchronous
                         score_offset = 200, -- Boost/penalize the score of the items
                         -- opts = {}, -- Passed to the source directly, varies by source
@@ -163,7 +176,12 @@ return {
                     ripgrep = {
                         module = "blink-ripgrep",
                         name = "Ripgrep",
-                        score_offset = 80,
+                        score_offset = 1,       -- De-prioritize vs LSP/snippets/buffer
+                        async = true,           -- Never block the menu on rg
+                        min_keyword_length = 5, -- Blink gate: wait for 5 chars before even calling the source
+                        -- Ripgrep searches can be expensive on large repos, so
+                        -- we rely on blink's min_keyword_length + the source's
+                        -- own prefix_min_len to debounce the spawn rate.
                         -- the options below are optional, some default values are shown
                         ---@module "blink-ripgrep"
                         ---@type blink-ripgrep.Options
@@ -173,7 +191,7 @@ return {
 
                             -- the minimum length of the current word to start searching
                             -- (if the word is shorter than this, the search will not start)
-                            prefix_min_len = 3,
+                            prefix_min_len = 5,
 
                             -- The number of lines to show around each match in the preview
                             -- (documentation) window. For example, 5 means to show 5 lines

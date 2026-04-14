@@ -2,7 +2,10 @@ vim.cmd("let g:netrw_liststyle = 3")
 
 local opt = vim.opt -- for easy ref
 
-opt.spell = true
+-- Spell-check is enabled per-filetype in autocmds.lua (markdown, gitcommit,
+-- text, tex). Enabling it globally is expensive in code files and activates
+-- blink's spell source on every keystroke.
+opt.spell = false
 opt.spelllang = { "en_us" }
 
 -- cursor line
