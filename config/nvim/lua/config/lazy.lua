@@ -49,6 +49,14 @@ require("lazy").setup({
         { import = "lazyvim.plugins.extras.lang.typescript" },
         { import = "lazyvim.plugins.extras.ui.mini-animate" },
         { import = "plugins" },
+
+        -- Configure gitsigns to ignore tools/dawn
+        {
+            "lewis6991/gitsigns.nvim",
+            opts = {
+                ignore = { "tools/dawn" },
+            },
+        },
     },
     defaults = {
         -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
@@ -58,10 +66,6 @@ require("lazy").setup({
         -- have outdated releases, which may break your Neovim install.
         version = false, -- always use the latest git commit
         -- version = "*", -- try installing the latest stable version for plugins that support semver
-    },
-    install = {
-        --colorscheme = { "tokyonight", "habamax" }
-        --
     },
     checker = {
         enabled = true, -- check for plugin updates periodically

@@ -1,0 +1,13 @@
+git:
+  # Ignore tools/dawn directory in lazygit
+  skipHookPrefix: WIP
+  autoFetch: true
+  autoRefresh: true
+  paging:
+    color: always
+  overrideGpg: false
+  disableForcePushing: false
+
+  # Ignore specific paths/directories
+  ignorePaths:
+    - tools/dawn

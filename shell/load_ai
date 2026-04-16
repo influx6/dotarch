@@ -215,7 +215,7 @@ claude_alibaba_start() {
 
     model="$1"
     if [[ -z $model ]]; then
-        model="qwen3.5-plus"
+        model="qwen3.6-plus"
     fi
 
     if no_command "claude"; then
@@ -253,7 +253,7 @@ claude_alibaba_ralph() {
     shift
     prompt_data="$*"
 
-    model="qwen3.5-plus"
+    model="qwen3.6-plus"
 
     if no_command "claude"; then
         if has_command "npm"; then
