@@ -7,6 +7,12 @@
 // custom settings, run `zed: open default settings` from the
 // command palette
 {
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
   "inlay_hints": {
     "show_background": false,
   },
@@ -51,6 +57,7 @@
     "show_menus": false,
   },
   "agent": {
+    "dock": "right",
     "tool_permissions": {
       "tools": {
         "terminal": {
@@ -63,8 +70,8 @@
       },
     },
     "inline_assistant_model": {
-      "provider": "Alibaba - Qwen3.5-Pro",
-      "model": "qwen3.5-plus",
+      "provider": "Alibaba - GLM 5",
+      "model": "glm-5",
     },
     "default_profile": "write",
     "use_modifier_to_send": true,
@@ -224,7 +231,7 @@
     "show": true,
   },
   "relative_line_numbers": "enabled",
-  "preferred_line_length": 100,
+  "preferred_line_length": 109,
   "vim_mode": true,
   "ui_font_size": 16,
   "buffer_font_size": 16,

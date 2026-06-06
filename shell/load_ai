@@ -168,10 +168,26 @@ claude_start() {
         fi
     else
         rm -rf ~/.claude/settings.json
-        claude --dangerously-skip-permissions --model "$model" $@
+        claude --dangerously-skip-permissions --model "$model" $*
     fi
 }
 
+claude_resume() {
+    reset_claude_environment_variables .
+
+    model="claude-opus-4-6"
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        claude --dangerously-skip-permissions --model "$model" --resume $1
+    fi
+}
 
 claude_ralph() {
     reset_claude_environment_variables .

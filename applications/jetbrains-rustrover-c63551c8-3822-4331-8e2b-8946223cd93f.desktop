@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=RustRover 2026.1.1
+Exec="/home/darkvoid/.local/share/JetBrains/Toolbox/apps/rustrover/bin/rustrover" %u
+Version=1.0
+Type=Application
+Categories=Development;IDE;
+Terminal=false
+Icon=jetbrains-rustrover-c63551c8-3822-4331-8e2b-8946223cd93f
+X-Icon-Path=/home/darkvoid/.local/share/icons/hicolor/scalable/apps/jetbrains-rustrover-c63551c8-3822-4331-8e2b-8946223cd93f.svg
+X-Installed-Icon-Cache-Path=/home/darkvoid/.local/share/icons/hicolor
+X-Icon-Name-Before-Sanitization=jetbrains-rustrover-c63551c8-3822-4331-8e2b-8946223cd93f.desktop.icon.svg
+Comment=A powerful IDE for Rust
+StartupWMClass=jetbrains-rustrover
+StartupNotify=true
