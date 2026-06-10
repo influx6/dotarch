@@ -157,7 +157,7 @@ claude_start() {
 
     model="$1"
     if [[ -z $model ]]; then
-        model="claude-opus-4-6"
+        model="claude-opus-4-8"
     fi
 
     if no_command "claude"; then
@@ -221,6 +221,30 @@ claude_ralph() {
 ######################################
 #  Alibaba Coding
 ######################################
+
+claude_alibaba_start() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="$ALIBABA_CODE_API_KEY"
+    export ANTHROPIC_BASE_URL="https://coding-intl.dashscope.aliyuncs.com/apps/anthropic"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+
+    model="$1"
+    if [[ -z $model ]]; then
+        model="qwen3.7-plus"
+    fi
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        claude --dangerously-skip-permissions --model "$model" $@
+    fi
+}
 
 claude_alibaba_start() {
     reset_claude_environment_variables .
