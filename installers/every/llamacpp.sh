@@ -7,7 +7,7 @@ sudo pacman -Sy --noconfirm
 sudo pacman -S --noconfirm --needed pciutils base-devel cmake curl \
 	base-devel git cmake vulkan-icd-loader vulkan-devel
 
-yay -Sy --noconfirm --needed rocm-hip-sdk rocm-hip-libraries rocm-hip-runtime
+# yay -Sy --noconfirm --needed rocm-hip-sdk rocm-hip-libraries rocm-hip-runtime
 
 
 mkdir $HOME/apps

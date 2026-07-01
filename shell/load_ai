@@ -152,6 +152,26 @@ opencode_ralph_qwen35(){
 #  Anthropic Coding
 ######################################
 
+claude_fable_start() {
+    reset_claude_environment_variables .
+
+    model="$1"
+    if [[ -z $model ]]; then
+        model="claude-fable-5"
+    fi
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        claude --dangerously-skip-permissions --model "$model" $*
+    fi
+}
+
 claude_start() {
     reset_claude_environment_variables .
 
@@ -215,6 +235,34 @@ claude_ralph() {
         else
             echo "Unknown prompt_type: '$prompt_type', only supports: ('message', 'file')."
         fi
+    fi
+}
+
+######################################
+#  BlackBox Coding
+######################################
+
+claude_blackbox_start() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="$BLACKBOX_AI_KEY"
+    export ANTHROPIC_BASE_URL="https://enterprise.blackbox.ai/v1/responses"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+
+    model="$1"
+    if [[ -z $model ]]; then
+        model="blackboxai/anthropic/claude-opus-4.8"
+    fi
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        claude --dangerously-skip-permissions --model "$model" $@
     fi
 }
 
