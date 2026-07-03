@@ -307,7 +307,7 @@ claude_alibaba_start() {
 
     model="$1"
     if [[ -z $model ]]; then
-        model="qwen3.7-plus"
+        model="qwen3.6-plus"
     fi
 
     if no_command "claude"; then
@@ -322,7 +322,7 @@ claude_alibaba_start() {
     fi
 }
 
-claude_alibaba_start() {
+claude_alibaba_qwen37_start() {
     reset_claude_environment_variables .
 
     export ANTHROPIC_AUTH_TOKEN="$ALIBABA_CODE_API_KEY"
