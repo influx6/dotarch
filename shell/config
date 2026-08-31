@@ -32,6 +32,7 @@ fi
 source $Dotfiles/shell/load_paths
 
 source $Dotfiles/shell/load_atuin
+source $Dotfiles/shell/load_ghc
 source $Dotfiles/shell/load_ai
 source $Dotfiles/shell/load_zellij
 source $Dotfiles/shell/load_installer

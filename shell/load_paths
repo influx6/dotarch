@@ -30,6 +30,7 @@ export ANACONDA_PATH=$HOME/anaconda3
 export DOTARCH=$HOME/dotarch
 export BOX_ROOT=$HOME/boxxed
 export BOX_DEV=$BOX_ROOT/@dev
+export DEV=$BOX_ROOT/@dev
 export BOX_FORMULAS=$BOX_ROOT/@formulas
 export EWE_PLATFORM=$BOX_DEV/ewe_platform
 export RUST_CODE=$BOX_FORMULAS/src.rust/
