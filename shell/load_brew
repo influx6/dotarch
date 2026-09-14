@@ -8,3 +8,20 @@ if [[ -d /home/linuxbrew/.linuxbrew ]]; then
 	export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:$XDG_DATA_DIRS"
 	eval "\$($(brew --prefix)/bin/brew shellenv)"
 fi
+
+check_and_install() {
+	target_package="$1"
+	shift
+
+	found_version=`brew --prefix --installed "llvm"`
+	echo $found_version
+	if ! brew --prefix --installed "$target_package" &>/dev/null; then
+		echo "Executing: brew install '$target_package' $*"
+		brew install "$target_package" "$@"
+	fi
+}
+
+check_and_install --yes llvm 
+check_and_install --yes libpq
+check_and_install --yes protobuf
+check_and_install --yes snappy

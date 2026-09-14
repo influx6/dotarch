@@ -54,6 +54,16 @@ safe_symlink "$DOTFILES/config/lazydocker" "$HOME/.config/lazydocker"
 safe_symlink "$DOTFILES/config/lazygit" "$HOME/.config/lazygit"
 safe_symlink "$DOTFILES/config/xournalpp" "$HOME/.config/xournalpp"
 safe_symlink "$DOTFILES/config/wpaperd" "$HOME/.config/wpaperd"
+safe_symlink "$DOTFILES/config/atuin" "$HOME/.config/atuin"
+safe_symlink "$DOTFILES/config/fish" "$HOME/.config/fish"
+safe_symlink "$DOTFILES/config/micro" "$HOME/.config/micro"
+safe_symlink "$DOTFILES/config/noctalia" "$HOME/.config/noctalia"
+safe_symlink "$DOTFILES/config/gedit" "$HOME/.config/gedit"
+safe_symlink "$DOTFILES/config/zed" "$HOME/.config/zed"
+safe_symlink "$DOTFILES/config/yay" "$HOME/.config/yay"
+
+safe_symlink "$DOTFILES/config/zed" "$HOME/.config/zed"
+
 
 # Special case: systemd needs to copy files, not symlink
 # if [[ ! -h $HOME/.config/systemd ]]; then

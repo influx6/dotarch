@@ -1,0 +1,18 @@
+// ────────────── Startup Applications ──────────────
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous#spawn-sh-at-startup
+
+// Add lines like this to spawn processes at startup.
+// Note that running niri as a session supports xdg-desktop-autostart,
+// which may be more convenient to use.
+// See the binds section below for more spawn examples.
+
+// This line starts waybar, a commonly used bar for Wayland compositors.
+// spawn-at-startup "swaybg" "-m" "fill" "-i" "/path/to/wallpaper.jpg"
+// spawn-at-startup "waybar"
+// spawn-at-startup "ashell"
+spawn-at-startup "wpaperd"
+spawn-at-startup "mako"
+spawn-at-startup "udiskie"
+spawn-at-startup "xwayland-satellite"
+spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+spawn-at-startup "noctalia"

@@ -6,7 +6,10 @@
 return {
   {
     "dmtrKovalenko/fff.nvim",
-    build = "cargo build --release",
+    -- build = "cargo build --release",
+    build = function()
+      require("fff.download").download_or_build_binary()
+    end,
     -- Load on first use of the keymaps below.
     keys = {
       {

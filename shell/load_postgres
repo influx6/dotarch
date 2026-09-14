@@ -1,0 +1,33 @@
+#!/bin/bash
+
+if no_command "psql"; then
+    yay -Syu timescaledb timescaledb-tune postgresql-libs --noconfirm
+fi
+
+postgres_make(){
+    mkdir -p $HOME/local/lib/postgres/server
+
+    if [[ ! -e "$HOME/local/lib/postgres/data/postgresql.conf" ]]; then
+        initdb --locale='en_US.UTF-8' --encoding='UTF8' -D $HOME/local/lib/postgres/data --data-checksums
+        timescaledb-tune -config-path "$HOME/local/lib/postgres/data/postgresql.conf"
+    fi
+    if [[ -e "$HOME/.config/systemd/user/postgres.service" ]]; then
+        mkdir -p $HOME/.config/systemd/user/
+        cp $HOME/dotarch/config/systemd/user/postgres.service $HOME/.config/systemd/user/postgres.service
+        # 1. Tell systemd to find the new file
+        systemctl --user daemon-reload
+        # 2. Enable it to autostart when you log in
+        systemctl --user enable postgres.service
+        # 3. Start the database engine right now
+        systemctl --user start postgres.service
+    fi
+}
+
+postgres_make_sudo(){
+    sudo -u postgres initdb --locale=en_US.UTF-8 --encoding=UTF8 -D /var/lib/postgres/data --data-checksums
+    sudo timescaledb-tune 
+    sudo systemctl enable postgresql.service
+    sudo systemctl start postgresql.service
+    sudo -u postgres psql
+    \password postgres
+}

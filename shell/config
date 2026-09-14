@@ -80,6 +80,8 @@ source $Dotfiles/shell/load_gnome_hotkeys
 source $Dotfiles/shell/load_aider
 source $Dotfiles/shell/load_vscode
 source $Dotfiles/shell/load_zed
+source $Dotfiles/shell/load_ghc
+source $Dotfiles/shell/load_postgres
 
 # bash completion
 source $Dotfiles/shell/load_bash_completions

@@ -1,0 +1,15 @@
+[Unit]
+Description=PostgreSQL database server (User Instance)
+After=network.target
+
+[Service]
+Type=forking
+# %h expands to home directory, %t expands to /run/user/UID/
+ExecStart=postgres -D %h/local/lib/postgres/data -c unix_socket_directories=%h/local/lib/postgres/server
+ExecStop=pg_ctl stop -D %h/local/lib/postgres/data -m fast
+ExecReload=pg_ctl reload -D %h/local/lib/postgres/data
+TimeoutSec=300
+
+[Install]
+WantedBy=default.target
+
