@@ -47,7 +47,11 @@ binds {
     Mod+Return hotkey-overlay-title="Open a Terminal: Ghostty" { spawn "ghostty"; }
     // Mod+Return hotkey-overlay-title="Open a Terminal: Alacritty" { spawn "alacritty"; }
     Mod+B hotkey-overlay-title="Open WebBrowser: Vivaldi" { spawn "vivaldi"; }
-    Mod+Space hotkey-overlay-title="Run an Application: Noctalia" { spawn "noctalia-shell ipc call launcher toggle"; }
+    Mod+Space hotkey-overlay-title="Run an Application: Noctalia" { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
+    // Noctalia IPC (v5+): `noctalia msg <command>` — each arg must be a separate "" string with spawn.
+    // Discover commands: `noctalia msg --help`. Examples:
+    // Mod+N { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
+    // Mod+X { spawn "noctalia" "msg" "session" "logout"; }
     // Mod+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; } -- not working
     // Mod+Space hotkey-overlay-title="Run an Application: Ulauncher" { spawn "ulauncher"; }
     // Mod+Space hotkey-overlay-title="Run an Application: Walker" { spawn "walker"; }

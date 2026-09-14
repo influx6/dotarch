@@ -1,9 +1,9 @@
-# [DP-1]
-# path = "~/Pictures/backgrounds"
-# duration = "60s"
-# mode = "tile"
+# wpaperd — https://github.com/danyspin97/wpaperd
+# Applies to every output. Use a [<connector>] section (e.g. [DP-1]) to override one monitor.
 
 [any]
-path = "~/boxxed/@photos/backgrounds"
-duration = "60s"
+path = "~/Pictures/Wallpapers"
+duration = "2m"
+# tile: repeat the image to fill the screen (duplicates small wallpapers). alt: "center", "fit", "stretch"
 mode = "tile"
+sorting = "random"
