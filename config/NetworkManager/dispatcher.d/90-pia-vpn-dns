@@ -1,0 +1,33 @@
+#!/bin/bash
+# 90-pia-vpn-dns — keep DNS working while the PIA OpenVPN tunnel is up.
+#
+# PIA full-tunnels traffic, which makes the LAN's DHCP DNS server unreachable,
+# yet systemd-resolved still treats it as the default-route resolver. That breaks
+# getaddrinfo() for any domain WITHOUT an AAAA record (e.g. github.com): the A
+# lookup succeeds on the working server but the combined query fails because the
+# dead LAN server poisons the result.
+#
+# On tunnel up  -> point the physical link at PIA's resolver (10.0.0.243).
+# On tunnel down-> revert the physical link to its DHCP-provided DNS.
+#
+# NetworkManager runs dispatcher scripts as root with: <interface> <action>
+
+vpn_if="tun0"
+phys_if="wlan0"        # change if you use ethernet as the underlying link
+vpn_dns="10.0.0.243"   # PIA's internal resolver (stable across PIA servers)
+
+iface="$1"
+action="$2"
+
+[ "$iface" = "$vpn_if" ] || exit 0
+
+case "$action" in
+  up|vpn-up)
+    resolvectl dns "$phys_if" "$vpn_dns"
+    resolvectl flush-caches
+    ;;
+  down|vpn-down)
+    resolvectl revert "$phys_if"
+    resolvectl flush-caches
+    ;;
+esac
