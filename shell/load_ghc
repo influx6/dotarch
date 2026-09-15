@@ -2,6 +2,9 @@
 
 export PATH="/home/darkvoid/.ghcup/bin/:$PATH"
 
+# cabal installs executables (e.g. haskell-debug-adapter, hoogle) here.
+export PATH="$HOME/.cabal/bin:$PATH"
+
 if no_command ghcup; then 
     curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 fi
