@@ -25,15 +25,9 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "saghen/blink.cmp",
       "nvim-lua/plenary.nvim",
-      {
-        "netmute/ctags-lsp.nvim",
-        -- Only pull the plugin in if the ctags-lsp binary is actually
-        -- installed; otherwise it ships a broken LSP client that attaches
-        -- to every Ruby/Python buffer and errors on startup.
-        cond = function()
-          return vim.fn.executable("ctags-lsp") == 1
-        end,
-      },
+      -- Note: netmute/ctags-lsp is a standalone Go binary (installed via mise),
+      -- not an nvim plugin. It's wired up directly in config() below with
+      -- vim.lsp.config("ctags_lsp", ...), so there is no plugin to depend on.
       { "j-hui/fidget.nvim", opts = {} },
       { "antosha417/nvim-lsp-file-operations", config = true },
       { "folke/neodev.nvim", opts = {} },

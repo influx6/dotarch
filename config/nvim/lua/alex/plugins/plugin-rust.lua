@@ -360,7 +360,7 @@ return {
   -- triggers in their own plugin files. The remaining specs below are
   -- rust-adjacent or unused and are gated accordingly.
   { "preservim/tagbar", cmd = "TagbarToggle" },
-  { "phaazon/hop.nvim", cmd = { "HopWord", "HopChar1", "HopLine" }, opts = {} },
+  { "smoka7/hop.nvim", cmd = { "HopWord", "HopChar1", "HopLine" }, opts = {} },
   { "TravonteD/luajob", lazy = true },
   { "puremourning/vimspector", cmd = { "VimspectorLaunch", "VimspectorToggleBreakpoint" } },
   { "m-demare/hlargs.nvim", event = "VeryLazy" },
