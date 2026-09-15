@@ -7,12 +7,20 @@
 -- mason, which would ship a single build that drifts from the local toolchain.
 --
 -- Provides: HLS diagnostics, hlint (bundled in HLS), Hoogle type search,
--- a GHCi REPL, and evaluate-in-comment code lenses.
+-- a GHCi REPL, evaluate-in-comment code lenses, and GHCi-based debugging
+-- through nvim-dap (via phoityne's haskell-debug-adapter).
 
 return {
   "mrcjkb/haskell-tools.nvim",
   version = "^10",
   ft = { "haskell", "lhaskell", "cabal", "cabalproject" },
+  dependencies = {
+    -- DAP: haskell-tools drives phoityne's haskell-debug-adapter through
+    -- nvim-dap. dap-ui mirrors the Rust setup in plugin-rust.lua.
+    "mfussenegger/nvim-dap",
+    "rcarriga/nvim-dap-ui",
+    "nvim-neotest/nvim-nio",
+  },
   init = function()
     -- haskell-tools has no setup() — it reads vim.g.haskell_tools on load.
     vim.g.haskell_tools = {
@@ -53,8 +61,49 @@ return {
             ht.repl.toggle(vim.api.nvim_buf_get_name(0))
           end, "Haskell: toggle buffer REPL")
           map("n", "<leader>rq", ht.repl.quit, "Haskell: quit REPL")
+
+          -- Debugging (nvim-dap). haskell-tools generates launch configs from
+          -- the cabal/stack project; <leader>dd discovers them, then the
+          -- shared dap keymaps (<leader>dc/dt/du) drive the session.
+          map("n", "<leader>dd", function()
+            ht.dap.discover_configurations(bufnr)
+          end, "Haskell: discover DAP configurations")
         end,
       },
+      -- Only advertise the debug adapter when its binary is present, so a
+      -- machine without haskell-debug-adapter simply has no Haskell DAP
+      -- rather than a broken adapter. Install with:
+      --   cabal install haskell-debug-adapter ghci-dap
+      dap = vim.fn.executable("haskell-debug-adapter") == 1
+          and {
+            cmd = { "haskell-debug-adapter" },
+            logLevel = "Warning",
+            auto_discover = true,
+          }
+        or nil,
     }
+  end,
+  config = function()
+    -- Shared nvim-dap-ui setup (guarded so it runs once even though
+    -- plugin-rust.lua also initialises dap-ui).
+    if not vim.g._dapui_configured then
+      require("dapui").setup()
+      vim.g._dapui_configured = true
+    end
+
+    -- Shared DAP keymaps (match the ones in plugin-rust.lua).
+    local dap = require("dap")
+    vim.keymap.set("n", "<leader>du", require("dapui").toggle, { desc = "DAP: toggle UI" })
+    vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "DAP: continue" })
+    vim.keymap.set("n", "<leader>dt", dap.toggle_breakpoint, { desc = "DAP: toggle breakpoint" })
+
+    if vim.fn.executable("haskell-debug-adapter") ~= 1 then
+      vim.notify(
+        "haskell-debug-adapter not found; Haskell debugging is disabled.\n"
+          .. "Install it with: cabal install haskell-debug-adapter ghci-dap",
+        vim.log.levels.WARN,
+        { title = "haskell-tools" }
+      )
+    end
   end,
 }
