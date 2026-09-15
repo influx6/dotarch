@@ -1,6 +1,10 @@
 return {
     "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
+    -- Track `master`: the `0.1.x` release branch is abandoned (no commits since
+    -- May 2024) and still calls the pre-0.11 `vim.lsp.util.make_position_params`
+    -- without a position_encoding, which warns on Neovim >= 0.11. `master` passes
+    -- the client offset_encoding. Run `:Lazy update telescope.nvim` to move to it.
+    branch = "master",
     dependencies = {
         "nvim-lua/plenary.nvim",
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
