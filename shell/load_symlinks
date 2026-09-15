@@ -64,6 +64,9 @@ safe_symlink "$DOTFILES/config/yay" "$HOME/.config/yay"
 
 safe_symlink "$DOTFILES/config/zed" "$HOME/.config/zed"
 
+# Git global excludes file (git's XDG default location)
+safe_symlink "$DOTFILES/config/git/gitignore_global" "$HOME/.config/git/ignore"
+
 
 # Special case: systemd needs to copy files, not symlink
 # if [[ ! -h $HOME/.config/systemd ]]; then

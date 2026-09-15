@@ -1,0 +1,73 @@
+# ------------------------------------------------------------------------------
+# Global gitignore
+# Symlinked to ~/.config/git/ignore (git's XDG global excludes file)
+# ------------------------------------------------------------------------------
+
+# ----- Operating systems -----
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+# Linux
+*~
+.directory
+
+# ----- Editors / IDEs -----
+# Vim
+*.swp
+*.swo
+*.swn
+*.vim
+.netrwhist
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+# JetBrains
+.idea/
+*.iml
+# Neovim
+.nvim/
+
+# ----- Tooling caches / build output -----
+# Node
+node_modules/
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+# Rust
+target/
+# Java
+*.class
+# General build dirs
+build/
+dist/
+
+# ----- Logs / temp -----
+*.log
+*.tmp
+*.bak
+*.orig
+*.pid
+
+# ----- Environment / secrets -----
+.env
+.env.*
+!.env.example
+*.local
