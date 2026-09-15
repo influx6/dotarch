@@ -13,6 +13,13 @@ Below is my own configuration of what I want as an editing experience with Lazyv
 7. When you use macros with `q` then value you provide after activating macro recording is actually a register you just informed vim to record your commands into, so `qa` stores your recordings into `a` register. :)
 8. Remember to replay your macro (recording with `q`) just run the `@{name of register}` you recorded into, so `@a`. And we can even go further by using a number before the `@{register}` to replay the action across `{number}` lines.
 
+## Language & feature docs
+
+- [Haskell](docs/haskell.md) — HLS, formatting, Hoogle, GHCi REPL, `ghcid`, and debugging + all keymaps
+- [Keymaps](docs/Keymaps.md)
+- [Plugins](docs/plugins.md)
+- [Multicursor](docs/multicursor.md)
+
 ## Links
 
 A starter template for [LazyVim](https://github.com/LazyVim/LazyVim).
