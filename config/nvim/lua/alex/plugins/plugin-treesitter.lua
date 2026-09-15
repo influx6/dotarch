@@ -25,11 +25,11 @@ return {
                 -- ensure these language parsers are installed
                 ensure_installed = {
                     "bash", "c", "cpp", "css", "diff", "dockerfile", "go",
-                    "gomod", "gosum", "graphql", "html", "javascript", "json",
-                    "jsonc", "lua", "luadoc", "make", "markdown",
-                    "markdown_inline", "python", "query", "regex", "rust",
-                    "scss", "sql", "svelte", "terraform", "toml", "tsx",
-                    "typescript", "vim", "vimdoc", "yaml",
+                    "gomod", "gosum", "graphql", "haskell", "html",
+                    "javascript", "json", "jsonc", "lua", "luadoc", "make",
+                    "markdown", "markdown_inline", "python", "query", "regex",
+                    "rust", "scss", "sql", "svelte", "terraform", "toml",
+                    "tsx", "typescript", "vim", "vimdoc", "yaml",
                 },
                 incremental_selection = {
                     enable = true,

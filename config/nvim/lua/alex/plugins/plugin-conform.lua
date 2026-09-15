@@ -55,6 +55,7 @@ return {
         graphql = { "prettier" },
         liquid = { "prettier" },
         lua = { "stylua" },
+        haskell = { "ormolu" },
         python = { "isort", "black" },
         rust = { "rustfmt", lsp_format = "fallback" },
         -- Conform will run the first available formatter
