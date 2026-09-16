@@ -10,6 +10,12 @@ return {
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
         "nvim-tree/nvim-web-devicons",
         "folke/todo-comments.nvim",
+        -- Standalone Hoogle picker for Haskell (:Telescope hoogle / <leader>hh):
+        -- queries the hoogle CLI directly (local DB if generated via
+        -- :HsHoogleGenerate, else web). Independent of HLS. Note: this is NOT
+        -- what haskell-tools' <leader>hs uses -- that goes through HLS hover and
+        -- has its own Telescope picker. See plugin-haskell.lua.
+        "luc-tielen/telescope_hoogle",
     },
     config = function()
         local telescope = require("telescope")
@@ -29,6 +35,8 @@ return {
         })
 
         telescope.load_extension("fzf")
+        -- Hoogle picker (:Telescope hoogle, or <leader>hh in Haskell buffers).
+        pcall(telescope.load_extension, "hoogle")
 
         -- set keymaps
         local keymap = vim.keymap -- for conciseness

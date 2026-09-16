@@ -142,7 +142,10 @@ return {
         },
         hover = {
           enabled = true,
-          silent = false, -- set to true to not show a message if hover is not available
+          -- silent: auto-hover (CursorHold, see core/autocmds.lua) rests on many
+          -- symbols with no docs; true keeps it from flashing "No information
+          -- available" each time. Manual K on an empty spot is just quiet too.
+          silent = true,
           view = nil, -- when nil, use defaults from documentation
           ---@type NoiceViewOptions
           opts = {}, -- merged with defaults from documentation
@@ -207,7 +210,31 @@ return {
       },
       throttle = 1000 / 30, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
       ---@type NoiceConfigViews
-      views = {}, ---@see section on views
+      views = {
+        -- Hover doc popup: rounded GREEN border + inner padding so it lifts off
+        -- the page. FloatBorder points at NoiceHoverBorder, defined (and
+        -- re-applied on ColorScheme) in lua/alex/core/autocmds.lua.
+        hover = {
+          -- Always drop BELOW the symbol. The default `anchor = "auto"` flips
+          -- the popup upward (over your code) when it thinks there's more room
+          -- above; "NW" pins its top-left just under the cursor instead.
+          relative = "cursor",
+          anchor = "NW",
+          position = { row = 3, col = 0 }, -- 3 rows below the cursor
+          border = {
+            style = "rounded",
+            padding = { 1, 2 }, -- { top/bottom, left/right } space inside the border
+          },
+          win_options = {
+            concealcursor = "n",
+            conceallevel = 3,
+            winhighlight = {
+              Normal = "NormalFloat",
+              FloatBorder = "NoiceHoverBorder",
+            },
+          },
+        },
+      }, ---@see section on views
       ---@type NoiceRouteConfig[]
       routes = {}, --- @see section on routes
       ---@type table<string, NoiceFilter>
