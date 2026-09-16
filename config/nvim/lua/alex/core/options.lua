@@ -1,3 +1,11 @@
+-- Set the leader keys FIRST, before any keymap is defined. This file is the
+-- first thing alex.core requires, which runs before alex.lazy -> LazyVim (which
+-- would otherwise set mapleader later). Keymaps capture the leader at definition
+-- time, so setting it here ensures every `<leader>` map in alex.core binds to
+-- <space> instead of the default `\`. Matches LazyVim's own defaults.
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
 vim.cmd("let g:netrw_liststyle = 3")
 
 local opt = vim.opt -- for easy ref
