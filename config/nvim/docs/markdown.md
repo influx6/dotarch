@@ -4,8 +4,9 @@ Live in-buffer rendering via
 [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim):
 headings, bold/italic, lists, tables, code blocks, links and callouts are drawn
 with extmarks as you read, while the raw markdown underneath stays fully
-editable. There is no preview window — you edit the markdown and see the
-rendered result in the same buffer.
+editable — you edit the markdown and see the rendered result in the same
+buffer. Diagrams are the one exception (see
+[Mermaid diagrams](#mermaid-diagrams)).
 
 Config lives in
 [`../lua/alex/plugins/plugin-markdown.lua`](../lua/alex/plugins/plugin-markdown.lua).
@@ -17,6 +18,7 @@ Config lives in
 | You want to… | Do this |
 |---|---|
 | Toggle rendering on/off | `<leader>um` |
+| Preview in browser (mermaid, math) | `<leader>cp` |
 | See which filetypes render | `markdown`, `markdown.mdx`, `org`, `rmd`, `norg`, `codecompanion` |
 | Change rendering options | edit `opts` in `plugin-markdown.lua` |
 | Reload after editing config | `:Lazy reload render-markdown.nvim` |
@@ -70,6 +72,20 @@ code = {
 ```lua
 checkbox = { enabled = true },
 ```
+
+## Mermaid diagrams
+
+render-markdown draws ```` ```mermaid ```` blocks as ordinary code blocks — it
+can't draw the diagram in the buffer, because that needs a JavaScript engine.
+For diagrams, toggle the browser preview:
+
+- `<leader>cp` — open/close
+  [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim),
+  which renders mermaid, mathjax and plantuml in a browser tab.
+
+`markdown-preview.nvim` needs Node.js and runs a one-time web-app install on
+first use (its lazy `build` step handles it). It lives in the same
+`plugin-markdown.lua` file.
 
 ## Adding another filetype
 
