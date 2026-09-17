@@ -16,6 +16,7 @@ Below is my own configuration of what I want as an editing experience with Lazyv
 ## Language & feature docs
 
 - [Haskell](docs/haskell.md) — HLS, formatting, Hoogle, GHCi REPL, `ghcid`, and debugging + all keymaps
+- [Markdown](docs/markdown.md) — live in-buffer rendering (render-markdown.nvim) + how to configure it
 - [Keymaps](docs/Keymaps.md)
 - [Plugins](docs/plugins.md)
 - [Multicursor](docs/multicursor.md)
