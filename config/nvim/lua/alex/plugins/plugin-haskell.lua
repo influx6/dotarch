@@ -386,8 +386,9 @@ return {
         -- capabilities are auto-detected from cmp_nvim_lsp / blink.cmp.
         default_settings = {
           haskell = {
-            -- Match the formatter used by conform (ormolu is installed).
-            formattingProvider = "ormolu",
+            -- Match the formatter used by conform (fourmolu is installed).
+            -- fourmolu reads the project's fourmolu.yaml, unlike ormolu.
+            formattingProvider = "fourmolu",
             cabalFormattingProvider = "cabalfmt",
             -- hlint is bundled with HLS; keep its diagnostics + code actions.
             plugin = {

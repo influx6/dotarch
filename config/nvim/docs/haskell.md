@@ -161,7 +161,7 @@ Neovim does **not** install the Haskell toolchain — it discovers binaries on
 |-----------------------------------|-----------------------------|---------------|
 | `ghc`, `cabal`, `stack`           | compiler + build tools      | ghcup         |
 | `haskell-language-server-wrapper` | HLS (LSP); auto-matches the project's GHC | ghcup |
-| `ormolu`                          | formatter (used by conform) | mise / cabal  |
+| `fourmolu`                        | formatter (used by conform) | mise / cabal  |
 | `hlint`                           | linter (bundled into HLS)   | mise / cabal  |
 | `ghcid`                           | reload loop                 | `cabal install ghcid` |
 | `fast-tags`                       | ctags for `Ctrl-]` (auto-installed on first Haskell buffer) | `cabal install fast-tags` |
@@ -176,7 +176,7 @@ Check what you have:
 
 ```sh
 ghcup list -c installed
-for b in ghc cabal hls ormolu hlint ghcid haskell-debug-adapter; do
+for b in ghc cabal hls fourmolu hlint ghcid haskell-debug-adapter; do
   printf '%-24s ' "$b"; command -v "$b" || echo MISSING
 done
 ```
@@ -192,7 +192,7 @@ ghcup install ghc recommended && ghcup set ghc recommended
 ghcup install hls latest      && ghcup set hls latest
 
 # 2. Formatter + linter (if not already via mise)
-cabal install ormolu hlint
+cabal install fourmolu hlint
 
 # 3. ghcid reload loop
 cabal install ghcid
@@ -213,11 +213,13 @@ treesitter installs the `haskell` parser and HLS starts automatically.
 
 ## Formatting & linting
 
-- **Formatter:** `ormolu`, via `conform.nvim` (see
+- **Formatter:** `fourmolu`, via `conform.nvim` (see
   [`plugin-conform.lua`](../lua/alex/plugins/plugin-conform.lua),
-  `haskell = { "ormolu" }`). Format-on-save is currently off; format with your
+  `haskell = { "fourmolu" }`). Format-on-save is currently off; format with your
   normal conform keymap or `:lua require('conform').format()`. HLS is also set
-  to use `ormolu` so LSP formatting agrees.
+  to use `fourmolu` so LSP formatting agrees. Both read the project's
+  `fourmolu.yaml` (discovered upward from the file), so per-project style is
+  picked up automatically — `ormolu` would ignore that file.
 - **Linter:** `hlint` runs **inside HLS** — you get suggestions as diagnostics
   and `<leader>ca` code actions ("Apply hint"). No separate nvim-lint wiring.
 - **`.cabal` files:** formatted with `cabalfmt` if installed
@@ -261,7 +263,7 @@ more reliable loop.
 | [`scripts/haskell-tags.sh`](../scripts/haskell-tags.sh) | fast-tags generator (project / deps / incremental); shell-runnable, and what the ctags integration shells out to |
 | [`lua/alex/plugins/plugin-telescope.lua`](../lua/alex/plugins/plugin-telescope.lua) | `telescope_hoogle` extension (the `<leader>hh` picker) |
 | [`lua/alex/plugins/plugin-treesitter.lua`](../lua/alex/plugins/plugin-treesitter.lua) | `haskell` parser in `ensure_installed` |
-| [`lua/alex/plugins/plugin-conform.lua`](../lua/alex/plugins/plugin-conform.lua) | `haskell = { "ormolu" }` |
+| [`lua/alex/plugins/plugin-conform.lua`](../lua/alex/plugins/plugin-conform.lua) | `haskell = { "fourmolu" }` |
 | [`shell/load_ghc`](../../../shell/load_ghc) | ghcup + `~/.cabal/bin` on `PATH` |
 
 The LSP is [`haskell-tools.nvim`](https://github.com/mrcjkb/haskell-tools.nvim)
