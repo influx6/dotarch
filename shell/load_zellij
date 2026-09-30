@@ -16,3 +16,11 @@ zellij_ewe(){
     zellij attach -c ewetumo-development
 }
 
+zellij_talstack_1(){
+    zellij attach -c talkstack-development-1
+}
+
+zellij_talstack_2(){
+    zellij attach -c talkstack-development-2
+}
+

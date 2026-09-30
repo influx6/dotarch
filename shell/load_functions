@@ -90,68 +90,75 @@ is_zsh(){
   fi
 }
 
+# --- OS detection -----------------------------------------------------------
+# Identify the OS/distro from /etc/os-release (ID + ID_LIKE), falling back to
+# uname(1) for systems without it (macOS, the BSDs, Windows). ID_LIKE is a
+# space-separated ancestry list, so matching it also matches every derivative
+# (e.g. "arch" matches Arch, Manjaro, EndeavourOS, CachyOS, ...).
+
+os_release_field() {
+  # Print the (unquoted) value of a KEY from /etc/os-release, e.g. ID or ID_LIKE.
+  # Empty string when the key is absent.
+  sed -n "s/^$1=//p" /etc/os-release 2>/dev/null | tr -d '"' | head -n1
+}
+
 is_system() {
-  system_name=`uname`
-  system_name_check=$(echo $system_name | grep -i "$1")
-  if [ -n "$system_name_check" ]; then
-    return 0
-  else
-    return -1
-  fi
+  # True if uname(1) output contains $1 (kernel/OS name: Linux, Darwin, FreeBSD, ...).
+  uname | grep -qi "$1"
 }
 
 is_release() {
-    if [ -f /etc/os-release ]; then
-        release_content=`cat /etc/os-release`
-        system_name_check=$(echo $release_content | grep -i "$1")
-        if [ -n "$system_name_check" ]; then
-            return 0
-        else
-            return -1
-        fi
-    elif [ -f /usr/bin/sw_vers ]; then
-        release_content=`/usr/bin/sw_vers -productVersion`
-        system_name_check=$(echo $release_content | grep -i "$1")
-        if [ -n "$system_name_check" ]; then
-            return 0
-        else
-            return -1
-        fi
-    fi
+  # Loose match against the raw /etc/os-release (or macOS sw_vers) text.
+  # Kept for back-compat; prefer is_distro for precise family checks.
+  if [ -f /etc/os-release ]; then
+    grep -qi "$1" /etc/os-release
+  elif [ -f /usr/bin/sw_vers ]; then
+    /usr/bin/sw_vers | grep -qi "$1"
+  fi
+}
+
+is_distro() {
+  # True if ANY space-separated name in $1 matches the distro's ID or one of its
+  # ID_LIKE ancestors (family match). e.g. `is_distro arch`, `is_distro "rhel centos"`.
+  local id_line
+  id_line="$(os_release_field ID) $(os_release_field ID_LIKE)"
+  for name in $1; do
+    case " $id_line " in
+      *" $name "*) return 0 ;;
+    esac
+  done
+  return 1
 }
 
 ask_os() {
-    if is_system "$1" || is_release "$1"; then
-        echo "Yes, Operating system is: $1"
-    else
-        echo "No, Operating system is: $1"
-    fi
+  if is_distro "$1" || is_system "$1" || is_release "$1"; then
+    echo "Yes, Operating system is: $1"
+  else
+    echo "No, Operating system is: $1"
+  fi
 }
 
-is_mac() {
-    if is_system "Darwin" || is_release "Darwin" || is_release "macOS"; then
-        return 0
-    else
-        return -1
-    fi
-}
+# Linux distro families — FAMILY checks: they match derivatives via ID_LIKE,
+# e.g. is_archlinux is also true on Manjaro, is_debian also on Ubuntu.
+is_archlinux() { is_distro arch; }
+is_debian()    { is_distro debian; }
+is_ubuntu()    { is_distro ubuntu; }
+is_fedora()    { is_distro fedora; }
+is_redhat()    { is_distro "rhel redhat centos rocky almalinux"; }
+is_opensuse()  { is_distro "opensuse suse sled sles"; }
+is_gentoo()    { is_distro gentoo; }
+is_alpine()    { is_distro alpine; }
+is_nixos()     { is_distro nixos; }
+is_void()      { is_distro void; }
+is_solus()     { is_distro solus; }
+is_slackware() { is_distro slackware; }
 
-is_archlinux() {
-    if is_system "Arch Linux" || is_release "Arch Linux"; then
-        return 0
-    else
-        return -1
-    fi
-}
-
-
-is_ubuntu() {
-    if is_system "ubuntu" || is_release "ubuntu"; then
-        return 0
-    else
-        return -1
-    fi
-}
+# Non-Linux systems (uname-based; no /etc/os-release)
+is_mac()     { is_system Darwin; }
+is_freebsd() { is_system FreeBSD; }
+is_openbsd() { is_system OpenBSD; }
+is_netbsd()  { is_system NetBSD; }
+is_windows() { uname | grep -qiE 'mingw|msys|cygwin'; }
 
 no_file() {
   if [ -f "$1" ]; then
