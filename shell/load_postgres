@@ -1,7 +1,9 @@
 #!/bin/bash
 
-if no_command "psql"; then
-    yay -Syu timescaledb timescaledb-tune postgresql-libs --noconfirm
+if has_command "yay"; then
+    if no_command "psql"; then
+        yay -Syu timescaledb timescaledb-tune postgresql-libs --noconfirm
+    fi
 fi
 
 postgres_make(){
