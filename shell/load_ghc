@@ -8,3 +8,5 @@ export PATH="$HOME/.cabal/bin:$PATH"
 if no_command ghcup; then 
     curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 fi
+
+[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env
