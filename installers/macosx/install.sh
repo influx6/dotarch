@@ -21,14 +21,29 @@ if ! is_mac; then
 fi
 
 MACOS="$DOTFILES/installers/macosx"
+EVERY="$DOTFILES/installers/every"
+
+# All steps are idempotent and safe to re-run.
 
 # brew is sourced (not run) so its shellenv is available to later steps.
 source "$MACOS/core/brew.sh"
 
-# Each step is idempotent and safe to re-run.
-source "$MACOS/development/openjdk.sh"
-source "$MACOS/desktop/yabai.sh"
-source "$MACOS/desktop/skhd.sh"
+# Shared, cross-platform toolchains (official installers; live in every/).
+source "$EVERY/rust.sh"     # rustup + stable toolchain
+source "$EVERY/ghc.sh"      # ghcup: ghc / cabal / stack + haskell tools
+source "$EVERY/mise.sh"     # mise + tools pinned in config/mise/config.toml
+source "$EVERY/ohmyzsh.sh"  # oh-my-zsh
+source "$EVERY/ohmybash.sh" # oh-my-bash
+
+# macOS packages.
+source "$MACOS/development/cli.sh"     # brew CLI tooling
+source "$MACOS/development/openjdk.sh" # openjdk (+ link into /Library/Java)
+source "$MACOS/desktop/yabai.sh"       # tiling WM
+source "$MACOS/desktop/skhd.sh"        # hotkey daemon
+source "$MACOS/apps/casks.sh"          # GUI apps (orbstack)
+
+# macOS system tweaks.
+source "$MACOS/config/spaces-hotkeys.sh" # Ctrl+1..9 -> switch desktops
 
 echo
 echo "macOS setup complete."

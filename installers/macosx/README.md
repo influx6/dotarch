@@ -19,11 +19,30 @@ The entrypoint refuses to run on non-macOS systems.
 | --- | --- |
 | `install.sh` | Orchestrator — runs the steps below in order. |
 | `core/brew.sh` | Installs Homebrew and loads its shellenv (Apple Silicon / Intel). |
+| `development/cli.sh` | Core CLI tooling via brew (ripgrep, neovim, tmux, zellij, go, gnupg, sops, …). |
 | `development/openjdk.sh` | Installs OpenJDK and links it for `/usr/libexec/java_home`. |
 | `desktop/yabai.sh` | Installs [yabai], symlinks the config, starts the service. |
 | `desktop/skhd.sh` | Installs [skhd], symlinks the config, starts the service. |
+| `apps/casks.sh` | GUI apps via brew cask (orbstack). |
+| `config/spaces-hotkeys.sh` | Enables `Ctrl + 1..9` to switch Mission Control desktops. |
+
+The orchestrator also runs the shared, cross-platform toolchain installers in
+`installers/every/`: `rust.sh` (rustup), `ghc.sh` (ghcup), `mise.sh`,
+`ohmyzsh.sh` and `ohmybash.sh`.
 
 Each installer can also be run on its own (with `$DOTFILES` set).
+
+Language runtimes (`node`, `python`, `ruby`, `fzf`, `wrangler`) are managed by
+**mise** from `config/mise/config.toml`, not brew — so they're not duplicated in
+`development/cli.sh`.
+
+## Spaces: Ctrl + 1..9
+
+`config/spaces-hotkeys.sh` wires up `Ctrl + <n>` to jump straight to desktop
+_n_. macOS leaves most of these unset by default (which is why switching dies
+past `Ctrl+4`). The shortcuts only fire for desktops that **exist**, so create
+9 desktops in Mission Control first. A logout/login may be needed for all nine
+to take effect.
 
 ## yabai + skhd
 
