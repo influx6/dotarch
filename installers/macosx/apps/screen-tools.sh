@@ -27,10 +27,6 @@ done
 # brew install --cask gifox        # Gifox — GIF recorder
 # brew install --cask screenflow   # ScreenFlow — recording + editing
 
-# --- CLI tools (brew formula) -----------------------------------------------
-#   ffmpeg      - record/convert video; the workhorse for video -> gif
-#   gifski      - highest-quality GIF encoder (from video / frames)
-#   gifsicle    - optimise, resize and manipulate GIFs
-#   imagemagick - general image / GIF frame manipulation
-#   vhs         - scripted terminal GIFs (great for README / docs demos)
-brew install ffmpeg gifski gifsicle imagemagick vhs
+# --- CLI tools --------------------------------------------------------------
+# ffmpeg / gifski / gifsicle / imagemagick / vhs — shared cross-OS installer.
+source "$DOTFILES/installers/every/media-tools.sh"
