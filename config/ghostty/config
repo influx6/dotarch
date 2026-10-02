@@ -33,9 +33,12 @@ background-blur = 20
 
 # macos config
 macos-option-as-alt = true
+keybind = alt+left=unbind
+keybind = alt+right=unbind
 
 # key bindings
 # keybind = all:ctrl+c=copy_to_clipboard
+
 keybind = global:cmd+home=toggle_quick_terminal
 keybind = performable:ctrl+c=copy_to_clipboard
 keybind = performable:ctrl+v=paste_from_clipboard
