@@ -14,6 +14,9 @@ export DOTFILES="$Dotfiles"
 # load functions first
 source $DOTFILES/shell/load_functions
 
+# load .userenv file if present
+[ -f "$HOME/.userenv" ] && . "$HOME/.userenv" # users secrets
+
 # then others
 
 username=$(whoami)
