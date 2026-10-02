@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# yabai configuration
+# Keybindings and layout inspired by https://www.josean.com/posts/yabai-setup
+#
+# This file is read from $XDG_CONFIG_HOME/yabai/yabairc (i.e. ~/.config/yabai/yabairc)
+# and MUST be executable. The macOS installer symlinks it here and chmods +x.
+
+# --- scripting addition -----------------------------------------------------
+# Optional. Only needed for extras like window borders, opacity and some space
+# operations. It requires SIP to be partially disabled and a sudoers entry
+# (see installers/macosx/desktop/yabai.sh --> enable_scripting_addition note).
+# The base tiling setup below works WITHOUT it, so it stays commented by default.
+#
+# yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+# sudo yabai --load-sa
+
+# --- layout -----------------------------------------------------------------
+# default layout (can be bsp, stack or float)
+yabai -m config layout bsp
+
+# new window spawns to the right if vertical split, or bottom if horizontal split
+yabai -m config window_placement second_child
+
+# --- padding & gaps ---------------------------------------------------------
+yabai -m config top_padding 12
+yabai -m config bottom_padding 12
+yabai -m config left_padding 12
+yabai -m config right_padding 12
+yabai -m config window_gap 12
+
+# --- mouse ------------------------------------------------------------------
+# center mouse on window with focus
+yabai -m config mouse_follows_focus on
+
+# modifier for clicking and dragging with mouse
+yabai -m config mouse_modifier alt
+# set modifier + left-click drag to move window
+yabai -m config mouse_action1 move
+# set modifier + right-click drag to resize window
+yabai -m config mouse_action2 resize
+
+# when window is dropped in center of another window, swap them
+# (on edges it will split it)
+yabai -m config mouse_drop_action swap
+
+# --- rules ------------------------------------------------------------------
+# unmanaged apps that misbehave when tiled
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^Karabiner-Elements$" manage=off
+
+echo "yabai configuration loaded.."
