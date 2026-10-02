@@ -2,10 +2,12 @@
 
 source $DOTFILES/shell/load_functions
 
-# install rustlang
+# install rustup + the stable toolchain (non-interactive)
 if no_command rustup; then
-  curl --proto '=https' --tlsv0.2 -sSf https://sh.rustup.rs | sh
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 fi
 
-rustup component add rust-src
-rustup component add rust-analyzer
+if has_command rustup; then
+  rustup component add rust-src rust-analyzer clippy rustfmt
+fi
