@@ -24,7 +24,7 @@ The entrypoint refuses to run on non-macOS systems.
 | `desktop/yabai.sh` | Installs [yabai], symlinks the config, starts the service. |
 | `desktop/skhd.sh` | Installs [skhd], symlinks the config, starts the service. |
 | `apps/casks.sh` | GUI apps via brew cask (orbstack). |
-| `apps/screen-tools.sh` | Screenshot / screen-recording / GIF tools (shottr, kap, licecap, screen-studio + ffmpeg/gifski/gifsicle/imagemagick/vhs). |
+| `apps/screen-tools.sh` | Screenshot / screen-recording / GIF tools (shottr, kap, licecap, screen-studio, xnapper + ffmpeg/gifski/gifsicle/imagemagick/vhs). |
 | `config/spaces-hotkeys.sh` | Enables `Ctrl + 1..9` to switch Mission Control desktops. |
 
 The orchestrator also runs the shared, cross-platform toolchain installers in

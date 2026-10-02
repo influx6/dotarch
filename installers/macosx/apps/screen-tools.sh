@@ -12,7 +12,8 @@ source $DOTFILES/shell/load_functions
 #   licecap       - dead-simple animated GIF screen capture
 # Premium (cask installs the app; bring your own license):
 #   screen-studio - polished screen recorder/editor, auto-zoom (https://screen.studio)
-casks=(shottr kap licecap screen-studio)
+#   xnapper       - screenshot beautifier / annotation + auto-redaction (https://xnapper.com)
+casks=(shottr kap licecap screen-studio xnapper)
 for c in "${casks[@]}"; do
   if brew list --cask "$c" &>/dev/null; then
     echo "cask already installed: $c"
