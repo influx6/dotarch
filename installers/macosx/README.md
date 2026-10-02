@@ -32,6 +32,24 @@ The orchestrator also runs the shared, cross-platform toolchain installers in
 
 Each installer can also be run on its own (with `$DOTFILES` set).
 
+## On demand (`install_one` / `install_all`)
+
+`shell/load_installer` exposes two shell functions (available in any interactive
+shell) that resolve scripts for the current OS — on macOS they search
+`installers/macosx` then `installers/every`:
+
+```bash
+install_one yabai          # installers/macosx/desktop/yabai.sh
+install_one skhd           # installers/macosx/desktop/skhd.sh
+install_one spaces-hotkeys # installers/macosx/config/spaces-hotkeys.sh
+install_one git-agecrypt   # falls back to installers/every/git-agecrypt.sh
+
+install_all desktop        # every *.sh in installers/macosx/desktop/
+install_all config         # ... /config/   (e.g. spaces-hotkeys)
+install_all development     # ... /development/ (cli, openjdk)
+install_all apps           # ... /apps/      (casks)
+```
+
 Language runtimes (`node`, `python`, `ruby`, `fzf`, `wrangler`) are managed by
 **mise** from `config/mise/config.toml`, not brew — so they're not duplicated in
 `development/cli.sh`.

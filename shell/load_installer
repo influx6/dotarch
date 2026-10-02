@@ -9,8 +9,7 @@ install_one(){
     elif is_archlinux; then
         location="$(find "$install_files/archlinux" "$install_files/every" -maxdepth 2 -type f -name "$1.sh" -not -path '*/old/*' 2>/dev/null | head -n1)"
     elif is_mac; then
-        echo "Not yet supported or setup"
-        return 1
+        location="$(find "$install_files/macosx" "$install_files/every" -maxdepth 2 -type f -name "$1.sh" -not -path '*/old/*' 2>/dev/null | head -n1)"
     else
         echo "Failed to identify operating system"
         return 1
@@ -37,8 +36,7 @@ install_all(){
     elif is_archlinux; then
         dir="$install_files/archlinux/$1"
     elif is_mac; then
-        echo "Not yet supported or setup"
-        return 1
+        dir="$install_files/macosx/$1"
     else
         echo "Failed to identify operating system"
         return 1
