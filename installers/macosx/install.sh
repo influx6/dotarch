@@ -41,6 +41,7 @@ source "$MACOS/development/openjdk.sh" # openjdk (+ link into /Library/Java)
 source "$MACOS/desktop/yabai.sh"       # tiling WM
 source "$MACOS/desktop/skhd.sh"        # hotkey daemon
 source "$MACOS/apps/casks.sh"          # GUI apps (orbstack)
+source "$MACOS/apps/screen-tools.sh"   # screenshot / recording / gif tools
 
 # macOS system tweaks.
 source "$MACOS/config/spaces-hotkeys.sh" # Ctrl+1..9 -> switch desktops
