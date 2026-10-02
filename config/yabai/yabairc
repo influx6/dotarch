@@ -50,4 +50,11 @@ yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
 
+# Ghostty quick terminal (cmd+home) registers as a lowercase "ghostty" floating
+# panel that yabai can neither move nor resize; keep it unmanaged so it doesn't
+# distort the tiled layout. Case-insensitive + floating subrole so normal
+# (capital "Ghostty") windows stay tiled. If the panel ever reports a plain
+# AXStandardWindow, drop the subrole and use app="^ghostty$" alone.
+yabai -m rule --add app="^[Gg]hostty$" subrole="AXFloatingWindow" manage=off
+
 echo "yabai configuration loaded.."
