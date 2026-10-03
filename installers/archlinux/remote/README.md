@@ -162,6 +162,24 @@ visually.
 
 ---
 
+## Installing VNC clients on other machines
+
+Installers for the systems you'd connect *from* (TigerVNC / RealVNC / Remmina):
+
+| Platform | Script |
+| --- | --- |
+| macOS | `installers/macosx/apps/vnc-clients.sh` — brew casks `tigervnc` + `vnc-viewer` |
+| Arch Linux | `installers/archlinux/apps/vnc-clients.sh` — `tigervnc`, `remmina`, `realvnc-vnc-viewer` |
+| Ubuntu | `installers/ubuntu/vnc-clients.sh` — `tigervnc-viewer`, `remmina` |
+
+On macOS you can skip the install entirely and use the built-in client:
+
+```bash
+open vnc://<host>:5900
+```
+
+---
+
 ## Troubleshooting
 
 - **`Unsupported RSA private key format` / wayvnc segfaults on start** — OpenSSL
