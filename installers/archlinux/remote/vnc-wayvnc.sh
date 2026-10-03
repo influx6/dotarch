@@ -47,15 +47,10 @@ if [ ! -f "$CONF_DIR/rsa.pem" ]; then
   chmod 600 "$CONF_DIR/rsa.pem"
 fi
 
-# Password: $VNC_PASSWORD, an interactive prompt, or a generated one.
-if [ -z "${VNC_PASSWORD:-}" ]; then
-  if [ -t 0 ]; then
-    read -rsp "VNC password: " VNC_PASSWORD; echo
-  else
-    VNC_PASSWORD="$(openssl rand -base64 12)"
-    echo "Generated VNC password: $VNC_PASSWORD"
-  fi
-fi
+# Password: defaults to "darkvoid"; override by setting VNC_PASSWORD before
+# running. This is a LAN-only convenience default — pick something stronger if
+# the server is ever reachable beyond the local network.
+VNC_PASSWORD="${VNC_PASSWORD:-darkvoid}"
 
 cat > "$CONF_DIR/config" <<EOF
 address=0.0.0.0
@@ -94,8 +89,9 @@ EOF
 
 systemctl --user daemon-reload
 systemctl --user enable wayvnc.service
-if ! systemctl --user start wayvnc.service; then
-  echo "NOTE: could not start wayvnc now — check 'systemctl --user status wayvnc'."
+# restart (not start) so re-runs pick up a changed password from the config
+if ! systemctl --user restart wayvnc.service; then
+  echo "NOTE: could not (re)start wayvnc — check 'systemctl --user status wayvnc'."
   echo "      If the user was just added to the 'input' group, log out/in first."
 fi
 
