@@ -40,6 +40,7 @@ source "$MACOS/development/cli.sh"     # brew CLI tooling
 source "$MACOS/development/openjdk.sh" # openjdk (+ link into /Library/Java)
 source "$MACOS/desktop/yabai.sh"       # tiling WM
 source "$MACOS/desktop/skhd.sh"        # hotkey daemon
+source "$MACOS/desktop/fonts.sh"       # fonts (JetBrains Mono Nerd Font)
 source "$MACOS/apps/casks.sh"          # GUI apps (orbstack)
 source "$MACOS/apps/screen-tools.sh"   # screenshot / recording / gif tools
 

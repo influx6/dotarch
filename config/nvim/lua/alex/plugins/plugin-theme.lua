@@ -8,7 +8,7 @@ return {
     },
     config = function(_, opts)
       require("nightforest").setup(opts)
-      vim.cmd.colorscheme("nightforest")
+      -- vim.cmd.colorscheme("nightforest")
     end,
   },
   {
@@ -75,6 +75,37 @@ return {
     },
   },
   {
+    "AlexvZyl/nordic.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("nordic").load()
+    end,
+  },
+  { "bluz71/vim-nightfly-colors", name = "nightfly", lazy = false },
+  { "bluz71/vim-moonfly-colors", name = "moonfly", lazy = false },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    config = function()
+      -- vim.cmd("colorscheme rose-pine")
+    end,
+  },
+  {
+    "erl-koenig/theme-hub.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope-ui-select.nvim",
+      -- Optional: for themes that use lush (will be notified if a theme requires it)
+      -- "rktjmp/lush.nvim"
+    },
+    config = function()
+      require("theme-hub").setup({
+        -- Configuration options (see below)
+      })
+    end,
+  },
+  {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "kanagawa",
@@ -82,8 +113,9 @@ return {
       -- colorscheme = "kanagawa-dragon",
       -- colorscheme = "kanagawa-wave",
       -- colorscheme = "catppuccin",
-      colorscheme = "nightforest",
+      -- colorscheme = "nightforest",
       -- colorscheme = "tokyonight",
+      colorscheme = "nordic",
     },
   },
 

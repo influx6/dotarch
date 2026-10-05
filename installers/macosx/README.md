@@ -23,6 +23,7 @@ The entrypoint refuses to run on non-macOS systems.
 | `development/openjdk.sh` | Installs OpenJDK and links it for `/usr/libexec/java_home`. |
 | `desktop/yabai.sh` | Installs [yabai], symlinks the config, starts the service. |
 | `desktop/skhd.sh` | Installs [skhd], symlinks the config, starts the service. |
+| `desktop/fonts.sh` | Installs fonts via Homebrew Cask (JetBrains Mono Nerd Font). |
 | `apps/casks.sh` | GUI apps via brew cask (orbstack). |
 | `apps/screen-tools.sh` | Screenshot / screen-recording / GIF tools (shottr, kap, licecap, screen-studio, xnapper + ffmpeg/gifski/gifsicle/imagemagick/vhs). |
 | `config/spaces-hotkeys.sh` | Enables `Ctrl + 1..9` to switch Mission Control desktops. |
@@ -42,6 +43,7 @@ shell) that resolve scripts for the current OS — on macOS they search
 ```bash
 install_one yabai          # installers/macosx/desktop/yabai.sh
 install_one skhd           # installers/macosx/desktop/skhd.sh
+install_one fonts          # installers/macosx/desktop/fonts.sh
 install_one spaces-hotkeys # installers/macosx/config/spaces-hotkeys.sh
 install_one git-agecrypt   # falls back to installers/every/git-agecrypt.sh
 

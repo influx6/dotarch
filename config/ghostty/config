@@ -2,11 +2,17 @@
 # config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
 # theme = Catppuccin Mocha
 # theme = Catppuccin Macchiato, Blazer, Banana Blueberry, Black Metal (Bathory), Bright Lights, Chalkboard, Ciapre, Cutie Pro
-theme = Aura
+# theme = Aura
+theme = Catppuccin Mocha
 
 
 # Font
 # font-family = "CaskaydiaMono Nerd Font"
+# font-family = "Menlo Bold"
+# font-family = "JetBrains Mono"
+# font-family = "Osaka-Mono"
+font-family = "JetBrainsMono Nerd Font"
+
 font-style = Regular
 font-size = 14
 
@@ -16,6 +22,8 @@ window-padding-y = 14
 confirm-close-surface=false
 resize-overlay = never
 
+minimum-contrast = 1.1
+
 # Cursor stlying
 cursor-style = "block"
 cursor-style-blink = false
@@ -24,12 +32,12 @@ shell-integration-features = no-cursor
 # Keyboard bindings
 keybind = f11=toggle_fullscreen
 
-# window-decoration = none
-window-padding-x = 5
-window-padding-y = 5
+
 macos-window-shadow = false
-background-opacity = 0.95
-background-blur = 20
+# Was 0.95 — the 5% transparency blended the desktop through and read as
+# "faded". 1.0 = fully opaque. (background-blur is inert at full opacity.)
+background-opacity = 1
+# background-blur = 20
 
 # macos config
 macos-option-as-alt = true
