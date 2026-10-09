@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# macOS: Homebrew keeps postgresql@16 keg-only, so its server binaries
+# (initdb / postgres / pg_ctl) are NOT symlinked onto PATH. The talstack test
+# suite's default path (tmp-postgres) needs them, so expose the keg here.
+# Check known brew prefixes directly to avoid a `brew --prefix` subprocess on
+# every shell start. Install it with: installers/macosx/development/postgresql.sh
+for _pg_bin in /opt/homebrew/opt/postgresql@16/bin /usr/local/opt/postgresql@16/bin; do
+    if [ -d "$_pg_bin" ]; then
+        export PATH="$_pg_bin:$PATH"
+        break
+    fi
+done
+unset _pg_bin
+
 if has_command "yay"; then
     if no_command "psql"; then
         yay -Syu timescaledb timescaledb-tune postgresql-libs --noconfirm
