@@ -120,7 +120,7 @@ is_release() {
 is_distro() {
   # True if ANY space-separated name in $1 matches the distro's ID or one of its
   # ID_LIKE ancestors (family match). e.g. `is_distro arch`, `is_distro "rhel centos"`.
-  local id_line
+  local id_line name
   id_line="$(os_release_field ID) $(os_release_field ID_LIKE)"
   for name in $1; do
     case " $id_line " in

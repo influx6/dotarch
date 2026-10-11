@@ -1,0 +1,490 @@
+#!/bin/bash
+#
+# static-ip.sh — pin the machine's current IP address as a static assignment,
+#               or revert that assignment back to DHCP.
+#
+# Finds the interface that currently carries the default route, captures its
+# IPv4 address/prefix, gateway and DNS servers, then re-applies that exact
+# assignment as static using whichever network manager is in use:
+#
+#   * NetworkManager   — edit the active connection profile via nmcli
+#                        (Arch default, and Ubuntu desktop)
+#   * netplan          — update /etc/netplan/*.yaml, then `netplan apply`
+#                        (Ubuntu server default)
+#   * systemd-networkd — write /etc/systemd/network/99-static-<iface>.network
+#                        (Arch networkd setups)
+#
+# Usage: static-ip.sh [-y] [--undo] [--dry-run] [<interface>]
+#   -y, --yes     apply/revert without prompting
+#   --undo        revert the static assignment back to DHCP
+#   --dry-run     print the change without applying it
+#   <interface>   override the auto-detected default-route interface
+#
+# This file is safe to source (install_one does `. "$location"`): it runs its
+# body inside main() and aborts with `return`, never `exit`, so it can't kill
+# the caller's shell. `exit` is only reached at the very end of a standalone run.
+#
+
+usage() {
+  cat <<'EOF'
+Usage: static-ip.sh [-y] [--undo] [--dry-run] [<interface>]
+
+Options:
+  -y, --yes    apply/revert without prompting
+  --undo       revert the static assignment back to DHCP
+  --dry-run    show what would change, change nothing
+  -h, --help   show this help
+
+If <interface> is omitted, the interface carrying the default route is used.
+EOF
+}
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+is_wireless() {
+  [ -d "/sys/class/net/$1/wireless" ] || [ -d "/sys/class/net/$1/phy80211" ]
+}
+
+# The interface that currently carries the default route.
+default_iface() {
+  ip route show default 2>/dev/null | awk '/^default/ {print $5; exit}'
+}
+
+detect_manager() {
+  # NetworkManager first: nmcli covers Arch's default and Ubuntu desktop, and
+  # edits the existing profile, which also carries wifi SSID/credentials.
+  if command -v nmcli >/dev/null 2>&1 && systemctl is-active --quiet NetworkManager 2>/dev/null; then
+    echo networkmanager
+  # netplan is Ubuntu's canonical front-end (server: networkd, desktop: NM).
+  elif command -v netplan >/dev/null 2>&1 && compgen -G "/etc/netplan/*.yaml" >/dev/null 2>&1; then
+    echo netplan
+  # Bare systemd-networkd (Arch minimal / networkd-only installs).
+  elif command -v networkctl >/dev/null 2>&1 && systemctl is-active --quiet systemd-networkd 2>/dev/null; then
+    echo systemd-networkd
+  else
+    echo none
+  fi
+}
+
+# The NetworkManager profile bound to $IFACE (active first, then any).
+nm_connection() {
+  local con
+  con=$(nmcli -t -f NAME,DEVICE connection show --active 2>/dev/null \
+          | awk -F: -v dev="$IFACE" '$2==dev {print $1; exit}')
+  [ -n "$con" ] || con=$(nmcli -t -f NAME,DEVICE connection show 2>/dev/null \
+          | awk -F: -v dev="$IFACE" '$2==dev {print $1; exit}')
+  echo "$con"
+}
+
+# ---------------------------------------------------------------------------
+# Apply
+# ---------------------------------------------------------------------------
+
+apply_networkmanager() {
+  local con
+  con=$(nm_connection)
+  [ -n "$con" ] || { echo "error: no NetworkManager connection for '$IFACE'" >&2; return 1; }
+
+  # Last-resort DNS lookup straight from the live connection.
+  if [ ${#DNS[@]} -eq 0 ]; then
+    while IFS= read -r ns; do DNS+=("$ns"); done \
+      < <(nmcli -t -f IP4.DNS connection show "$con" 2>/dev/null \
+          | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' || true)
+  fi
+
+  local -a args=(ipv4.method manual ipv4.addresses "$ADDR/$PREFIX")
+  [ -n "$GATEWAY" ] && args+=(ipv4.gateway "$GATEWAY")
+  [ ${#DNS[@]} -gt 0 ] && args+=(ipv4.dns "${DNS[*]}")
+
+  echo "updating NetworkManager profile '$con' (persisted under /etc/NetworkManager/system-connections/)"
+  if [ "$DRY_RUN" = 1 ]; then
+    echo "nmcli con modify \"$con\" ${args[*]}"
+    echo "nmcli con up \"$con\""
+    return 0
+  fi
+  nmcli con modify "$con" "${args[@]}" || { echo "error: nmcli con modify failed" >&2; return 1; }
+  nmcli con up "$con" || { echo "error: nmcli con up failed" >&2; return 1; }
+}
+
+apply_systemd_networkd() {
+  local file="/etc/systemd/network/99-static-$IFACE.network"
+
+  echo "writing $file"
+  if [ "$DRY_RUN" = 1 ]; then
+    { printf '  [Match]\n  Name=%s\n  [Network]\n  Address=%s/%s\n  DHCP=no\n' "$IFACE" "$ADDR" "$PREFIX"
+      [ -n "$GATEWAY" ] && printf '  Gateway=%s\n' "$GATEWAY"
+      [ ${#DNS[@]} -gt 0 ] && printf '  DNS=%s\n' "${DNS[*]}"; }
+    echo "systemctl restart systemd-networkd"
+    return 0
+  fi
+
+  sudo mkdir -p /etc/systemd/network
+  {
+    printf '# Generated by dotarch static-ip.sh\n[Match]\nName=%s\n\n[Network]\nAddress=%s/%s\nDHCP=no\n' "$IFACE" "$ADDR" "$PREFIX"
+    [ -n "$GATEWAY" ] && printf 'Gateway=%s\n' "$GATEWAY"
+    [ ${#DNS[@]} -gt 0 ] && printf 'DNS=%s\n' "${DNS[*]}"
+  } | sudo tee "$file" >/dev/null || { echo "error: failed to write $file" >&2; return 1; }
+  sudo systemctl restart systemd-networkd || { echo "error: failed to restart systemd-networkd" >&2; return 1; }
+}
+
+apply_netplan() {
+  if is_wireless "$IFACE"; then
+    echo "error: netplan wireless static assignment isn't automated here; use NetworkManager instead" >&2
+    return 1
+  fi
+
+  local renderer
+  renderer=$(grep -rhoE '^\s*renderer:\s*[A-Za-z]+' /etc/netplan/*.yaml 2>/dev/null \
+             | awk '{print $2}' | head -n1)
+  renderer=${renderer:-networkd}
+
+  if [ "$DRY_RUN" = 1 ]; then
+    echo "would update netplan for '$IFACE' (renderer=$renderer):"
+    echo "  address: $ADDR/$PREFIX  gateway: ${GATEWAY:-<none>}  dns: ${DNS[*]:-<none>}"
+    echo "netplan apply"
+    return 0
+  fi
+
+  # Snapshot current netplan files so a bad config can be rolled back.
+  local tmp backup target
+  tmp=$(mktemp -d)
+  backup=$(mktemp -d)
+  sudo cp /etc/netplan/*.yaml "$backup"/ 2>/dev/null || true
+
+  export NETPLAN_IFACE="$IFACE" NETPLAN_ADDR="$ADDR" NETPLAN_PREFIX="$PREFIX" \
+         NETPLAN_GATEWAY="$GATEWAY" NETPLAN_DNS="${DNS[*]}" NETPLAN_RENDERER="$renderer" \
+         NETPLAN_TMP="$tmp/static.yaml"
+
+  target=$(python3 - <<'PY'
+import glob, os, sys
+try:
+    import yaml
+except ImportError:
+    sys.exit("python3-yaml is required (netplan should have pulled it in)")
+
+iface    = os.environ["NETPLAN_IFACE"]
+addr     = os.environ["NETPLAN_ADDR"]
+prefix   = int(os.environ["NETPLAN_PREFIX"])
+gateway  = os.environ.get("NETPLAN_GATEWAY", "") or ""
+dns      = [d for d in os.environ.get("NETPLAN_DNS", "").split() if d]
+renderer = os.environ["NETPLAN_RENDERER"]
+
+def stanza():
+    s = {"dhcp4": False, "addresses": ["%s/%d" % (addr, prefix)]}
+    if gateway:
+        s["routes"] = [{"to": "default", "via": gateway}]
+    if dns:
+        s["nameservers"] = {"addresses": dns}
+    return s
+
+target = None
+data = None
+section = "ethernets"
+for f in sorted(glob.glob("/etc/netplan/*.yaml")):
+    with open(f) as fh:
+        d = yaml.safe_load(fh) or {}
+    net = d.get("network") or {}
+    if isinstance(net, dict):
+        for sec in ("ethernets", "wifis"):
+            if isinstance(net.get(sec), dict) and iface in net[sec]:
+                target, data, section = f, d, sec
+                break
+    if target:
+        break
+
+is_new = target is None
+if is_new:
+    target = "/etc/netplan/99-static-%s.yaml" % iface
+    data = {"network": {"version": 2, "renderer": renderer}}
+
+net = data.setdefault("network", {})
+net.setdefault("version", 2)
+net.setdefault("renderer", renderer)
+net.setdefault(section, {})[iface] = stanza()
+
+with open(os.environ["NETPLAN_TMP"], "w") as fh:
+    yaml.safe_dump(data, fh, default_flow_style=False, sort_keys=False)
+
+print(target)
+PY
+)
+  [ -n "$target" ] || { echo "error: netplan update failed" >&2; rm -rf "$tmp" "$backup"; return 1; }
+
+  echo "writing $target"
+  sudo cp "$tmp/static.yaml" "$target" || { rm -rf "$tmp" "$backup"; return 1; }
+  sudo chmod 600 "$target"
+  rm -rf "$tmp"
+
+  if ! sudo netplan generate; then
+    echo "error: netplan config invalid; reverting" >&2
+    sudo rm -f /etc/netplan/*.yaml
+    sudo cp "$backup"/*.yaml /etc/netplan/ 2>/dev/null || true
+    rm -rf "$backup"
+    return 1
+  fi
+
+  rm -rf "$backup"
+  sudo netplan apply || { echo "error: netplan apply failed" >&2; return 1; }
+}
+
+# ---------------------------------------------------------------------------
+# Undo (revert to DHCP)
+# ---------------------------------------------------------------------------
+
+undo_networkmanager() {
+  local con
+  con=$(nm_connection)
+  [ -n "$con" ] || { echo "error: no NetworkManager connection for '$IFACE'" >&2; return 1; }
+
+  local -a args=(ipv4.method auto ipv4.addresses "" ipv4.gateway "" ipv4.dns "")
+
+  echo "reverting NetworkManager profile '$con' back to DHCP"
+  if [ "$DRY_RUN" = 1 ]; then
+    echo "nmcli con modify \"$con\" ${args[*]}"
+    echo "nmcli con up \"$con\""
+    return 0
+  fi
+  nmcli con modify "$con" "${args[@]}" || { echo "error: nmcli con modify failed" >&2; return 1; }
+  nmcli con up "$con" || { echo "error: nmcli con up failed" >&2; return 1; }
+}
+
+undo_systemd_networkd() {
+  local file="/etc/systemd/network/99-static-$IFACE.network"
+
+  if [ "$DRY_RUN" = 1 ]; then
+    echo "rm $file"
+    echo "systemctl restart systemd-networkd"
+    return 0
+  fi
+
+  if [ -f "$file" ]; then
+    echo "removing $file"
+    sudo rm -f "$file" || { echo "error: failed to remove $file" >&2; return 1; }
+  else
+    echo "nothing to undo: $file does not exist"
+  fi
+  sudo systemctl restart systemd-networkd || { echo "error: failed to restart systemd-networkd" >&2; return 1; }
+}
+
+undo_netplan() {
+  if is_wireless "$IFACE"; then
+    echo "error: netplan wireless isn't automated; use NetworkManager instead" >&2
+    return 1
+  fi
+
+  local our_file="/etc/netplan/99-static-$IFACE.yaml"
+
+  if [ "$DRY_RUN" = 1 ]; then
+    if [ -f "$our_file" ]; then
+      echo "rm $our_file"
+    else
+      echo "set '$IFACE' back to dhcp4: true in /etc/netplan/*.yaml"
+    fi
+    echo "netplan apply"
+    return 0
+  fi
+
+  # Snapshot current netplan files so a bad config can be rolled back.
+  local tmp backup target
+  tmp=$(mktemp -d)
+  backup=$(mktemp -d)
+  sudo cp /etc/netplan/*.yaml "$backup"/ 2>/dev/null || true
+
+  if [ -f "$our_file" ]; then
+    # We created this file on apply; removing it restores the prior config.
+    echo "removing $our_file"
+    sudo rm -f "$our_file" || { rm -rf "$tmp" "$backup"; return 1; }
+  else
+    # We edited an existing file; flip that interface back to DHCP.
+    export NETPLAN_IFACE="$IFACE" NETPLAN_TMP="$tmp/undo.yaml"
+    target=$(python3 - <<'PY'
+import glob, os, sys
+import yaml
+
+iface = os.environ["NETPLAN_IFACE"]
+
+target = None
+data = None
+section = "ethernets"
+for f in sorted(glob.glob("/etc/netplan/*.yaml")):
+    with open(f) as fh:
+        d = yaml.safe_load(fh) or {}
+    net = d.get("network") or {}
+    if isinstance(net, dict):
+        for sec in ("ethernets", "wifis"):
+            if isinstance(net.get(sec), dict) and iface in net[sec]:
+                target, data, section = f, d, sec
+                break
+    if target:
+        break
+
+if target is None:
+    sys.exit("interface %s not found in netplan config" % iface)
+
+net = data.setdefault("network", {})
+net.setdefault(section, {})[iface] = {"dhcp4": True}
+
+with open(os.environ["NETPLAN_TMP"], "w") as fh:
+    yaml.safe_dump(data, fh, default_flow_style=False, sort_keys=False)
+
+print(target)
+PY
+)
+    [ -n "$target" ] || { echo "error: netplan revert failed" >&2; rm -rf "$tmp" "$backup"; return 1; }
+    echo "writing $target"
+    sudo cp "$tmp/undo.yaml" "$target" || { rm -rf "$tmp" "$backup"; return 1; }
+    sudo chmod 600 "$target"
+  fi
+  rm -rf "$tmp"
+
+  if ! sudo netplan generate; then
+    echo "error: netplan config invalid; reverting" >&2
+    sudo rm -f /etc/netplan/*.yaml
+    sudo cp "$backup"/*.yaml /etc/netplan/ 2>/dev/null || true
+    rm -rf "$backup"
+    return 1
+  fi
+
+  rm -rf "$backup"
+  sudo netplan apply || { echo "error: netplan apply failed" >&2; return 1; }
+}
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+main() {
+  local YES=0 DRY_RUN=0 UNDO=0 IFACE_ARG=""
+
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -y|--yes)        YES=1 ;;
+      --undo)          UNDO=1 ;;
+      --dry-run|-n)    DRY_RUN=1 ;;
+      -h|--help)       usage; return 0 ;;
+      -*)              echo "unknown option: $1" >&2; usage; return 2 ;;
+      *)               IFACE_ARG="$1" ;;
+    esac
+    shift
+  done
+
+  local IFACE MANAGER
+  local ADDR_CIDR ADDR PREFIX GATEWAY
+  local -a DNS
+
+  IFACE="${IFACE_ARG:-$(default_iface)}"
+  [ -n "$IFACE" ] || { echo "error: could not determine the active interface" >&2; return 1; }
+  [ -e "/sys/class/net/$IFACE" ] || { echo "error: interface '$IFACE' does not exist" >&2; return 1; }
+
+  MANAGER=$(detect_manager)
+
+  # --- undo path -----------------------------------------------------------
+  if [ "$UNDO" = 1 ]; then
+    echo "Interface: $IFACE"
+    echo "Manager:   $MANAGER"
+    echo "Action:    revert to DHCP"
+
+    if [ "$MANAGER" = "none" ]; then
+      echo "error: no supported network manager detected (NetworkManager / netplan / systemd-networkd)" >&2
+      return 1
+    fi
+
+    if [ "$DRY_RUN" = 1 ]; then
+      echo "(dry run — no changes made)"
+    fi
+
+    if [ "$DRY_RUN" = 0 ] && [ "$YES" != 1 ]; then
+      if ! read -r -p "Revert to DHCP now? [y/N] " ANS; then
+        echo; echo "aborted"; return 0
+      fi
+      case "$ANS" in
+        [Yy]|[Yy][Ee][Ss]) ;;
+        *) echo "aborted"; return 0 ;;
+      esac
+    fi
+
+    case "$MANAGER" in
+      networkmanager)   undo_networkmanager || return ;;
+      netplan)          undo_netplan || return ;;
+      systemd-networkd) undo_systemd_networkd || return ;;
+    esac
+
+    if [ "$DRY_RUN" = 0 ]; then
+      echo "done: '$IFACE' reverted to DHCP via $MANAGER"
+    fi
+    return 0
+  fi
+
+  # --- apply path ----------------------------------------------------------
+  ADDR_CIDR=$(ip -4 addr show dev "$IFACE" 2>/dev/null | awk '/inet / {print $2; exit}')
+  [ -n "$ADDR_CIDR" ] || { echo "error: no IPv4 address on '$IFACE'" >&2; return 1; }
+  ADDR=${ADDR_CIDR%/*}
+  PREFIX=${ADDR_CIDR#*/}
+
+  GATEWAY=$(ip route show default 2>/dev/null | awk -v dev="$IFACE" 'index($0,"dev " dev)>0 {print $3; exit}')
+
+  # Real upstream resolvers from resolv.conf, skipping the 127.x stub.
+  while IFS= read -r ns; do
+    DNS+=("$ns")
+  done < <(awk '/^nameserver/ && $2 ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/ && $2 !~ /^127\./ {print $2}' /etc/resolv.conf 2>/dev/null)
+
+  # systemd-resolved puts a 127.0.0.53 stub in resolv.conf; ask it for the real ones.
+  if [ ${#DNS[@]} -eq 0 ] && command -v resolvectl >/dev/null 2>&1; then
+    while IFS= read -r ns; do DNS+=("$ns"); done \
+      < <(resolvectl dns "$IFACE" 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | grep -v '^127\.' || true)
+  fi
+
+  echo "Interface: $IFACE"
+  echo "Address:   $ADDR/$PREFIX"
+  echo "Gateway:   ${GATEWAY:-<none>}"
+  if [ ${#DNS[@]} -gt 0 ]; then
+    echo "DNS:       ${DNS[*]}"
+  else
+    echo "DNS:       <auto>"
+  fi
+  echo "Manager:   $MANAGER"
+
+  if [ "$MANAGER" = "none" ]; then
+    echo "error: no supported network manager detected (NetworkManager / netplan / systemd-networkd)" >&2
+    return 1
+  fi
+
+  if [ "$DRY_RUN" = 1 ]; then
+    echo "(dry run — no changes made)"
+  fi
+
+  if [ "$DRY_RUN" = 0 ] && [ "$YES" != 1 ]; then
+    if ! read -r -p "Apply static IP now? [y/N] " ANS; then
+      echo; echo "aborted"; return 0
+    fi
+    case "$ANS" in
+      [Yy]|[Yy][Ee][Ss]) ;;
+      *) echo "aborted"; return 0 ;;
+    esac
+  fi
+
+  case "$MANAGER" in
+    networkmanager)   apply_networkmanager || return ;;
+    netplan)          apply_netplan || return ;;
+    systemd-networkd) apply_systemd_networkd || return ;;
+  esac
+
+  if [ "$DRY_RUN" = 0 ]; then
+    echo "done: '$IFACE' is now static at $ADDR/$PREFIX via $MANAGER"
+  fi
+  return 0
+}
+
+# When sourced by install_one, the script's own name can leak through as $1
+# (older install_one sourced with no args). Shift it off so it isn't mistaken
+# for an interface override, while keeping any real forwarded args (e.g. --yes).
+if [[ "${BASH_SOURCE[0]}" != "$0" ]] && [[ "${1-}" == "$(basename "${BASH_SOURCE[0]}" .sh)" ]]; then
+  shift
+fi
+
+main "$@"
+rc=$?
+# Return when sourced (install_one), exit when run standalone — never kill the caller.
+return "$rc" 2>/dev/null || exit "$rc"
