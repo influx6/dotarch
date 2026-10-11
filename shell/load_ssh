@@ -87,43 +87,11 @@ convert_private_key_to_pem() {
 
 
 dark-tower-ssh(){
-	ssh_to_host 5606 root dark-tower
-}
-
-dark-arm-1-ssh(){
-	ssh_to_host 5606 ubuntu dark-arm-1
-}
-
-dark-arm-2-ssh(){
-	ssh_to_host 5606 ubuntu dark-arm-2
-}
-
-dark-coder-ssh(){
-	ssh_to_host 5606 darkstar dark-coder
-}
-
-dark-mini-ssh(){
-	ssh_to_host 5606 darkvoid darkvoid-mini
-}
-
-dark-master-ssh(){
-	ssh_to_host 5606 darkvoid dark-master
-}
-
-dark-slave-1-ssh(){
-	ssh_to_host 5606 darkvoid dark-slave-1
-}
-
-dark-slave-2-ssh(){
-	ssh_to_host 5606 darkvoid dark-slave-2
-}
-
-dark-slave-3-ssh(){
-	ssh_to_host 5606 darkvoid dark-slave-3
+	ssh_to_host 22 darkvoid 192.168.128.24
 }
 
 dark-mini-fs() {
-	ssh_fs darkvoid darkvoid-mini $1
+	ssh_fs darkvoid 192.168.128.24 $1
 }
 
 dark-mini-ufs() {
