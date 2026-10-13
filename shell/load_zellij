@@ -16,6 +16,14 @@ zellij_ewe(){
     zellij attach -c ewetumo-development
 }
 
+zellij_dev_projects(){
+    zellij attach -c ewe-dev-projects
+}
+
+zellij_code_learn(){
+    zellij attach -c ewe-code-learn
+}
+
 zellij_talstack_1(){
     zellij attach -c talkstack-development-1
 }
