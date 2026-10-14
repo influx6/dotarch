@@ -203,7 +203,7 @@ tabRailAppIcons = false
 #   alt+s/g         focus previous/next display
 #   shift+alt+…     swap/move windows, move to space, float/fullscreen
 #   ctrl+alt+…      warp columns, balance
-#   ctrl+…          resize
+#   ctrl+shift+hjkl resize (primary = column width, secondary = window height)
 
 [[hotkeys]]
 id = "focus.left"
@@ -350,21 +350,23 @@ binding = "Option+Shift+T"
 id = "toggleFullscreen"
 binding = "Option+Shift+M"
 
-[[hotkeys]]
-id = "setContainerPrimarySpan.increase10Percent"
-binding = "Control+Equal"
-
+# Directional resize: primary span = column width (left/right), secondary span
+# = window height (up/down). Replaces the old ctrl+= / ctrl+- pair.
 [[hotkeys]]
 id = "setContainerPrimarySpan.decrease10Percent"
-binding = "Control+Shift+Equal"
+binding = "Control+Shift+H"
+
+[[hotkeys]]
+id = "setContainerPrimarySpan.increase10Percent"
+binding = "Control+Shift+L"
 
 [[hotkeys]]
 id = "setWindowSecondarySpan.increase10Percent"
-binding = "Control+Minus"
+binding = "Control+Shift+K"
 
 [[hotkeys]]
 id = "setWindowSecondarySpan.decrease10Percent"
-binding = "Control+Shift+Minus"
+binding = "Control+Shift+J"
 
 [[hotkeys]]
 id = "balanceSizes"
@@ -411,7 +413,7 @@ id = "workspaceBackAndForth"
 binding = "Control+Option+Tab"
 
 # --- workspaces --------------------------------------------------------------
-# OmniWM's default nine workspaces ("1".."9"). 6 and 7 are pre-assigned to the
+# OmniWM's default nine workspaces ("1".."9"). 8 and 9 are pre-assigned to the
 # secondary display for multi-monitor setups; edit in Settings -> Workspaces.
 
 [[workspaces]]
@@ -447,27 +449,27 @@ layoutType = "niri"
 [[workspaces]]
 id = "5953F2BF-A378-4266-91B2-287174C4FA4D"
 name = "6"
-displayName = "❤️"
-monitorAssignment = { type = "secondary" }
+monitorAssignment = { type = "main" }
 layoutType = "niri"
 
 [[workspaces]]
 id = "A7D5E104-6985-4516-8ED5-07F144F2A33D"
 name = "7"
-displayName = "🚀"
-monitorAssignment = { type = "secondary" }
+monitorAssignment = { type = "main" }
 layoutType = "niri"
 
 [[workspaces]]
 id = "0E18F6B0-345A-4078-8B21-33641F07A861"
 name = "8"
-monitorAssignment = { type = "main" }
+displayName = "❤️"
+monitorAssignment = { type = "secondary" }
 layoutType = "niri"
 
 [[workspaces]]
 id = "8D4D711C-2B2F-4FEC-86BF-FA952037738A"
 name = "9"
-monitorAssignment = { type = "main" }
+displayName = "🚀"
+monitorAssignment = { type = "secondary" }
 layoutType = "niri"
 
 # --- app rules ---------------------------------------------------------------
