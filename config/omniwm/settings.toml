@@ -1,0 +1,575 @@
+# OmniWM configuration
+# https://omniwm.app — a Niri-style tiling window manager for macOS.
+#
+# This file is read from $XDG_CONFIG_HOME/omniwm/settings.toml (i.e.
+# ~/.config/omniwm/settings.toml). The macOS installer symlinks it here.
+# It is a COMPLETE, schema-versioned snapshot (schemaVersion below): OmniWM
+# decodes every table as required and rejects a partial file, so do not strip
+# sections out. It live-reloads on save; the Settings GUI rewrites it in place.
+#
+# Deviations from OmniWM's defaults (everything else is stock):
+#   * gaps: 12px inner + outer, mirroring the old yabai padding.
+#   * general.ipcEnabled = true, so `omniwmctl` (and, if ever needed, skhd)
+#     can drive OmniWM for anything the internal keybinding manager can't do.
+#   * hotkeys: vim-style alt+h/j/k/l focus and the rest of the yabai muscle
+#     memory mapped onto OmniWM action ids.
+#   * appRules: the old yabai `manage=off` rules translated to `float`.
+
+schemaVersion = 4
+
+# --- monitor overrides (empty — OmniWM's defaults) ---------------------------
+monitorBarOverrides = []
+monitorOrientationOverrides = []
+monitorNiriOverrides = []
+monitorDwindleOverrides = []
+monitorGapOverrides = []
+
+[general]
+hotkeysEnabled = true
+systemHyperTrigger = "None"
+hyperKeyModifiers = "Control+Option+Shift+Command"
+defaultLayoutType = "niri"
+preventSleepEnabled = false
+updateChecksEnabled = true
+ipcEnabled = true
+animationsEnabled = true
+animationSpeed = 1.0
+
+[focus]
+followsMouse = false
+raiseOnMouseFocus = false
+lockModifier = "off"
+moveMouseToFocusedWindow = false
+followsWindowToMonitor = false
+crossesMonitorAtEdge = false
+moveCrossesMonitorAtEdge = false
+
+[mouseWarp]
+margin = 1
+enabled = true
+constrainToArrangement = false
+
+[routing]
+mode = "macOS"
+arrangements = []
+
+[gaps]
+# 12px on all sides mirrors the old yabai top/bottom/left/right_padding + gap.
+size = 12.0
+fullscreenUsesOuterGaps = false
+[gaps.outer]
+left = 12.0
+right = 12.0
+top = 12.0
+bottom = 12.0
+
+[niri]
+visibleContainerCount = 2
+infiniteLoop = false
+centerFocusedColumn = "never"
+alwaysCenterSingleColumn = false
+singleWindowFit = "fill"
+containerPrimarySpanPresets = [0.3333, 0.5, 0.6667]
+defaultContainerPrimarySpan = 0.5
+edgeGaps = true
+resizeStepPercent = 5
+
+[dwindle]
+smartSplit = false
+defaultSplitRatio = 1.0
+splitWidthMultiplier = 1.0
+singleWindowFit = "fill"
+useGlobalGaps = true
+moveToRootStable = true
+
+[borders]
+enabled = true
+width = 5.0
+color = { red = 0.084585202284378935, green = 1.0, blue = 0.97930003794467602, alpha = 1.0 }
+
+[overview]
+enabled = true
+zoom = 1.0
+backdrop = { red = 0.05, green = 0.05, blue = 0.08, alpha = 0.0 }
+matchFocusBorder = true
+invertScrollDirection = false
+mouseScrollSpeed = 1.0
+[overview.windowBorders]
+normal = { red = 0.3, green = 0.3, blue = 0.35, alpha = 0.5 }
+hovered = { red = 0.4, green = 0.6, blue = 1.0, alpha = 1.0 }
+selected = { red = 0.3, green = 0.8, blue = 0.4, alpha = 1.0 }
+
+[workspaceBar]
+enabled = true
+hoverPreviewsEnabled = true
+notificationBadges = "off"
+notificationBadgeRefreshIntervalSeconds = 5.0
+showLabels = true
+showFloatingWindows = false
+windowLevel = "popup"
+position = "overlappingMenuBar"
+notchMode = "moveBelowMenuBar"
+notchActiveZoneWidth = 180.0
+fullWidth = false
+fullWidthNotchMode = "rightOfNotch"
+systemStatsButton = false
+deduplicateAppIcons = false
+hideEmptyWorkspaces = false
+excludedBundleIDs = []
+iconOverrides = {}
+reserveLayoutSpace = false
+autoHide = false
+autoHideRevealDelayMilliseconds = 0.0
+autoHideHideDelayMilliseconds = 0.0
+revealModifier = "off"
+revealHoldMilliseconds = 200.0
+hideInNativeFullscreen = false
+height = 24.0
+backgroundOpacity = 0.1
+transparentBackground = false
+solidBlackBackground = false
+showItemBackgrounds = true
+showAccentHighlights = true
+xOffset = 0.0
+yOffset = 0.0
+
+[island]
+enabled = false
+
+[gestures]
+scrollEnabled = true
+scrollSensitivity = 5.0
+scrollModifierKey = "optionShift"
+mouseMoveModifierKey = "option"
+mouseResizeModifierKey = "option"
+fingerCount = 3
+invertDirection = true
+trackpadScrollStyle = "snap"
+workspaceSwipeEnabled = false
+workspaceSwipeFingerCount = 3
+workspaceSwipeAxis = "vertical"
+overviewGestureEnabled = false
+overviewGestureFingerCount = 4
+windowMoveEnabled = false
+windowMoveFingerCount = 4
+windowResizeEnabled = false
+windowResizeFingerCount = 3
+windowGestureSensitivity = 1.0
+
+[statusBar]
+showWorkspaceName = false
+showAppNames = false
+useWorkspaceId = false
+showIcon = true
+
+[hiddenBar]
+enabled = true
+hiddenBundleIDs = []
+rehideIntervalSeconds = 5.0
+
+[clipboard]
+historyEnabled = false
+maxItems = 200
+maxItemBytes = 8388608
+maxTotalBytes = 67108864
+ignoredTypes = []
+
+[quakeTerminal]
+enabled = true
+position = "center"
+widthPercent = 50.0
+heightPercent = 50.0
+animationDuration = 0.2
+autoHide = false
+opacity = 1.0
+backgroundEffect = "standardBlur"
+backgroundBlurRadius = 0
+monitorMode = "focusedWindow"
+
+[scratchpads]
+labels = {}
+
+[appearance]
+mode = "dark"
+tabRailAppIcons = false
+
+# --- keybindings -------------------------------------------------------------
+# The `hotkeys` array is the complete set of active bindings: every action not
+# listed here is unassigned. Key names are human-readable (H, 1, Equal, Minus,
+# Grave, Tab, Space), modifiers in Control+Option+Shift+Command order.
+#
+# alt (option) is the leader, mirroring the old skhd/yabai config:
+#   alt+h/j/k/l     focus west/south/north/east
+#   alt+s/g         focus previous/next display
+#   shift+alt+…     swap/move windows, move to space, float/fullscreen
+#   ctrl+alt+…      warp columns, balance
+#   ctrl+…          resize
+
+[[hotkeys]]
+id = "focus.left"
+binding = "Option+H"
+
+[[hotkeys]]
+id = "focus.right"
+binding = "Option+L"
+
+[[hotkeys]]
+id = "focus.up"
+binding = "Option+K"
+
+[[hotkeys]]
+id = "focus.down"
+binding = "Option+J"
+
+[[hotkeys]]
+id = "focusMonitorPrevious"
+binding = "Option+S"
+
+[[hotkeys]]
+id = "focusMonitorNext"
+binding = "Option+G"
+
+[[hotkeys]]
+id = "focusMonitorLast"
+binding = "Control+Command+Grave"
+
+[[hotkeys]]
+id = "focusPrevious"
+binding = "Option+Tab"
+
+[[hotkeys]]
+id = "switchWorkspace.0"
+binding = "Option+1"
+
+[[hotkeys]]
+id = "switchWorkspace.1"
+binding = "Option+2"
+
+[[hotkeys]]
+id = "switchWorkspace.2"
+binding = "Option+3"
+
+[[hotkeys]]
+id = "switchWorkspace.3"
+binding = "Option+4"
+
+[[hotkeys]]
+id = "switchWorkspace.4"
+binding = "Option+5"
+
+[[hotkeys]]
+id = "switchWorkspace.5"
+binding = "Option+6"
+
+[[hotkeys]]
+id = "switchWorkspace.6"
+binding = "Option+7"
+
+[[hotkeys]]
+id = "switchWorkspace.7"
+binding = "Option+8"
+
+[[hotkeys]]
+id = "switchWorkspace.8"
+binding = "Option+9"
+
+[[hotkeys]]
+id = "moveToWorkspace.0"
+binding = "Option+Shift+1"
+
+[[hotkeys]]
+id = "moveToWorkspace.1"
+binding = "Option+Shift+2"
+
+[[hotkeys]]
+id = "moveToWorkspace.2"
+binding = "Option+Shift+3"
+
+[[hotkeys]]
+id = "moveToWorkspace.3"
+binding = "Option+Shift+4"
+
+[[hotkeys]]
+id = "moveToWorkspace.4"
+binding = "Option+Shift+5"
+
+[[hotkeys]]
+id = "moveToWorkspace.5"
+binding = "Option+Shift+6"
+
+[[hotkeys]]
+id = "moveToWorkspace.6"
+binding = "Option+Shift+7"
+
+[[hotkeys]]
+id = "moveToWorkspace.7"
+binding = "Option+Shift+8"
+
+[[hotkeys]]
+id = "moveToWorkspace.8"
+binding = "Option+Shift+9"
+
+[[hotkeys]]
+id = "move.left"
+binding = "Option+Shift+H"
+
+[[hotkeys]]
+id = "move.right"
+binding = "Option+Shift+L"
+
+[[hotkeys]]
+id = "move.up"
+binding = "Option+Shift+K"
+
+[[hotkeys]]
+id = "move.down"
+binding = "Option+Shift+J"
+
+[[hotkeys]]
+id = "moveColumn.left"
+binding = "Control+Option+H"
+
+[[hotkeys]]
+id = "moveColumn.right"
+binding = "Control+Option+L"
+
+# Dwindle-only (no-op in the default niri layout) — kept for muscle memory.
+[[hotkeys]]
+id = "moveColumn.up"
+binding = "Control+Option+K"
+
+[[hotkeys]]
+id = "moveColumn.down"
+binding = "Control+Option+J"
+
+[[hotkeys]]
+id = "toggleFocusedWindowFloating"
+binding = "Option+Shift+T"
+
+[[hotkeys]]
+id = "toggleFullscreen"
+binding = "Option+Shift+M"
+
+[[hotkeys]]
+id = "setContainerPrimarySpan.increase10Percent"
+binding = "Control+Equal"
+
+[[hotkeys]]
+id = "setContainerPrimarySpan.decrease10Percent"
+binding = "Control+Shift+Equal"
+
+[[hotkeys]]
+id = "setWindowSecondarySpan.increase10Percent"
+binding = "Control+Minus"
+
+[[hotkeys]]
+id = "setWindowSecondarySpan.decrease10Percent"
+binding = "Control+Shift+Minus"
+
+[[hotkeys]]
+id = "balanceSizes"
+binding = "Control+Option+E"
+
+[[hotkeys]]
+id = "moveWindowToMonitor.left"
+binding = "Option+Shift+S"
+
+[[hotkeys]]
+id = "moveWindowToMonitor.right"
+binding = "Option+Shift+G"
+
+[[hotkeys]]
+id = "moveWindowToWorkspaceUp"
+binding = "Option+Shift+P"
+
+[[hotkeys]]
+id = "moveWindowToWorkspaceDown"
+binding = "Option+Shift+N"
+
+[[hotkeys]]
+id = "toggleWorkspaceLayout"
+binding = "Option+Shift+R"
+
+[[hotkeys]]
+id = "toggleOverview"
+binding = "Option+Shift+O"
+
+[[hotkeys]]
+id = "toggleQuakeTerminal"
+binding = "Option+Grave"
+
+[[hotkeys]]
+id = "openCommandPalette"
+binding = "Control+Option+Space"
+
+[[hotkeys]]
+id = "openMenuAnywhere"
+binding = "Control+Option+M"
+
+[[hotkeys]]
+id = "workspaceBackAndForth"
+binding = "Control+Option+Tab"
+
+# --- workspaces --------------------------------------------------------------
+# OmniWM's default nine workspaces ("1".."9"). 6 and 7 are pre-assigned to the
+# secondary display for multi-monitor setups; edit in Settings -> Workspaces.
+
+[[workspaces]]
+id = "AD36F001-C57E-41A5-AC1D-DF5249D007F0"
+name = "1"
+monitorAssignment = { type = "main" }
+layoutType = "niri"
+
+[[workspaces]]
+id = "454CECD4-5E9D-4ED1-95D7-979D48817F5F"
+name = "2"
+monitorAssignment = { type = "main" }
+layoutType = "niri"
+
+[[workspaces]]
+id = "BEB842B5-E894-4791-9FD1-397C3CDD3538"
+name = "3"
+monitorAssignment = { type = "main" }
+layoutType = "niri"
+
+[[workspaces]]
+id = "248AA883-2261-4D45-943C-79C0E46A232B"
+name = "4"
+monitorAssignment = { type = "main" }
+layoutType = "niri"
+
+[[workspaces]]
+id = "8B8C45D6-CE9E-41D9-BD50-BE4989D5E3DE"
+name = "5"
+monitorAssignment = { type = "main" }
+layoutType = "niri"
+
+[[workspaces]]
+id = "5953F2BF-A378-4266-91B2-287174C4FA4D"
+name = "6"
+displayName = "❤️"
+monitorAssignment = { type = "secondary" }
+layoutType = "niri"
+
+[[workspaces]]
+id = "A7D5E104-6985-4516-8ED5-07F144F2A33D"
+name = "7"
+displayName = "🚀"
+monitorAssignment = { type = "secondary" }
+layoutType = "niri"
+
+[[workspaces]]
+id = "0E18F6B0-345A-4078-8B21-33641F07A861"
+name = "8"
+monitorAssignment = { type = "main" }
+layoutType = "niri"
+
+[[workspaces]]
+id = "8D4D711C-2B2F-4FEC-86BF-FA952037738A"
+name = "9"
+monitorAssignment = { type = "main" }
+layoutType = "niri"
+
+# --- app rules ---------------------------------------------------------------
+# OmniWM's stock minimum-size rules, then the old yabai `manage=off` apps
+# translated to float (System Settings, Calculator, Karabiner, the Ghostty
+# quick-terminal floating panel).
+
+[[appRules]]
+id = "6A31F08A-4051-4354-B439-42F4C71894A3"
+bundleId = "com.openai.codex"
+minWidth = 800.0
+minHeight = 600.0
+
+[[appRules]]
+id = "4BA546DA-2875-4BEF-B13F-1539E833B1A0"
+bundleId = "com.eltima.cmd1.pro.mas"
+minWidth = 950.0
+minHeight = 550.0
+
+[[appRules]]
+id = "486CEFA6-69AA-4A3C-AF27-BCD38F4F138B"
+bundleId = "com.google.Chrome"
+minWidth = 500.0
+minHeight = 375.0
+
+[[appRules]]
+id = "979F05F4-FFA2-4EDD-B23F-08A9944C759F"
+bundleId = "dev.zed.Zed"
+minWidth = 360.0
+minHeight = 240.0
+
+[[appRules]]
+id = "81426D13-C1A5-475E-AFBC-00BBA05042D0"
+bundleId = "com.apple.Safari"
+minWidth = 574.0
+minHeight = 220.0
+
+[[appRules]]
+id = "1CF39647-F30D-4E76-9686-79B551F1B094"
+bundleId = "app.zen-browser.zen"
+minWidth = 500.0
+minHeight = 495.0
+
+[[appRules]]
+id = "005C00D3-F665-47F8-BDAE-D80790E9E46B"
+bundleId = "org.mozilla.firefox"
+minWidth = 500.0
+minHeight = 120.0
+
+[[appRules]]
+id = "C21156B1-0224-4998-97E3-8F4FA65B9F3B"
+bundleId = "company.thebrowser.dia"
+minWidth = 500.0
+minHeight = 420.0
+
+[[appRules]]
+id = "2DE9390B-0DB4-4D0C-9ABA-06F76F1D4EA9"
+bundleId = "com.spotify.client"
+minWidth = 800.0
+minHeight = 600.0
+
+[[appRules]]
+id = "AF752D95-8497-4844-BE20-4C93E73BAEF2"
+bundleId = "com.hnc.Discord"
+minWidth = 800.0
+minHeight = 500.0
+
+[[appRules]]
+id = "7876C9EF-437E-4D4F-9C27-B1B02F4AABCE"
+bundleId = "com.mitchellh.ghostty"
+minWidth = 90.0
+minHeight = 48.0
+
+[[appRules]]
+id = "8ECAB78B-BCDD-4245-BC25-1609A49B1C86"
+bundleId = "com.microsoft.Outlook"
+minWidth = 930.0
+minHeight = 650.0
+
+[[appRules]]
+id = "552FB77D-BF0E-4737-90A6-B5BC6986C579"
+bundleId = "com.apple.MobileSMS"
+minWidth = 660.0
+minHeight = 320.0
+
+[[appRules]]
+id = "F24EE141-92D2-4331-A87F-B4CF43554C91"
+bundleId = "com.apple.systempreferences"
+layout = "float"
+
+[[appRules]]
+id = "43568FD3-EB14-4C9F-B1B4-95FACD0E14EB"
+bundleId = "com.apple.calculator"
+layout = "float"
+
+[[appRules]]
+id = "4E59192C-21A1-4795-BF8B-CB2C8BD9FB84"
+bundleId = "org.pqrs.Karabiner-Elements"
+layout = "float"
+
+[[appRules]]
+id = "A08282AD-B52B-4DD6-B755-ADC055A17C50"
+bundleId = "com.mitchellh.ghostty"
+axSubrole = "AXFloatingWindow"
+layout = "float"

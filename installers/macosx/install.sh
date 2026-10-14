@@ -39,7 +39,7 @@ source "$EVERY/ohmybash.sh" # oh-my-bash
 source "$MACOS/development/cli.sh"        # brew CLI tooling
 source "$MACOS/development/openjdk.sh"    # openjdk (+ link into /Library/Java)
 source "$MACOS/development/postgresql.sh" # postgresql@16 server (initdb for tmp-postgres tests)
-source "$MACOS/desktop/yabai.sh"       # tiling WM
+source "$MACOS/desktop/omniwm.sh"      # tiling WM
 source "$MACOS/desktop/skhd.sh"        # hotkey daemon
 source "$MACOS/desktop/fonts.sh"       # fonts (JetBrains Mono Nerd Font)
 source "$MACOS/apps/casks.sh"          # GUI apps (orbstack)
