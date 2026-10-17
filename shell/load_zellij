@@ -16,6 +16,10 @@ zellij_ewe(){
     zellij attach -c ewetumo-development
 }
 
+zellij_agent_colearn(){
+    zellij attach -c ewetumo-development
+}
+
 zellij_dev_projects(){
     zellij attach -c ewe-dev-projects
 }
