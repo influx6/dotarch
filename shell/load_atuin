@@ -26,3 +26,11 @@ if has_command "mise"; then
     fi
 fi
 
+# Atuin binds the up-arrow (and, in zsh's vim command mode, `k`) to its history
+# search. Keep the up-arrow, but restore `k` to vim navigation and move the
+# history search to `?` instead.
+if is_zsh && has_command "atuin"; then
+  bindkey -M vicmd 'k' up-line-or-history
+  bindkey -M vicmd '?' atuin-up-search-vicmd
+fi
+
