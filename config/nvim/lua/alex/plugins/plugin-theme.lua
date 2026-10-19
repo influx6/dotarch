@@ -96,8 +96,8 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-ui-select.nvim",
-      -- Optional: for themes that use lush (will be notified if a theme requires it)
-      -- "rktjmp/lush.nvim"
+      -- Some themes are written with lush.nvim; install it so they render.
+      "rktjmp/lush.nvim",
     },
     config = function()
       require("theme-hub").setup({

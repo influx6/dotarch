@@ -37,7 +37,9 @@ source "$EVERY/ohmybash.sh" # oh-my-bash
 
 # macOS packages.
 source "$MACOS/development/cli.sh"        # brew CLI tooling
-source "$MACOS/development/openjdk.sh"    # openjdk (+ link into /Library/Java)
+source "$EVERY/nvim.sh"                   # neovim remote-plugin providers (node/pynvim/ruby)
+source "$EVERY/langs.sh"                  # java/kotlin/clojure/perl/lua + LSP servers
+source "$MACOS/development/openjdk.sh"    # expose openjdk to /usr/libexec/java_home
 source "$MACOS/development/postgresql.sh" # postgresql@16 server (initdb for tmp-postgres tests)
 source "$MACOS/desktop/omniwm.sh"      # tiling WM
 source "$MACOS/desktop/skhd.sh"        # hotkey daemon

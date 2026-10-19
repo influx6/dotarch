@@ -418,13 +418,10 @@ return {
         desc = "Colorschemes",
       },
       -- LSP
-      {
-        "gd",
-        function()
-          Snacks.picker.lsp_definitions()
-        end,
-        desc = "Goto Definition",
-      },
+      -- NOTE: `gd` is intentionally NOT mapped here. It is owned globally by
+      -- alex.core.keymaps -> require("alex.lib.goto").definition (LSP → rg →
+      -- ctags → docs), so a snacks-only `gd` here would shadow the smart chain
+      -- on buffers with no attached LSP client.
       {
         "gD",
         function()

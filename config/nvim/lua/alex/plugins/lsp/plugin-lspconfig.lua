@@ -65,10 +65,9 @@ return {
           opts.desc = "Go to declaration"
           keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
 
-          -- Smart goto (all languages): LSP definition first, ctags fallback
-          -- for anything the server can't reach (e.g. external deps). Both paths
-          -- surface through the Telescope picker. See lua/alex/lib/goto.lua.
-          opts.desc = "Goto definition (LSP → ctags)"
+          -- Smart goto (all languages): LSP definition first, then ripgrep,
+          -- then ctags, then per-filetype docs. See lua/alex/lib/goto.lua.
+          opts.desc = "Goto definition (LSP → rg → ctags → docs)"
           keymap.set("n", "gd", require("alex.lib.goto").definition, opts)
 
           opts.desc = "Show LSP implementations"

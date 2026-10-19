@@ -3,7 +3,7 @@
 source $DOTFILES/shell/load_functions
 
 if no_command uv; then
-	curl -LsSf https://astral.sh/uv/install.sh | sh
+	fetch https://astral.sh/uv/install.sh | sh
 fi
 
 if no_command ruby; then
@@ -18,7 +18,7 @@ if has_command npm; then
 	npm install -g neovim
 fi
 
-if has_command pipx; then
+if has_command pip; then
 	pip install --upgrade pynvim
 fi
 

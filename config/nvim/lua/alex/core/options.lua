@@ -81,5 +81,7 @@ vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
 -- Set to "basedpyright" to use basedpyright instead of pyright.
 vim.g.lazyvim_python_lsp = "pyright"
 
--- Support proper session restoration
-vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+-- Support proper session restoration. NOTE: LazyVim's own options.lua overrides
+-- this after alex.core loads, so the authoritative value is re-asserted on
+-- VeryLazy in alex/core/autocmds.lua. Keep the two in sync.
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions,globals,skiprtp"

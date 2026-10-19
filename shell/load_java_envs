@@ -1,45 +1,22 @@
 #!/bin/sh
 
+# Portable JAVA_HOME from Homebrew's openjdk. brew keeps openjdk keg-only, so its
+# binaries aren't on PATH directly; installers/every/langs.sh links them into
+# ~/.local/bin (which shell/load_paths keeps ahead of /usr/bin). This just sets
+# JAVA_HOME / JDK_HOME and prepends the JDK bin so JVM tooling (gradle, maven,
+# jdtls, clojure) can find the JDK without relying on the symlinks.
 
-Devlabs=$HOME/Devlabs
+OPENJDK_PREFIX=""
+if command -v brew >/dev/null 2>&1; then
+  OPENJDK_PREFIX="$(brew --prefix openjdk 2>/dev/null)" || OPENJDK_PREFIX=""
+fi
 
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-export JDK_HOME=`/usr/libexec/java_home -v 11.0`
-export JDK_12=`/usr/libexec/java_home -v 12`
-export JDK_11=`/usr/libexec/java_home -v 11.0`
-export JDK_9=`/usr/libexec/java_home -v 9.0`
-export JDK_8=`/usr/libexec/java_home -v 1.8`
-
-# # set jdk 1.6 and 1.7 to version 6 and 7
-export JDK_17=$JDK_7
-export JDK_16=$JDK_6
-
-export JAVA_HOME=$JDK_11
-
-export PATH=$JDK_11/bin:$PATH
-
-
-switchJava(){
- if [ $1 = "12" ]; then
-	export JAVA_HOME=$JDK_12
-	export PATH=$JDK_12/bin:$PATH
- elif [ $1 = "11" ]; then
-	export JAVA_HOME=$JDK_11
-	export PATH=$JDK_11/bin:$PATH
- elif [ $1 = "9" ]; then
-	export JAVA_HOME=$JDK_9
-	export PATH=$JDK_9/bin:$PATH
- elif [ $1 = "8" ]; then
-	export JAVA_HOME=$JDK_8
-	export PATH=$JDK_8/bin:$PATH
- elif [ $1 = "7" ]; then
-	JDK_7=`/usr/libexec/java_home -v 1.7`
-	export JAVA_HOME=$JDK_7
-	export PATH=$JDK_7/bin:$PATH
- elif [ $1 = "6" ]; then
-	JDK_6=`/usr/libexec/java_home -v 1.6`
-	export JAVA_HOME=$JDK_6
-	export PATH=$JDK_6/bin:$PATH
- fi
-}
-
+if [ -n "$OPENJDK_PREFIX" ] && [ -d "$OPENJDK_PREFIX" ]; then
+  if [ "$(uname -s)" = "Darwin" ] && [ -d "$OPENJDK_PREFIX/libexec/openjdk.jdk/Contents/Home" ]; then
+    export JAVA_HOME="$OPENJDK_PREFIX/libexec/openjdk.jdk/Contents/Home"
+  else
+    export JAVA_HOME="$OPENJDK_PREFIX"
+  fi
+  export JDK_HOME="$JAVA_HOME"
+  export PATH="$JAVA_HOME/bin:$PATH"
+fi

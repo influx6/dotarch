@@ -4,7 +4,7 @@ source $DOTFILES/shell/load_functions
 
 # install mise (polyglot runtime/tool manager)
 if no_command mise; then
-  curl https://mise.run | sh
+  fetch https://mise.run | sh
 fi
 
 # mise lands in ~/.local/bin; make sure it's reachable for the rest of this run.

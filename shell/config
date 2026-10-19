@@ -71,6 +71,7 @@ source $Dotfiles/shell/load_docker
 source $Dotfiles/shell/load_microk8s
 source $Dotfiles/shell/load_python
 source $Dotfiles/shell/load_flutter
+source $Dotfiles/shell/load_java_envs
 source $Dotfiles/shell/load_sdkman
 source $Dotfiles/shell/load_ssh_agent
 source $Dotfiles/shell/load_ansible

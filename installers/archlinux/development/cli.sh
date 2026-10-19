@@ -30,4 +30,18 @@ yay -S --noconfirm --needed \
   lld \
   lldb \
   gdb \
-  ollama
+  ollama \
+  fd \
+  lazygit \
+  wget \
+  ctags \
+  mercurial \
+  ghostscript \
+  tectonic \
+  mermaid-cli \
+  php \
+  composer \
+  julia
+
+# Neovim remote-plugin providers (node pynvim / ruby neovim gem).
+source "$DOTFILES/installers/every/nvim.sh"

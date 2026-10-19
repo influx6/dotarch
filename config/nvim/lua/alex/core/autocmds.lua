@@ -18,6 +18,21 @@ set showcmd
 set signcolumn=yes
 ]])
 
+-- LazyVim's lazyvim/config/options.lua sets sessionoptions WITHOUT
+-- 'blank'/'localoptions'/'winpos'/'terminal' (which auto-session needs to
+-- restore filetype + highlighting correctly), and it loads AFTER
+-- alex.core.options.lua (via require("lazyvim.config").init() during lazy
+-- setup), so it clobbers our value. LazyVim fires the `LazyVimOptions` User
+-- event right after it finishes loading options — re-assert the merged value
+-- there, which is the canonical "override LazyVim's options" hook.
+vim.api.nvim_create_autocmd("User", {
+  group = vim.api.nvim_create_augroup("session_options", { clear = true }),
+  pattern = "LazyVimOptions",
+  callback = function()
+    vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions,globals,skiprtp"
+  end,
+})
+
 -- Auto-hover documentation popup (opt-out with `vim.g.auto_hover = false`).
 --
 -- Shows the LSP hover (types + docs) for the symbol under the cursor after the

@@ -95,6 +95,44 @@ local function project_tags_file(root)
   return tags_dir .. "/" .. root:gsub("[/\\:]", "%%") .. ".tags"
 end
 
+--- Is the project's tag index out of date (or missing)? Compares the tag file's
+--- mtime against the newest Haskell source under `root`, excluding build and
+--- VCS dirs. fast-tags can't diff "already indexed vs new" on its own -- it just
+--- rewrites the whole index -- so this mtime check is what tells us whether the
+--- existing db still describes the tree, or whether a (background) regen is
+--- worth it. Runs async so a fresh-but-large project doesn't block the first
+--- buffer from opening while `find` scans.
+local function project_tags_stale(root, out, on_result)
+  if vim.fn.filereadable(out) ~= 1 then
+    on_result(true)
+    return
+  end
+  vim.system({
+    "find",
+    root,
+    "-type", "f",
+    "(", "-name", "*.hs", "-o", "-name", "*.lhs", "-o", "-name", "*.cabal", "-o", "-name", "cabal.project", ")",
+    "-not", "-path", "*/dist-newstyle/*",
+    "-not", "-path", "*/.git/*",
+    "-newer", out,
+    "-print", "-quit",
+  }, { text = true }, function(res)
+    vim.schedule(function()
+      on_result(res.code == 0 and (res.stdout or "") ~= "")
+    end)
+  end)
+end
+
+--- (Re)generate the index when the project has changed since the last run.
+local function regenerate_if_stale(root)
+  local out = project_tags_file(root)
+  project_tags_stale(root, out, function(stale)
+    if stale then
+      generate_project_tags(root)
+    end
+  end)
+end
+
 --- Run the tags script (via bash, so it works regardless of the exec bit).
 local function run_tags_script(args, on_done)
   local cmd = { "bash", tags_script }
@@ -427,15 +465,14 @@ return {
           end, "Haskell: browse a dependency's source (:HsDep)")
 
           -- ctags (C): Ctrl-] to jump. Point &tags at our cache and, on the
-          -- first Haskell buffer of each project this session, auto-generate
-          -- the index in the background (installing fast-tags if missing).
+          -- first Haskell buffer of each project this session, regenerate the
+          -- index in the background if it is missing or stale (any source file
+          -- newer than the tag file), installing fast-tags if missing.
           local tags_root = haskell_project_root()
           set_buffer_tags(tags_root)
           if not tags_generated[tags_root] then
             tags_generated[tags_root] = true
-            if vim.fn.filereadable(project_tags_file(tags_root)) ~= 1 then
-              generate_project_tags(tags_root)
-            end
+            regenerate_if_stale(tags_root)
           end
           -- Manual (re)generation: <leader>ht project, <leader>hT deps.
           map("n", "<leader>ht", function()

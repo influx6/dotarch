@@ -45,3 +45,6 @@ if has_command mise; then
   mise install python@3.12.10
   mise use --global python@3.12.10
 fi
+
+# Language toolchains (java/kotlin/clojure/perl/lua + LSP servers) via brew.
+source "$DOTFILES/installers/every/langs.sh"

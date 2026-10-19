@@ -2,17 +2,12 @@
 
 source $DOTFILES/shell/load_functions
 
-# OpenJDK via Homebrew. brew keeps openjdk keg-only, so we expose it to the
-# system Java wrappers (/usr/libexec/java_home) and to the shell.
-
-if ! brew list openjdk &>/dev/null; then
-  echo "Installing openjdk.."
-  brew install openjdk
-fi
+# openjdk itself is installed by every/langs.sh (brew, keg-only, binaries linked
+# into ~/.local/bin). This exposes the JDK to the system Java launcher
+# (/usr/libexec/java_home) so macOS apps that use it can discover the JDK.
 
 BREW_PREFIX="$(brew --prefix)"
 
-# Let the macOS java launcher discover this JDK.
 JVM_DIR="/Library/Java/JavaVirtualMachines"
 JDK_LINK="$JVM_DIR/openjdk.jdk"
 if [ ! -L "$JDK_LINK" ]; then
@@ -21,6 +16,4 @@ if [ ! -L "$JDK_LINK" ]; then
   sudo ln -sfn "$BREW_PREFIX/opt/openjdk/libexec/openjdk.jdk" "$JDK_LINK"
 fi
 
-echo "openjdk installed. Verify with: /usr/libexec/java_home -V"
-echo "If a shell can't find 'java', ensure JAVA_HOME is set, e.g.:"
-echo "  export JAVA_HOME=\"\$($BREW_PREFIX/bin/brew --prefix openjdk)/libexec/openjdk.jdk/Contents/Home\""
+echo "openjdk exposed to /usr/libexec/java_home."

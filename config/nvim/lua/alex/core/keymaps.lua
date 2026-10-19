@@ -6,6 +6,13 @@
 -- use `vim.keymap.set` instead
 local map = vim.keymap.set
 
+-- Smart "go to definition" (LSP → ripgrep → ctags → docs), applied globally so
+-- it works on every buffer — including ones with no attached LSP client, where
+-- the rg/ctags/docs tiers still find symbols. On LSP buffers the same function
+-- is re-asserted buffer-locally in plugin-lspconfig.lua's LspAttach, so it wins
+-- over LazyVim's own `gd` (vim.lsp.buf.definition, `has = "definition"`).
+map("n", "gd", require("alex.lib.goto").definition, { desc = "Goto definition (LSP → rg → ctags → docs)" })
+
 -- bring up Commandline
 -- map("n", "<TAB><TAB>", function()
 --   vim.cmd

@@ -26,10 +26,11 @@ return {
                 ensure_installed = {
                     "bash", "c", "cpp", "css", "diff", "dockerfile", "go",
                     "gomod", "gosum", "graphql", "haskell", "html",
-                    "javascript", "json", "jsonc", "lua", "luadoc", "make",
-                    "markdown", "markdown_inline", "python", "query", "regex",
-                    "rust", "scss", "sql", "svelte", "terraform", "toml",
-                    "tsx", "typescript", "vim", "vimdoc", "yaml",
+                    "javascript", "json", "jsonc", "latex", "lua", "luadoc",
+                    "make", "markdown", "markdown_inline", "python",
+                    "query", "regex", "rust", "scss", "sql", "svelte",
+                    "terraform", "toml", "tsx", "typescript", "typst", "vim",
+                    "vimdoc", "vue", "yaml",
                 },
                 incremental_selection = {
                     enable = true,

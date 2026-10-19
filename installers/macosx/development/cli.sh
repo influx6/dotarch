@@ -30,4 +30,15 @@ brew install \
   lld \
   lldb \
   gdb \
-  ollama
+  ollama \
+  fd \
+  lazygit \
+  wget \
+  universal-ctags \
+  mercurial \
+  ghostscript \
+  tectonic \
+  mermaid-cli \
+  php \
+  composer \
+  julia
