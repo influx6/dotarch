@@ -48,3 +48,6 @@ fi
 
 # Language toolchains (java/kotlin/clojure/perl/lua + LSP servers) via brew.
 source "$DOTFILES/installers/every/langs.sh"
+
+# tree-sitter-norg parser (Neorg).
+source "$DOTFILES/installers/every/norg.sh"

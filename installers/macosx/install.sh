@@ -39,6 +39,7 @@ source "$EVERY/ohmybash.sh" # oh-my-bash
 source "$MACOS/development/cli.sh"        # brew CLI tooling
 source "$EVERY/nvim.sh"                   # neovim remote-plugin providers (node/pynvim/ruby)
 source "$EVERY/langs.sh"                  # java/kotlin/clojure/perl/lua + LSP servers
+source "$EVERY/norg.sh"                   # tree-sitter-norg parser (Neorg)
 source "$MACOS/development/openjdk.sh"    # expose openjdk to /usr/libexec/java_home
 source "$MACOS/development/postgresql.sh" # postgresql@16 server (initdb for tmp-postgres tests)
 source "$MACOS/desktop/omniwm.sh"      # tiling WM

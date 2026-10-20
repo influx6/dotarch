@@ -7,42 +7,25 @@ return {
         dependencies = {
             "windwp/nvim-ts-autotag",
         },
-        config = function()
-            -- import nvim-treesitter plugin
-            local treesitter = require("nvim-treesitter.config")
-
-            -- configure treesitter
-            treesitter.setup({ -- enable syntax highlighting
-                highlight = {
-                    enable = true,
-                },
-                -- enable indentation
-                indent = { enable = true },
-                -- enable autotagging (w/ nvim-ts-autotag plugin)
-                autotag = {
-                    enable = true,
-                },
-                -- ensure these language parsers are installed
-                ensure_installed = {
-                    "bash", "c", "cpp", "css", "diff", "dockerfile", "go",
-                    "gomod", "gosum", "graphql", "haskell", "html",
-                    "javascript", "json", "jsonc", "latex", "lua", "luadoc",
-                    "make", "markdown", "markdown_inline", "python",
-                    "query", "regex", "rust", "scss", "sql", "svelte",
-                    "terraform", "toml", "tsx", "typescript", "typst", "vim",
-                    "vimdoc", "vue", "yaml",
-                },
-                incremental_selection = {
-                    enable = true,
-                    keymaps = {
-                        init_selection = "<C-space>",
-                        node_incremental = "<C-space>",
-                        scope_incremental = false,
-                        node_decremental = "<bs>",
-                    },
-                },
-            })
-        end,
+        -- nvim-treesitter on `main` no longer manages highlighting/indent/
+        -- autotag/incremental-selection itself — those live in Neovim core
+        -- (`vim.treesitter.start`) and LazyVim's base config, which creates the
+        -- FileType autocmd that enables the highlighter. Defining our own
+        -- `config` here would *replace* that autocmd and disable highlighting,
+        -- so we only contribute `opts` (deep-merged with LazyVim's) instead.
+        opts_extend = { "ensure_installed" },
+        opts = {
+            -- ensure these language parsers are installed
+            ensure_installed = {
+                "bash", "c", "cpp", "css", "diff", "dockerfile", "go",
+                "gomod", "gosum", "graphql", "haskell", "html",
+                "javascript", "json", "jsonc", "latex", "lua", "luadoc",
+                "make", "markdown", "markdown_inline", "python",
+                "query", "regex", "rust", "scss", "sql", "svelte",
+                "terraform", "toml", "tsx", "typescript", "typst", "vim",
+                "vimdoc", "vue", "yaml",
+            },
+        },
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",

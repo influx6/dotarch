@@ -41,6 +41,20 @@ brew install \
 # Lua + luarocks.
 brew install luarocks
 
+# Lua dev tools that mason would otherwise install on first nvim launch, so
+# they're deterministically on PATH: digestif (LaTeX LSP) and luacheck (Lua
+# linter). Both are luarocks rocks, so this works identically on every platform.
+luarocks install digestif
+
+# luacheck 1.x does not run on Lua 5.5: 5.5 made generic `for` loop variables
+# `const`, and luacheck reassigns one (standards.lua). Build it against lua@5.4
+# instead. `luarocks --lua-version=5.4` targets the user tree (~/.luarocks), and
+# its wrapper already points at the matching lua5.4; ~/.local/bin is on PATH.
+brew install lua@5.4
+PATH="$(brew --prefix lua@5.4)/bin:$PATH" \
+  luarocks --lua-version=5.4 install luacheck
+ln -sf "$HOME/.luarocks/bin/luacheck" "$HOME/.local/bin/luacheck"
+
 # Tree-sitter CLI (grammar dev; nvim-treesitter compiles its own parsers).
 brew install tree-sitter-cli
 
