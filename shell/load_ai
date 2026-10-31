@@ -242,7 +242,8 @@ claude_ralph() {
 #  Deepseek Coding
 ######################################
 
-claude_deepseek_start() {
+
+claude_deepseek_pro_start() {
     reset_claude_environment_variables .
 
     export ANTHROPIC_AUTH_TOKEN="$DEEPSEEK_AI_KEY"
@@ -253,6 +254,31 @@ claude_deepseek_start() {
     model="$1"
     if [[ -z $model ]]; then
         model="DeepSeek-V4-Pro"
+    fi
+
+    if no_command "claude"; then
+        if has_command "npm"; then
+            npm install -g @anthropic-ai/claude-code
+        else
+            echo "Unable to install claude via npm, please setup"
+        fi
+    else
+        rm -rf ~/.claude/settings.json
+        claude --dangerously-skip-permissions --model "$model" $@
+    fi
+}
+
+claude_deepseek_start() {
+    reset_claude_environment_variables .
+
+    export ANTHROPIC_AUTH_TOKEN="$DEEPSEEK_AI_KEY"
+    # export ANTHROPIC_BASE_URL="https://api.deepseek.com" - for OpenAI compatible API
+    export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
+    export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+
+    model="$1"
+    if [[ -z $model ]]; then
+        model="deepseek-flash"
     fi
 
     if no_command "claude"; then

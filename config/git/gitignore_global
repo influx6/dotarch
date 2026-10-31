@@ -77,3 +77,6 @@ dist/
 .agentic
 .claude
 .agents
+
+# ----- Git worktrees -----
+.worktrees/

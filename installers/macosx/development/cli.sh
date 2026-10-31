@@ -11,6 +11,7 @@ source $DOTFILES/shell/load_functions
 #   - orbstack                               -> apps/casks.sh
 
 brew install \
+  coreutils \
   atuin \
   direnv \
   ripgrep \

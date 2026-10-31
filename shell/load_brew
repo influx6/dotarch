@@ -25,6 +25,30 @@ if [ "$(uname)" = "Darwin" ]; then
 	unset brew_lib
 fi
 
+# Compile-time counterparts: the C compiler/linker must find Homebrew's headers
+# and libs by bare name, or a cold `cabal build` fails at configure with
+# "Missing C library: snappy" (snappy-c does `-lsnappy` + `#include <snappy.h>`).
+# Idempotent, same pattern as the block above.
+if [ "$(uname)" = "Darwin" ]; then
+	brew_lib="${HOMEBREW_PREFIX:-/opt/homebrew}/lib"
+	brew_inc="${HOMEBREW_PREFIX:-/opt/homebrew}/include"
+	[ -d "$brew_lib" ] || brew_lib="/usr/local/lib"
+	[ -d "$brew_inc" ] || brew_inc="/usr/local/include"
+	if [ -d "$brew_lib" ]; then
+		case ":${LIBRARY_PATH}:" in
+			*":$brew_lib:"*) ;;
+			*) export LIBRARY_PATH="$brew_lib${LIBRARY_PATH:+:$LIBRARY_PATH}" ;;
+		esac
+	fi
+	if [ -d "$brew_inc" ]; then
+		case ":${CPATH}:" in
+			*":$brew_inc:"*) ;;
+			*) export CPATH="$brew_inc${CPATH:+:$CPATH}" ;;
+		esac
+	fi
+	unset brew_lib brew_inc
+fi
+
 # NOTE: package name must come FIRST, extra brew flags after
 #       e.g. check_and_install llvm --yes  (NOT check_and_install --yes llvm)
 check_and_install() {
