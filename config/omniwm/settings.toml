@@ -11,7 +11,7 @@ tabRailAppIcons = false
 
 [borders]
 enabled = true
-width = 5.0
+width = 3.0
 
 [borders.color]
 alpha = 1.0
@@ -20,7 +20,7 @@ green = 1.0
 red = 0.08458520228437894
 
 [clipboard]
-historyEnabled = false
+historyEnabled = true
 ignoredTypes = []
 maxItemBytes = 8388608
 maxItems = 200
@@ -30,7 +30,7 @@ maxTotalBytes = 67108864
 defaultSplitRatio = 1.0
 moveToRootStable = true
 singleWindowFit = "fill"
-smartSplit = false
+smartSplit = true
 splitWidthMultiplier = 1.0
 useGlobalGaps = true
 
@@ -40,18 +40,18 @@ followsMouse = false
 followsWindowToMonitor = false
 lockModifier = "off"
 moveCrossesMonitorAtEdge = false
-moveMouseToFocusedWindow = false
-raiseOnMouseFocus = false
+moveMouseToFocusedWindow = true
+raiseOnMouseFocus = true
 
 [gaps]
 fullscreenUsesOuterGaps = false
-size = 12.0
+size = 3.0
 
 [gaps.outer]
-bottom = 12.0
-left = 12.0
-right = 12.0
-top = 12.0
+bottom = 3.0
+left = 3.0
+right = 3.0
+top = 3.0
 
 [general]
 animationSpeed = 1.0
@@ -89,9 +89,6 @@ enabled = true
 hiddenBundleIDs = []
 rehideIntervalSeconds = 5.0
 
-[island]
-enabled = false
-
 [mouseWarp]
 constrainToArrangement = false
 enabled = true
@@ -101,12 +98,11 @@ margin = 1
 alwaysCenterSingleColumn = false
 centerFocusedColumn = "never"
 containerPrimarySpanPresets = [0.3333, 0.5, 0.6667]
-defaultContainerPrimarySpan = 0.5
 edgeGaps = true
 infiniteLoop = false
-resizeStepPercent = 5
+resizeStepPercent = 1
 singleWindowFit = "fill"
-visibleContainerCount = 2
+visibleContainerCount = 3
 
 [overview]
 enabled = true
@@ -175,8 +171,6 @@ backgroundOpacity = 0.1
 deduplicateAppIcons = false
 enabled = true
 excludedBundleIDs = []
-fullWidth = false
-fullWidthNotchMode = "rightOfNotch"
 height = 24.0
 hideEmptyWorkspaces = false
 hideInNativeFullscreen = false
@@ -184,13 +178,13 @@ hoverPreviewsEnabled = true
 notchActiveZoneWidth = 180.0
 notchMode = "moveBelowMenuBar"
 notificationBadgeRefreshIntervalSeconds = 5.0
-notificationBadges = "off"
+notificationBadges = "dot"
 position = "overlappingMenuBar"
 reserveLayoutSpace = false
 revealHoldMilliseconds = 200.0
 revealModifier = "off"
 showAccentHighlights = true
-showFloatingWindows = false
+showFloatingWindows = true
 showItemBackgrounds = true
 showLabels = true
 solidBlackBackground = false
