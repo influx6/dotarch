@@ -11,7 +11,7 @@ tabRailAppIcons = false
 
 [borders]
 enabled = true
-width = 3.0
+width = 1.0
 
 [borders.color]
 alpha = 1.0
@@ -100,7 +100,7 @@ centerFocusedColumn = "never"
 containerPrimarySpanPresets = [0.3333, 0.5, 0.6667]
 edgeGaps = true
 infiniteLoop = false
-resizeStepPercent = 1
+resizeStepPercent = 2
 singleWindowFit = "fill"
 visibleContainerCount = 3
 
